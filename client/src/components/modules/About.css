@@ -1,0 +1,22 @@
+.About-button {
+  position: absolute;
+  right: 0px;
+  width: 70px;
+  margin: 5px;
+  font-family: "Comfortaa";
+  text-align: center;
+  vertical-align: middle;
+  font-size: 16px;
+  padding: var(--s) var(--s);
+}
+
+.About-button {
+  color: var(--black);
+  border-radius: var(--s) var(--s) var(--s) var(--s);
+  background: none;
+  transition: color 0.1s, background 0.1s;
+}
+
+.About-button:hover {
+  background-color: #a8dadc;
+}
