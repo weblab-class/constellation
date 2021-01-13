@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "@reach/router";
+
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 
 import "../../utilities.css";
@@ -53,6 +55,7 @@ class Skeleton extends Component {
           <li>Add a favicon to your website at the path client/dist/favicon.ico</li>
           <li>Update website title in client/dist/index.html</li>
         </ul>
+        <Link to="/explorer/"> Click to go to main page! </Link>
       </>
     );
   }
