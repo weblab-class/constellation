@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Login from "./pages/Login.js";
+import Explorer from "./pages/Explorer.js";
 
 import "../utilities.css";
 
@@ -54,6 +55,7 @@ class App extends Component {
             handleLogout={this.handleLogout}
             userId={this.state.userId}
           />
+          <Explorer path="/explorer/" userId={this.state.userId} />
           <NotFound default />
         </Router>
       </>

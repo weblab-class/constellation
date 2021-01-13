@@ -59,6 +59,7 @@ class Login extends Component {
           </div>
         </div>
         <Menu displayMenu={this.state.displayMenu}/>
+        <Link to="/explorer/"> Click to go to main page! </Link>
       </>
     );
   }

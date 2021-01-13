@@ -1,0 +1,6 @@
+.SearchBar-container{
+    flex-grow: 1;
+    margin: 40px;
+    justify-content: center;
+    text-align: center;
+}
