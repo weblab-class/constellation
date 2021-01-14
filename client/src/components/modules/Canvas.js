@@ -4,7 +4,15 @@ import VisNetwork from "../network/NetworkTest";
 import { get } from "../../utilities";
 
 import "./Canvas.css";
- 
+
+/**
+ * Canvas for the graph
+ *
+ * Proptypes
+ * @param {paramtype} paramname paramdescription
+ *
+ */
+
 class Canvas extends Component {
     constructor(props){
         super(props);

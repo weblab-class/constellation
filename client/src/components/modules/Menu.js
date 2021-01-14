@@ -1,5 +1,13 @@
 import React, { Component } from "react";
 import "./Menu.css";
+
+/**
+ * Info section for user
+ *
+ * Proptypes
+ * @param {boolean} displayMenu boolean that indicates whether to show menu or not
+ */
+
 class Menu extends Component {
   constructor(props) {
     super(props);
