@@ -2,12 +2,20 @@ import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import About from "../modules/About.js";
 import Menu from "../modules/Menu.js";
-import { Link } from "@reach/router";
 
 import "../../utilities.css";
 import "./Login.css";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = "157610550288-q8s3sjaa519htgsle5cjvqku1tgcdqob.apps.googleusercontent.com";
+
+/**
+ * Login page for constellation. Includes title, google login, and about info. Logging in will automatically redirect to explorer page
+ *
+ * Proptypes
+ * @param {(UserObject) => ()} handleLogin function that takes in response from google, sets user id, and redirects to explorer
+ * @param {(UserObject) => ()} handleLogout function that takes in response from google, sets user id to undefined, redirects to home
+ * @param {string} userId id of current logged in user
+ */
 
 class Login extends Component {
   constructor(props) {
@@ -42,25 +50,27 @@ class Login extends Component {
             onFailure={(err) => console.log(err)}
           />
         ) : (
-          <GoogleLogin
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Login"
-            onSuccess={this.props.handleLogin}
-            onFailure={(err) => console.log(err)}
-          />
-        )}
-        <About toggleMenu={this.toggleMenu}/>
+            <GoogleLogin
+              clientId={GOOGLE_CLIENT_ID}
+              buttonText="Login"
+              onSuccess={this.props.handleLogin}
+              onFailure={(err) => console.log(err)}
+            />
+          )}
+
+        <About toggleMenu={this.toggleMenu} />
         <div className="Login-centerFlex">
+
+          <br />
           <div className="Login-title u-bold">
             constellation
-          </div> 
+          </div>
           <br />
           <div className="Login-description">
             a visually driven course explorer
           </div>
         </div>
-        <Menu displayMenu={this.state.displayMenu}/>
-        <Link to="/explorer/"> Click to go to main page! </Link>
+        <Menu displayMenu={this.state.displayMenu} />
       </>
     );
   }

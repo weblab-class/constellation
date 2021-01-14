@@ -28,14 +28,19 @@ const path = require("path"); // provide utilities for working with file and dir
 const api = require("./api");
 const auth = require("./auth");
 
+// 1/13: https://stackoverflow.com/questions/51770772/mongoose-connect-first-argument-should-be-string-received-undefined
+// Debugging
+
+require("dotenv").config();
+
 // socket stuff
 const socketManager = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const mongoConnectionURL = "FILL ME IN";
+const mongoConnectionURL = process.env.DB_SRV;
 // TODO change database name to the name you chose
-const databaseName = "FILL ME IN";
+const databaseName = "constellationDB";
 
 // connect to mongodb
 mongoose
