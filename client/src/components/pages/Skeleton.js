@@ -15,7 +15,7 @@ class Skeleton extends Component {
   }
 
   componentDidMount() {
-    // remember -- api calls go here!
+
   }
 
   render() {
@@ -51,7 +51,7 @@ class Skeleton extends Component {
           <li>Change the Database SRV for Atlas (server.js)</li>
           <li>Change the Database Name for MongoDB (server.js)</li>
           <li>Add a favicon to your website at the path client/dist/favicon.ico</li>
-          <li>Update website title in client/dist/index.html</li>
+          <li>Update website in client/dist/index</li>
         </ul>
       </>
     );
