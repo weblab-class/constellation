@@ -6,6 +6,12 @@ import "./Explorer.css";
 
 import { get } from "../../utilities";
 
+/**
+ * Explorer page. Where all the main features are: canvas, sidebar
+ *
+ * Proptypes
+ * @param {string} userId id of current logged in user
+ */
 
 class Explorer extends Component {
     constructor(props) {
@@ -16,12 +22,12 @@ class Explorer extends Component {
 
     render(){
         return(
-            <div id="all">
+            <div className="Explorer-all">
                 <div className="Explorer-container"> 
-                    <div id="canvas"> 
+                    <div className="Explorer-canvas"> 
                         <Canvas/>
                     </div>
-                    <div id="sideBar"> 
+                    <div className="Explorer-sideBar"> 
                         <SideBar/>
                     </div>
                 </div>

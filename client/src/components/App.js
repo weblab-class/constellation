@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router } from "@reach/router";
+import { navigate, Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Login from "./pages/Login.js";
 import Explorer from "./pages/Explorer.js";
@@ -38,6 +38,8 @@ class App extends Component {
       this.setState({ userId: user._id });
       post("/api/initsocket", { socketid: socket.id });
     });
+    navigate("/explorer");
+    
   };
 
   handleLogout = () => {
@@ -45,9 +47,13 @@ class App extends Component {
     post("/api/logout");
   };
 
+
   render() {
+    
     return (
+      
       <>
+        
         <Router>
           <Login
             path="/"

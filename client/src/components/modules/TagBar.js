@@ -4,6 +4,13 @@ import { get } from "../../utilities";
 
 import "./TagBar.css";
  
+/**
+ * Holds the tags used to filter classes
+ *
+ * Proptypes
+ * @param {paramtype} paramname paramdescription
+ *
+ */
 class TagBar extends Component {
     constructor(props){
         super(props);

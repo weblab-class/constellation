@@ -6,17 +6,17 @@
    border: 1px solid black;
 }
 
-#canvas {
+.Explorer-canvas {
    border: 1px solid #EDEDED;
    flex-grow: 9;
  }
 
- #sideBar{
+ .Explorer-sideBar{
    background-color: #EDEDED;
    flex-grow: 1;
  }
 
- #all{
+ .Explorer-all{
     margin: 0px;
     padding: 0px;
  }

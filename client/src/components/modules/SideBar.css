@@ -1,18 +1,11 @@
-.container{
-    /* flex-direction: column; */
-}
-
-#title{
-    height: 87px;
-    left: 1129px;
+.Sidebar-title{
     top: 100px;
-    margin: 40px;
+    margin: 50px;
 
     font-family: Comfortaa;
     font-style: normal;
     font-weight: normal;
     font-size: 42px;
-    line-height: 47px;
     text-align: center;
 
     color: #000000;

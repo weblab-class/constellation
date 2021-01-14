@@ -13,8 +13,8 @@ class DisplayBar extends Component {
 
     render(){
         return(
-            <div class="container">
-                <div id="title"> Constellation </div>
+            <div className="DisplayBar-container">
+                <div className="DisplayBar-title"> Constellation </div>
             </div>
         )
     }
