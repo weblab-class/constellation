@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 
 import { get } from "../../utilities";
-import SearchBar from "./searchBar.js";
+import SearchBar from "./SearchBar.js";
 
 import "./SideBar.css";
  
+/**
+ * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
+ *
+ * Proptypes
+ * @param {paramtype} paramname paramdescription
+ *
+ */
+
 class SideBar extends Component {
     constructor(props){
         super(props);
@@ -15,7 +23,7 @@ class SideBar extends Component {
     render(){
         return(
             <div>
-                <div id="title"> constellation </div>
+                <div className="Sidebar-title"> constellation </div>
                 <SearchBar/>
             </div>
         )
