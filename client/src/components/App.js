@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Router } from "@reach/router";
+import { navigate, Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
-import Skeleton from "./pages/Skeleton.js";
+import Login from "./pages/Login.js";
+import Explorer from "./pages/Explorer.js";
 
 import "../utilities.css";
 
@@ -37,6 +38,8 @@ class App extends Component {
       this.setState({ userId: user._id });
       post("/api/initsocket", { socketid: socket.id });
     });
+    navigate("/explorer");
+    
   };
 
   handleLogout = () => {
@@ -44,16 +47,21 @@ class App extends Component {
     post("/api/logout");
   };
 
+
   render() {
+    
     return (
+      
       <>
+        
         <Router>
-          <Skeleton
+          <Login
             path="/"
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
             userId={this.state.userId}
           />
+          <Explorer path="/explorer/" userId={this.state.userId} />
           <NotFound default />
         </Router>
       </>

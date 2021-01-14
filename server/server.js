@@ -38,9 +38,15 @@ const socketManager = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
+<<<<<<< HEAD
+const mongoConnectionURL = "mongodb+srv://benjaminwu:***REMOVED***@cluster0.zniz6.mongodb.net/constellation?retryWrites=true&w=majority";
+// TODO change database name to the name you chose
+const databaseName = "constellation";
+=======
 const mongoConnectionURL = process.env.DB_SRV;
 // TODO change database name to the name you chose
 const databaseName = "constellationDB";
+>>>>>>> main
 
 // connect to mongodb
 mongoose

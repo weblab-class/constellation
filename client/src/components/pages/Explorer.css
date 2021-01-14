@@ -1,0 +1,22 @@
+.Explorer-container{
+   display: flex; 
+   flex-direction: row;
+   height: 100vh;
+   width: 100vw;
+   border: 1px solid black;
+}
+
+.Explorer-canvas {
+   border: 1px solid #EDEDED;
+   flex-grow: 9;
+ }
+
+ .Explorer-sideBar{
+   background-color: #EDEDED;
+   flex-grow: 1;
+ }
+
+ .Explorer-all{
+    margin: 0px;
+    padding: 0px;
+ }
