@@ -13,6 +13,8 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const graphInfo = require("./models/graphInfo.js");
+const sidebarInfo = require("./models/sidebarInfo.js");
 
 // import authentication library
 const auth = require("./auth");
@@ -43,6 +45,21 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+//Required methods:
+router.get("/graphNode", (req, res) => {
+
+  graphInfo.find({"subject_id" : String(req.query.class_id)}).then(
+    (nodeInfo) => {
+      res.send(nodeInfo)});
+
+});
+
+router.get("/sidebarNode", (req, res) => {
+  sidebarInfo.find({"subject_id" : String(req.query.class_id)}).then(
+    (nodeInfo) => {res.send(nodeInfo)}
+    );
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
