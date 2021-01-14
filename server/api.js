@@ -51,8 +51,6 @@ router.get("/graphNode", (req, res) => {
 
   graphInfo.find({"subject_id" : String(req.query.class_id)}).then(
     (nodeInfo) => {
-      console.log("classId " + req.query.class_id);
-      console.log("nodeInfo " + nodeInfo);
       res.send(nodeInfo)});
 
 });
