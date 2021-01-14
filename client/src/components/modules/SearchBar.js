@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import { get } from "../../utilities";
+import { GiMagnifyingGlass } from "react-icons/gi";
 
 import "./SearchBar.css";
 
@@ -26,7 +24,7 @@ class SearchBar extends Component {
                 <div className="SearchBar-search">
                     <input type="text" className="SearchBar-input" placeholder="search for any class!" />
                     <button type="submit" className="SearchBar-button">
-                        <FontAwesomeIcon icon={}/>
+                        <GiMagnifyingGlass size={25}/>
                     </button>
                 </div>
             </div>
