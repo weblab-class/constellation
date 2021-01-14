@@ -24,7 +24,7 @@ class SideBar extends Component {
         return(
             <div>
                 <div className="Sidebar-title"> constellation </div>
-                <SearchBar />
+                <SearchBar handleSearch={this.props.handleSearch}/>
                 
             </div>
         )

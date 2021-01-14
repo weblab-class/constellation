@@ -14,6 +14,20 @@ import "./SearchBar.css";
 class SearchBar extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            inputText: '',
+        }
+    }
+
+    glassClick = () =>{
+        console.log("The glass was clicked!");
+        this.props.handleSearch(this.state.inputText);
+    }
+
+    handleChange = (event) => {
+        this.setState({
+            inputText: event.target.value,
+        });
     }
 
     //componentDidMount(){}
@@ -22,9 +36,9 @@ class SearchBar extends Component {
         return (
             <div className="SearchBar-container">
                 <div className="SearchBar-search">
-                    <input type="text" className="SearchBar-input" placeholder="search for any class!" />
+                    <input type="text" className="SearchBar-input" placeholder="search for any class!" value={this.state.inputText} onChange={this.handleChange}/>
                     <button type="submit" className="SearchBar-button">
-                        <GiMagnifyingGlass size={25}/>
+                        <GiMagnifyingGlass size={25} onClick={this.glassClick}/>
                     </button>
                 </div>
             </div>

@@ -16,6 +16,15 @@ import { get } from "../../utilities";
 class Explorer extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            newClass: null,
+        }
+    }
+
+    handleSearch = (inputText) => {
+        this.setState({
+            newClass: inputText,
+        });
     }
 
     // componentDidMount() {}
@@ -25,10 +34,10 @@ class Explorer extends Component {
             <div className="Explorer-all">
                 <div className="Explorer-container"> 
                     <div className="Explorer-canvas"> 
-                        <Canvas/>
+                        <Canvas newClass={this.state.newClass}/>
                     </div>
                     <div className="Explorer-sideBar"> 
-                        <SideBar/>
+                        <SideBar handleSearch={this.handleSearch}/>
                     </div>
                 </div>
             </div>
