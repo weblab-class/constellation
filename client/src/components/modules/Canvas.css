@@ -1,0 +1,16 @@
+.Canvas-container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.Network-container{
+    flex-grow: 10;
+    width: 50%;
+    height: 100%;
+}
+
+.Div-container{
+    flex-grow: 3;
+}
