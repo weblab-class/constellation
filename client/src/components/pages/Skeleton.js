@@ -4,6 +4,8 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 import "../../utilities.css";
 import "./Skeleton.css";
 
+import { get, post } from "../../utilities";
+
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
 
@@ -52,6 +54,8 @@ class Skeleton extends Component {
           <li>Change the Database Name for MongoDB (server.js)</li>
           <li>Add a favicon to your website at the path client/dist/favicon.ico</li>
           <li>Update website in client/dist/index</li>
+          <li>Update website in client/dist/index</li>
+          <li>{JSON.stringify(post("/api/test"))}</li>
         </ul>
       </>
     );
