@@ -55,7 +55,6 @@ class Skeleton extends Component {
           <li>Add a favicon to your website at the path client/dist/favicon.ico</li>
           <li>Update website in client/dist/index</li>
           <li>Update website in client/dist/index</li>
-          <li>{JSON.stringify(post("/api/test"))}</li>
         </ul>
       </>
     );

@@ -40,7 +40,7 @@ const socketManager = require("./server-socket");
 // TODO change connection URL after setting up your team database
 const mongoConnectionURL = process.env.DB_SRV;
 // TODO change database name to the name you chose
-const databaseName = "constellationDB";
+const databaseName = "constellation";
 
 // connect to mongodb
 mongoose

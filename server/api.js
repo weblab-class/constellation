@@ -48,23 +48,6 @@ router.post("/initsocket", (req, res) => {
 
 //Required methods:
 
-router.post("/test", (req, res) => {
-
-  testObj = new graphInfo({
-    "subject_id": "1.00 test another new",
-    "prerequisites": ["18.01", "18.01A", "CC.181A", "ES.1801", "ES.181A"],
-    "corequisites": [],
-    "related_subjects": ["1.082", "1.000", "1.631", "1.063", "6.481", "1.125", "1.205", "6.802", "6.874", "IDS.524"],
-    "gir_attribute": "REST",
-    "after_subjects": ["1.124", "1.079", "1.020", "16.405", "6.141", "1.022", "2.091", "1.041", "15.053", "16.35"]
-  });
-
-  console.log("Is in post request.")
-  testObj.save().then((info) => console.log(info));
-  console.log(JSON.stringify(testObj));
-
-});
-
 router.get("/graphNode", (req, res) => {
 
   graphInfo.find({"subject_id" : String(req.query.class_id)}).then(
@@ -78,6 +61,33 @@ router.get("/sidebarNode", (req, res) => {
     (nodeInfo) => {res.send(nodeInfo)}
     );
 });
+
+/*
+
+router.get("/graphNode", async (req, res) => {
+
+  try {
+    const nodeInfo = await graphInfo.find({"subject_id" : String(req.query.subject_id)});
+    await res.send(nodeInfo);
+  } catch (err) {
+    console.log("Error in sending/receiving graph information request.");
+    console.log(err);
+  }
+
+});
+
+router.get("/sidebarNode", async (req, res) => {
+
+  try{
+    const classInfo = sidebarInfo.find({"subject_id" : String(req.query.subject_id)});
+    await res.send(classInfo);
+  } catch (err) {
+      console.log("Error in sending/receiving side bar information request.");
+      console.log(err);
+    }
+});
+
+*/
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
