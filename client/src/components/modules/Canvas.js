@@ -26,7 +26,7 @@ class Canvas extends Component {
     render(){
         return(
             <div className="Canvas-container" ref={this.divRef}>
-                    <VisNetwork width={this.state.height} height={this.state.height}/>
+                    <VisNetwork newClass={this.props.newClass}/>
                     <button onClick={ () => {
                         this.setState({
                             height: this.divRef.current.clientHeight,
