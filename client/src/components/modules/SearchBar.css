@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body {
+    background: #f2f2f2;
+}
+
+.SearchBar-container{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.SearchBar-search {
+    display: flex;
+    justify-content: space-around;
+}
+
+.SearchBar-input {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 5px 5px 5px 5px;
+    border: 2px solid #4a4e69;
+    width: 180px;
+    color: #161a1d;
+    outline: none;
+
+}
+
+.SearchBar-button {
+    width: 40px;
+    height: 34px;
+    background: #9a8c98;
+    border: 2px solid #4a4e69;
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.SearchBar-button:active {
+    filter: brightness(150%);
+}
+.SearchBar-icon {
+    width: 40px;
+    height: 34px;
+}
+  

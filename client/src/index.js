@@ -7,3 +7,9 @@ ReactDOM.render(<App />, document.getElementById("root"));
 
 // allows for live updating
 module.hot.accept();
+
+// test commit lolz
+
+//TESTING THE TEST BRANCH
+
+//TEST 2 on TEST BRANCH
