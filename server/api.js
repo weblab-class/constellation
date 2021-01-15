@@ -52,13 +52,20 @@ router.get("/graphNode", (req, res) => {
 
   graphInfo.find({"subject_id" : String(req.query.class_id)}).then(
     (nodeInfo) => {
-      res.send(nodeInfo)});
-
+      res.send(nodeInfo).catch(
+        (err) => {console.log(err);}
+      )}).catch(
+        (err) => {console.log(err);}
+      );
 });
 
 router.get("/sidebarNode", (req, res) => {
   sidebarInfo.find({"subject_id" : String(req.query.class_id)}).then(
-    (nodeInfo) => {res.send(nodeInfo)}
+    (nodeInfo) => {res.send(nodeInfo).catch(
+      (err) => {console.log(err);}
+    )}
+    ).catch(
+      (err) => {console.log(err);}
     );
 });
 
