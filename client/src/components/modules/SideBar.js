@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { get } from "../../utilities";
 import SearchBar from "./SearchBar.js";
+import DisplayBar from "./DisplayBar.js";
 
 import "./SideBar.css";
  
@@ -24,6 +25,8 @@ class SideBar extends Component {
         return(
             <div>
                 <div className="Sidebar-title"> constellation </div>
+                <SearchBar />
+                <DisplayBar />
                 <SearchBar handleSearch={this.props.handleSearch}/>
                 
             </div>

@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+.DisplayBar-containerOuter {
+    width: 80%;
+    border: 2px solid #677DB7;
+    border-radius: 10px;
+    margin: 10px 10px 30px 40px;
+    background-color: #FBFFF1;
+    opacity: 75%;
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+.DisplayBar-containerInner {
+    height: 60vh;
+    overflow-y: auto;
+}
+p {
+    margin-left: 10px;
+    margin-right: 15px;
+    word-wrap:break-word;
+}
+
+.DisplayBar-containerOuter:hover {
+    opacity: 100%;
+}
+
+.DisplayBar-courseTitle {
+    font-size: var(--m);
+}
+
+.DisplayBar-buttonContainer {
+    width: 20vw;
+    bottom: 10px;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+
+}
+
+.DisplayBar-button {
+    font-family: 'Montserrat', serif;
+    width: 50%;
+    height: 34px;
+    margin: 5px;
+    background: #d6e2e9;
+    border: 2px solid #4a4e69;
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.DisplayBar-button:hover {
+    box-shadow: 0 5px 5px rgba(97, 123, 133, 0.4);
+}
+
+.DisplayBar-button:active {
+    transform: scale(1.05);
+}
