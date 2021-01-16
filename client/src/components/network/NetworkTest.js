@@ -78,27 +78,23 @@ class VisNetwork extends Component {
   }
 
   //adds class newUpdate to network, adds suggestions to neighbors
-  processAddition = (classId) => {
+  processAddition = async (classId) => {
     if(this.alreadyAdded(classId)){
       if(!this.isSuggestionDict[classId]) return;
       else this.updateToFull(classId);
     }
     else this.addNode(classId, false, 1);
-    const neighbors = this.props.getNeighbors(classId);
+    const neighbors = await this.props.getNeighbors(classId);
     neighbors.prereqsToAdd.forEach(this.processSuggestionAddition);
     neighbors.coreqsToAdd.forEach(this.processSuggestionAddition);
     neighbors.afterreqsToAdd.forEach(this.processSuggestionAddition);
-    //process edges
-    //add prereq edges
-    //add coreq edges
-    //add afterreq edges
     this.edgesToAdd=[];
   }
 
   processSuggestionAddition = (classId) => {
     if(!this.alreadyAdded(classId)){
       this.addNode(classId,true,this.relevanceToCurrentNetwork(classId));
-      this.edgesToAdd.push
+      // this.edgesToAdd.push
     } else if(this.isSuggestionDict[classId]){
       this.updateNodeOpacity(classId,this.relevanceToCurrentNetwork(classId));
       console.log("We've already added: " + classId);
@@ -124,8 +120,8 @@ class VisNetwork extends Component {
   }
 
   render() {
-    const newUpdate = this.props.newUpdate;
-    if(newUpdate) this.processAddition(newUpdate);
+    const newClass = this.props.newClass;
+    if(newClass) this.processAddition(newClass);
     return (
         <>
             <div ref={this.appRef} />

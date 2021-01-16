@@ -27,7 +27,7 @@ class Canvas extends Component {
         return(
             <div className="Canvas-container" ref={this.divRef}>
                     <VisNetwork 
-                        newUpdate = {this.props.newUpdate}
+                        newClass = {this.props.newClass}
                         getNeighbors = {this.props.getNeighbors}/>
             </div>
         )
