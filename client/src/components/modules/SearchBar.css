@@ -19,6 +19,7 @@ body {
 
 .SearchBar-input {
     text-align: center;
+    font-size: 10px;
     font-family: 'Montserrat', sans-serif;
     border-radius: 5px 5px 5px 5px;
     border: 2px solid #4a4e69;
