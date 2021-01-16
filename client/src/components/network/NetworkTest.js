@@ -1,91 +1,117 @@
 import { DataSet, Network } from 'vis-network/standalone/umd/vis-network.min';
 import React, { Component, createRef } from "react";
+import { GiBlackHandShield } from 'react-icons/gi';
 
 
- // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
- let nodeIds = [2, 3, 4, 5];
- let shadowState = false;
-
- // create an array with nodes
- let nodesArray = [
-   { id: 1, label: "Node 1"},
-   { id: 2, label: "Node 2"},
-   { id: 3, label: "Node 3"},
-   { id: 4, label: "Node 4" },
-   { id: 5, label: "Node 5" },
- ];
- let nodes = new DataSet(nodesArray);
-
- // create an array with edges
- let edgesArray = [
-   { from: 1, to: 3 },
-   { from: 1, to: 2 },
-   { from: 2, to: 4 },
-   { from: 2, to: 5 },
- ];
- let edges = new DataSet(edgesArray);
-
- // create a network
+// create a network
 //  let container = document.getElementById("mynetwork");
- let data = {
-   nodes: nodes,
-   edges: edges,
- };
 
- let options = {
-     height: '700px',
-     width: '1000px',
-     nodes: {
-        shape: 'dot',
-        borderWidth: 3,
-        opacity: 0.3,
-     },
-     edges: {
-      endPointOffset: {
-        from: 5,
-        to: 5,
-      },
-     }
- };
+/* TODO 
+  GROUP for full classes
+  GROUP for suggestions
+*/
 
-
-
-
+//to check if an edge exists, merely check that both endpoints are added
 
 class VisNetwork extends Component {
 
   constructor(props) {
     super(props);
+    //setup vis.js stuff
+    // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
+    let shadowState = false;
+
+    // create an array with nodes, and one with edges
+    let nodesArray = [{ id: 1, label: "Node 1"},];
+    let nodes = new DataSet(nodesArray);
+    let edgesArray = [];
+    let edges = new DataSet(edgesArray);
+    let data = { nodes: nodes, edges: edges,};
+
+    //1 for added node, 0 for suggestion
+    this.isSuggestionDict = {}; //Suggestion or Fully added class
     this.network = {};
+    this.edgesToAdd = [];
     this.appRef = createRef();
     this.state={
         data: {
             nodes: nodes,
             edges: edges,
         },
-        nodeIds: nodeIds,
+        nodeIds: [1],
         options: {
           height: '700px',
           width: '1000px',
           nodes: {
              shape: 'dot',
+             size: 8,
              borderWidth: 3,
              opacity: 0.3,
           },
-          edges: {
-           endPointOffset: {
-             from: 5,
-             to: 5,
-           },
-          }
         },
     };
   }
 
-  addNode = (nodeLabel) => {
-    let newId = (Math.random() * 1e7).toString(32);
-    this.state.data.nodes.add({ id: newId, label: nodeLabel });
-    this.state.nodeIds.push(newId);
+  //add all new nodes
+  //add all new edges
+  //update transparency
+
+  alreadyAdded = (classId) => {
+    return this.state.nodeIds.includes(classId);
+  }
+
+  relevanceToCurrentNetwork = (classid) => {
+    //look through classes that are FULLY ADDED
+    //iterate through classes and check to see which of prereqsare satisfied
+    return 0.1;
+  }
+
+  //updates suggestion to fully added node
+  updateToFull = (classId) => {
+    isSuggestionDict[classId] = false;
+    updateNodeOpacity(classId, 1);
+  }
+
+  //set Node opacity to val
+  updateNodeOpacity = (classId, val) => {
+    this.state.data.nodes.update([{ id: classId, opacity: val }]);
+  }
+
+  //adds class newUpdate to network, adds suggestions to neighbors
+  processAddition = (classId) => {
+    if(this.alreadyAdded(classId)){
+      if(!this.isSuggestionDict[classId]) return;
+      else this.updateToFull(classId);
+    }
+    else this.addNode(classId, false, 1);
+    const neighbors = this.props.getNeighbors(classId);
+    neighbors.prereqsToAdd.forEach(this.processSuggestionAddition);
+    neighbors.coreqsToAdd.forEach(this.processSuggestionAddition);
+    neighbors.afterreqsToAdd.forEach(this.processSuggestionAddition);
+    //process edges
+    //add prereq edges
+    //add coreq edges
+    //add afterreq edges
+    this.edgesToAdd=[];
+  }
+
+  processSuggestionAddition = (classId) => {
+    if(!this.alreadyAdded(classId)){
+      this.addNode(classId,true,this.relevanceToCurrentNetwork(classId));
+      this.edgesToAdd.push
+    } else if(this.isSuggestionDict[classId]){
+      this.updateNodeOpacity(classId,this.relevanceToCurrentNetwork(classId));
+      console.log("We've already added: " + classId);
+    }
+  }
+
+  //two parameters: nodeLabel=courseID
+  addNode = (classId, suggestionStatus, opacity) => {
+    if(this.alreadyAdded(classId)) return;
+    this.isSuggestionDict[classId]=suggestionStatus;
+    this.state.data.nodes.add({ id: classId, label: classId, opacity: opacity}); //add group
+    this.state.nodeIds.push(classId);
+    console.log("Pushing: " + classId);
    }
    
    changeNode1 = () => {
@@ -98,13 +124,11 @@ class VisNetwork extends Component {
   }
 
   render() {
-    const newClass = this.props.newClass;
-    if(newClass) this.addNode(newClass);
+    const newUpdate = this.props.newUpdate;
+    if(newUpdate) this.processAddition(newUpdate);
     return (
         <>
             <div ref={this.appRef} />
-            {/* <button onClick={this.addNode}> ADD A NODE </button> */}
-            {/* <button onClick={this.changeNode1}> Change color </button>  */}
         </>
     );
   }
