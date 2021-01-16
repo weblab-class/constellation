@@ -26,13 +26,9 @@ class Canvas extends Component {
     render(){
         return(
             <div className="Canvas-container" ref={this.divRef}>
-                    <VisNetwork newClass={this.props.newClass}/>
-                    <button onClick={ () => {
-                        this.setState({
-                            height: this.divRef.current.clientHeight,
-                            width: this.divRef.current.clientWidth,
-                        });
-                    }} />
+                    <VisNetwork 
+                        newUpdate = {this.props.newUpdate}
+                        getNeighbors = {this.props.getNeighbors}/>
             </div>
         )
     }
