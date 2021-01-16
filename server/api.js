@@ -47,19 +47,59 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 //Required methods:
+
 router.get("/graphNode", (req, res) => {
 
   graphInfo.find({"subject_id" : String(req.query.subject_id)}).then(
     (nodeInfo) => {
-      res.send(nodeInfo)});
-
+      res.send(nodeInfo).catch(
+        (err) => {console.log(err);}
+      )}).catch(
+        (err) => {console.log(err);}
+      );
 });
 
 router.get("/sidebarNode", (req, res) => {
+<<<<<<< HEAD
   sidebarInfo.find({"subject_id" : String(req.query.subject_id)}).then(
     (nodeInfo) => {res.send(nodeInfo)}
+=======
+  sidebarInfo.find({"subject_id" : String(req.query.class_id)}).then(
+    (nodeInfo) => {res.send(nodeInfo).catch(
+      (err) => {console.log(err);}
+    )}
+    ).catch(
+      (err) => {console.log(err);}
+>>>>>>> 4fec38eb4f3714fc7c8638dc73bb0345b2ef328b
     );
 });
+
+/*
+
+router.get("/graphNode", async (req, res) => {
+
+  try {
+    const nodeInfo = await graphInfo.find({"subject_id" : String(req.query.subject_id)});
+    await res.send(nodeInfo);
+  } catch (err) {
+    console.log("Error in sending/receiving graph information request.");
+    console.log(err);
+  }
+
+});
+
+router.get("/sidebarNode", async (req, res) => {
+
+  try{
+    const classInfo = sidebarInfo.find({"subject_id" : String(req.query.subject_id)});
+    await res.send(classInfo);
+  } catch (err) {
+      console.log("Error in sending/receiving side bar information request.");
+      console.log(err);
+    }
+});
+
+*/
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
