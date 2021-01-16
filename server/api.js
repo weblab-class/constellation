@@ -49,14 +49,14 @@ router.post("/initsocket", (req, res) => {
 //Required methods:
 router.get("/graphNode", (req, res) => {
 
-  graphInfo.find({"subject_id" : String(req.query.class_id)}).then(
+  graphInfo.find({"subject_id" : String(req.query.subject_id)}).then(
     (nodeInfo) => {
       res.send(nodeInfo)});
 
 });
 
 router.get("/sidebarNode", (req, res) => {
-  sidebarInfo.find({"subject_id" : String(req.query.class_id)}).then(
+  sidebarInfo.find({"subject_id" : String(req.query.subject_id)}).then(
     (nodeInfo) => {res.send(nodeInfo)}
     );
 });
