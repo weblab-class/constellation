@@ -69,7 +69,6 @@ const goodGraphInfoArguments = (req, res) => {
 }
 
 router.get("/graphNode", (req, res) => {
-
   if(!goodGraphInfoArguments(req, res)){
     return;
   }
@@ -83,7 +82,6 @@ router.get("/graphNode", (req, res) => {
 });
 
 router.get("/sidebarNode", (req, res) => {
-
   if(!goodGraphInfoArguments(req, res)){
     return;
   }
