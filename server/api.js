@@ -83,15 +83,27 @@ router.get("/graphNode", (req, res) => {
 });
 
 router.get("/sidebarNode", (req, res) => {
+<<<<<<< HEAD
 
   if(!goodGraphInfoArguments(req, res)){
     return;
   }
 
+=======
+<<<<<<< HEAD
+  sidebarInfo.find({"subject_id" : String(req.query.subject_id)}).then(
+    (nodeInfo) => {res.send(nodeInfo)}
+=======
+>>>>>>> f6c229b282fb400ac72b60db8be76f2be03caeee
   sidebarInfo.find({"subject_id" : String(req.query.class_id)}).then(
     (nodeInfo) => {res.send(nodeInfo);}
     ).catch(
+<<<<<<< HEAD
       (err) => {res.status(500); res.send({info : err.message});}
+=======
+      (err) => {console.log(err);}
+>>>>>>> 4fec38eb4f3714fc7c8638dc73bb0345b2ef328b
+>>>>>>> f6c229b282fb400ac72b60db8be76f2be03caeee
     );
 });
 

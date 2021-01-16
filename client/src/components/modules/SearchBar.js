@@ -7,7 +7,7 @@ import "./SearchBar.css";
  * Searchbar to search for class
  *
  * Proptypes
- * @param {paramtype} paramname paramdescription
+ * @param {(String) => ()} setCourseObject callback function that takes in input text and mo
  *
  */
 
