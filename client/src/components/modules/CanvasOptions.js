@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import UserCollections from "./UserCollections.js";
 import SaveCollection from "./SaveCollection.js";
+
+import { navigate } from "@reach/router";
 import { get } from "../../utilities";
 
 import "./CanvasOptions.css";
@@ -20,14 +22,18 @@ class CanvasOptions extends Component {
 
     //componentDidMount(){}
     
-
+    returnHome () {
+        navigate("/");
+    }
+    
     render(){
         return(
             
             <nav className="CanvasOptions-navBar">
-                <button className="CanvasOptions-navButton">Reset Canvas</button>  
-                <SaveCollection />
-                <UserCollections />
+                <button onClick={this.props.resetCanvas}>Reset Canvas</button>  
+                <SaveCollection handleSaveCollection={this.props.handleSaveCollection}/>
+                <UserCollections handleUserCollections={this.props.handleUserCollections}/>
+                <button onClick={this.returnHome}> Back to Home </button>
             </nav>
         )
     }
