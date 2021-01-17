@@ -21,7 +21,9 @@ class DisplayBar extends Component {
 
     render() {
         let toDisplay;
-        if(!this.props.courseObject || this.props.canvasToBeReset) {
+        if(this.props.isDisplayCollections) {
+            toDisplay=<p>this is where my collections will go</p>
+        } else if(!this.props.courseObject || this.props.canvasToBeReset) {
             toDisplay=<p>no class selected...</p>;
         }
         else if(!this.props.courseObject.found) {
