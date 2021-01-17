@@ -39,7 +39,6 @@ class App extends Component {
       post("/api/initsocket", { socketid: socket.id });
     });
     navigate("/explorer");
-    
   };
 
   handleLogout = () => {
