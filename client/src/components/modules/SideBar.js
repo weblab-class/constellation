@@ -17,9 +17,6 @@ import "./SideBar.css";
 class SideBar extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            courseObject: undefined,
-        }
     }
 
     //componentDidMount(){}
@@ -32,12 +29,12 @@ class SideBar extends Component {
                 <div className="Sidebar-title"> constellation </div>
                 <SearchBar handleSearch={this.props.handleSearch} setCourseObject={this.props.setCourseObject}/>
                 <DisplayBar 
-                    courseObject={this.state.courseObject} 
+                    courseObject={this.props.courseObject} 
                     handleAddClass={this.props.handleAddClass} 
                     handleRemoveClass={this.props.handleRemoveClass}
                     handleLoadCollection={this.props.handleLoadCollection}
-                    handleCancel={this.props.handleCancel}/>
-                
+                    handleCancel={this.props.handleCancel}
+                    canvasToBeReset={this.props.canvasToBeReset}/>
             </div>
         )
     }

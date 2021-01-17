@@ -35,7 +35,7 @@ class Canvas extends Component {
                         getNeighbors = {this.props.getNeighbors}
                         handleNodeClick = {this.props.handleNodeClick}
                         getLoadCollectionInfo = {this.props.getLoadCollectionInfo}
-                        resetCanvas = {this.props.resetCanvas}
+                        canvasToBeReset = {this.props.canvasToBeReset}
                         newClass = {this.props.newClass}
                         removeClass = {this.props.removeClass}
                     />

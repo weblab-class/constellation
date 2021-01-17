@@ -25,7 +25,7 @@ class CanvasOptions extends Component {
         return(
             
             <nav className="CanvasOptions-navBar">
-                <button>Reset Canvas</button>  
+                <button onClick={this.props.resetCanvas}>Reset Canvas</button>  
                 <SaveCollection handleSaveCollection={this.props.handleSaveCollection}/>
                 <UserCollections handleUserCollections={this.props.handleUserCollections}/>
             </nav>
