@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import VisNetwork from "../network/NetworkTest";
+import VisNetwork from "../network/VisNetwork.js";
 
 import { get } from "../../utilities";
 
@@ -27,7 +27,7 @@ class Canvas extends Component {
         return(
             <div className="Canvas-container" ref={this.divRef}>
                     <VisNetwork 
-                        newUpdate = {this.props.newUpdate}
+                        newClass = {this.props.newClass}
                         getNeighbors = {this.props.getNeighbors}/>
             </div>
         )

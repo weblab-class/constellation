@@ -1,0 +1,12 @@
+.CanvasOptions-navButton {
+
+    text-align: center;
+    
+    display: inline;
+    flex-direction: row;
+    margin: 1vw 5vw 5vw 1vw;
+    width: 200px;
+
+    align-content: center;
+
+}
