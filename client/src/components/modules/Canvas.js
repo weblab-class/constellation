@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import VisNetwork from "../network/NetworkTest";
+import VisNetwork from "../network/VisNetwork.js";
 
 import { get } from "../../utilities";
 

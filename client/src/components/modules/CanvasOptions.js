@@ -23,7 +23,7 @@ class CanvasOptions extends Component {
 
     render(){
         return(
-            <nav>
+            <nav className="CanvasOptions-navBar">
                 <button>Reset Canvas</button>  
                 <SaveCollection />
                 <UserCollections />

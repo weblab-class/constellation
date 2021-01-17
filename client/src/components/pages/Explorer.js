@@ -50,7 +50,7 @@ class Explorer extends Component {
 
     //returns neighbors for the class and updates state so that network re-renders
     getNeighbors = (inputText) => {
-        return get("/api/graphNode", {class_id: inputText}).then((graphInfo) => {
+        return get("/api/graphNode", {subject_id: inputText}).then((graphInfo) => {
             const newClassesToAdd = {
                 prereqsToAdd: graphInfo[0].prerequisites,
                 coreqsToAdd: graphInfo[0].corequisites,
