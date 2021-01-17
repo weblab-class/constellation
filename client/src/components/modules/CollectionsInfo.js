@@ -11,7 +11,7 @@ import "./CollectionsInfo.css";
  * @param {paramtype} paramname paramdescription
  *
  */
-class TagBar extends Component {
+class CollectionsInfo extends Component {
     constructor(props){
         super(props);
     }
