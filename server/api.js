@@ -15,7 +15,8 @@ const express = require("express");
 const User = require("./models/user");
 const graphInfo = require("./models/graphInfo.js");
 const sidebarInfo = require("./models/sidebarInfo.js");
-const Tags = require("./models/tags.js");
+// const Tags = require("./models/tags.js");
+//SHOULD ABOVE BE ./models/collections.js??????
 
 // import authentication library
 const auth = require("./auth");
