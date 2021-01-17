@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Canvas from "../modules/Canvas.js";
 import SideBar from "../modules/SideBar.js";
+import CanvasOptions from "../modules/CanvasOptions.js";
 
 import "./Explorer.css";
 
@@ -78,6 +79,7 @@ class Explorer extends Component {
     render(){
         return(
             <div className="Explorer-all">
+                <CanvasOptions />
                 <div className="Explorer-container"> 
                     <div className="Explorer-canvas"> 
                         <Canvas 
