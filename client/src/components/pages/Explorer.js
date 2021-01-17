@@ -27,7 +27,11 @@ class Explorer extends Component {
             },
             canvasToBeReset: false,
             removeClass: '',
+<<<<<<< HEAD
             courseObject: undefined,
+=======
+            isDisplayCollections: false,
+>>>>>>> f8ffcc05c1bce24966c2f79f410b014f56cddf42
         }
     }
 
@@ -122,7 +126,12 @@ class Explorer extends Component {
     }
 
     handleUserCollections = () => {
+        
+        // 1/16: setState is async
+        // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
 
+        this.setState( {isDisplayCollections: true} );
+        
     }
 
     getLoadCollectionInfo = () => {
