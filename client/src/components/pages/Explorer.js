@@ -25,8 +25,9 @@ class Explorer extends Component {
                 coreqsToAdd: [],
                 afterreqsToAdd: [],
             },
-            resetCanvas: false,
+            canvasToBeReset: false,
             removeClass: '',
+            courseObject: undefined,
         }
     }
 
@@ -46,7 +47,7 @@ class Explorer extends Component {
 
     setCourseObject = (input) => {
         get("/api/sidebarNode", { subject_id: input }).then((courseArray) => {
-            console.log(courseArray);
+            console.log("courseArray", courseArray);
             if (courseArray.length === 0) {
                 this.setState({
                     courseObject: {
@@ -128,6 +129,11 @@ class Explorer extends Component {
 
     }
 
+    resetCanvas = () => {
+        this.setState({
+            canvasToBeReset: true,
+        });
+    }
     // componentDidMount() {}
 
     render() {
@@ -136,14 +142,15 @@ class Explorer extends Component {
                 <CanvasOptions 
                     handleSaveCollection={this.handleSaveCollection}
                     handleUserCollections={this.handleUserCollections}
+                    resetCanvas={this.resetCanvas}
                 />
                 <div className="Explorer-container">
                     <div className="Explorer-canvas">
                         <Canvas
                             newClass={this.state.newClass}
                             getNeighbors={this.getNeighbors}
-                            resetCanvas={this.state.resetCanvas}
                             removeClass={this.state.removeClass}
+                            canvasToBeReset={this.state.canvasToBeReset}
                             setCourseObject={this.setCourseObject}
                             getLoadCollectionInfo={this.getLoadCollectionInfo}
                         />
@@ -152,11 +159,14 @@ class Explorer extends Component {
                         <SideBar 
                             handleSearch={this.handleSearch} 
                             setCourseObject={this.setCourseObject} 
+                            courseObject={this.state.courseObject}
                             collectionObject={this.state.collectionObject}
                             handleAddClass={this.handleAddClass}
                             handleRemoveClass={this.handleRemoveClass}
                             handleLoadCollection={this.handleLoadCollection}
-                            handleCancel={this.handleCancel} />
+                            handleCancel={this.handleCancel} 
+                            canvasToBeReset={this.state.canvasToBeReset}
+                        />
                     </div>
                 </div>
             </div>
