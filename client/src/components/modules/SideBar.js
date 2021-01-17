@@ -35,7 +35,7 @@ class SideBar extends Component {
                     courseObject={this.state.courseObject} 
                     handleAddClass={this.props.handleAddClass} 
                     handleRemoveClass={this.props.handleRemoveClass}
-                    handleLoadCollection={this.props.handleCollection}
+                    handleLoadCollection={this.props.handleLoadCollection}
                     handleCancel={this.props.handleCancel}/>
                 
             </div>
