@@ -54,13 +54,13 @@ const goodGraphInfoArguments = (req, res) => {
   // 1/15: https://stackoverflow.com/questions/203739/why-does-instanceof-return-false-for-some-literals
   
   if(typeof req.query.subject_id === 'undefined'){
-    const errorStr = "Did not specify class_id as parameter in empty query -- did you use the wrong parameter name?";
+    const errorStr = "Did not specify subject_id as parameter in empty query -- did you use the wrong parameter name?";
     console.log(errorStr);
     res.status(400).send( {errorMessage : errorStr} );
     return false;
     }
   if(!(typeof req.query.subject_id === "string")){
-    errorStr = "class_id argument is not a String.";
+    errorStr = "subject_id argument is not a String.";
     console.log(errorStr);
     res.status(400).send( {errorMessage : errorStr} );
     return false;
