@@ -68,13 +68,13 @@ class VisNetwork extends Component {
 
   //updates suggestion to fully added node
   updateToFull = (classId) => {
-    isSuggestionDict[classId] = false;
-    updateNodeOpacity(classId, 1);
+    this.isSuggestionDict[classId] = false; //error here
+    this.updateNodeOpacity(classId, 1);
   }
 
   //set Node opacity to val
   updateNodeOpacity = (classId, val) => {
-    this.state.data.nodes.update([{ id: classId, opacity: val }]);
+    this.state.data.nodes.update([{ id: classId, opacity: val }]); 
   }
 
   //adds class newUpdate to network, adds suggestions to neighbors
