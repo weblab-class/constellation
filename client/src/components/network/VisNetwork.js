@@ -37,6 +37,7 @@ class VisNetwork extends Component {
             nodes: nodes,
             edges: edges,
         },
+        clickToUse: false,
         nodeIds: [1],
         edgeIds: [],
         options: {
@@ -112,6 +113,7 @@ class VisNetwork extends Component {
     }
   }
 
+
   //two parameters: nodeLabel=courseID
   addNode = (classId, suggestionStatus, opacity) => {
     if(this.alreadyAddedNode(classId)) return;
@@ -139,6 +141,11 @@ class VisNetwork extends Component {
     });
     this.state.edgeIds.push(edgeId);
    }
+
+   processNodeClick = (value) => {
+    console.log("MOOMOOOMMOOOO");
+    console.log(value);
+   }
    
    changeNode1 = () => {
     let newColor = "#" + Math.floor(Math.random() * 255 * 255 * 255).toString(16);
@@ -147,6 +154,10 @@ class VisNetwork extends Component {
 
   componentDidMount() {
     this.network = new Network(this.appRef.current, this.state.data, this.state.options);
+    this.network.on("selectNode", (params) => {
+      const nodeId = params.nodes[0];
+      this.processNodeClick(nodeId);
+    });
   }
 
   render() {
