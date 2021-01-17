@@ -27,11 +27,8 @@ class Explorer extends Component {
             },
             canvasToBeReset: false,
             removeClass: '',
-<<<<<<< HEAD
             courseObject: undefined,
-=======
             isDisplayCollections: false,
->>>>>>> f8ffcc05c1bce24966c2f79f410b014f56cddf42
         }
     }
 
