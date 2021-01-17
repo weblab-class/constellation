@@ -20,7 +20,6 @@ class CanvasOptions extends Component {
 
     //componentDidMount(){}
     
-
     render(){
         return(
             
