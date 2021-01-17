@@ -25,7 +25,7 @@ class SideBar extends Component {
     //componentDidMount(){}
     
     setCourseObject = (input) => {
-        get("/api/sidebarNode", {subject_id: input}).then((courseArray) => {
+        get("/api/sidebarNode", {class_id: input}).then((courseArray) => {
             console.log(courseArray);
             if(courseArray.length === 0) {
                 this.setState({
