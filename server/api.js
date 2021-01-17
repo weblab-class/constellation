@@ -53,13 +53,13 @@ const goodGraphInfoArguments = (req, res) => {
 
   // 1/15: https://stackoverflow.com/questions/203739/why-does-instanceof-return-false-for-some-literals
   
-  if(typeof req.query.class_id === 'undefined'){
+  if(typeof req.query.subject_id === 'undefined'){
     const errorStr = "Did not specify class_id as parameter in empty query -- did you use the wrong parameter name?";
     console.log(errorStr);
     res.status(400).send( {errorMessage : errorStr} );
     return false;
     }
-  if(!(typeof req.query.class_id === "string")){
+  if(!(typeof req.query.subject_id === "string")){
     errorStr = "class_id argument is not a String.";
     console.log(errorStr);
     res.status(400).send( {errorMessage : errorStr} );
@@ -73,7 +73,7 @@ router.get("/graphNode", (req, res) => {
     return;
   }
 
-  graphInfo.find({"subject_id" : String(req.query.class_id)}).then(
+  graphInfo.find({"subject_id" : String(req.query.subject_id)}).then(
     (nodeInfo) => {
       res.send(nodeInfo);
     }).catch(
@@ -86,7 +86,7 @@ router.get("/sidebarNode", (req, res) => {
     return;
   }
 
-  sidebarInfo.find({"subject_id" : String(req.query.class_id)}).then(
+  sidebarInfo.find({"subject_id" : String(req.query.subject_id)}).then(
     (nodeInfo) => {res.send(nodeInfo);}
     ).catch(
       (err) => {res.status(500); res.send({info : err.message});}
