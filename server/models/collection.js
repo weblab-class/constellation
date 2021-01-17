@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const tagsSchema = new mongoose.Schema({
+const collectionSchema = new mongoose.Schema({
 
     user_ID : String,
-    tag_name : String,
+    collection_name : String,
     nodes_active: Array,
 
     },

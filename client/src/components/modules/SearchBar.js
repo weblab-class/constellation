@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { GiMagnifyingGlass } from "react-icons/gi";
 
 import "./SearchBar.css";
@@ -23,6 +23,7 @@ class SearchBar extends Component {
         console.log("The glass was clicked!");
         this.props.handleSearch(this.state.inputText);
         this.props.setCourseObject(this.state.inputText);
+        this.state.inputText = '';
     }
 
     handleChange = (event) => {

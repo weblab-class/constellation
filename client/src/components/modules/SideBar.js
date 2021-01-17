@@ -20,8 +20,6 @@ class SideBar extends Component {
     }
 
     //componentDidMount(){}
-    
-    
 
     render(){
         return(
@@ -34,7 +32,9 @@ class SideBar extends Component {
                     handleRemoveClass={this.props.handleRemoveClass}
                     handleLoadCollection={this.props.handleLoadCollection}
                     handleCancel={this.props.handleCancel}
-                    canvasToBeReset={this.props.canvasToBeReset}/>
+                    canvasToBeReset={this.props.canvasToBeReset}
+                    isDisplayCollections={this.props.isDisplayCollections}
+                />
             </div>
         )
     }

@@ -19,7 +19,7 @@ class Explorer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            newClass: '',
+            newClass: '', //This prompts Vis to add things
             newClassesToAdd: {
                 prereqsToAdd: [],
                 coreqsToAdd: [],
@@ -29,6 +29,8 @@ class Explorer extends Component {
             removeClass: '',
             courseObject: undefined,
             isDisplayCollections: false,
+            removeClass: '', //Prompts Vis to remove a class
+            currentCollectionName: null, //The collection to load in Vis
         }
     }
 
@@ -95,45 +97,48 @@ class Explorer extends Component {
         });
     }
 
-    getDummyNeighbors = (inputText) => {
-        return class6006;
-    }
-
-    getCollectionObject = () => {
-
-    }
-
     handleAddClass = () => {
+
+        //Triggers VisNetwork to add a class
 
     }
 
     handleRemoveClass = () => {
 
+        //Triggers VisNetwork to remove a class
+
     }
 
     handleLoadCollection = () => {
+
+        //Triggers VisNetwork loading of a collection
 
     }
 
     handleCancel = () => {
 
+        // While on myCollection mode of sidebar
+        // Cancel will revert the mode to pending class mode.
+        // This will exit the displayCollection
+
     }
 
     handleSaveCollection = () => {
 
+        // Activates the pop-up to save collection
+
     }
 
     handleUserCollections = () => {
+
+        //  Activates display of SideBar with collection options
+        // Will require an API request for all of the collection names
         
         // 1/16: setState is async
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
 
         this.setState( {isDisplayCollections: true} );
         
-    }
-
-    getLoadCollectionInfo = () => {
-
     }
 
     resetCanvas = () => {
@@ -173,6 +178,7 @@ class Explorer extends Component {
                             handleLoadCollection={this.handleLoadCollection}
                             handleCancel={this.handleCancel} 
                             canvasToBeReset={this.state.canvasToBeReset}
+                            isDisplayCollections={this.state.isDisplayCollections}
                         />
                     </div>
                 </div>
