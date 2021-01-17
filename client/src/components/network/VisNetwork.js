@@ -142,9 +142,8 @@ class VisNetwork extends Component {
     this.state.edgeIds.push(edgeId);
    }
 
-   processNodeClick = (value) => {
-    console.log("MOOMOOOMMOOOO");
-    console.log(value);
+   processNodeClick = (classId) => {
+     this.props.setCourseObject(classId);
    }
    
    changeNode1 = () => {
