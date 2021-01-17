@@ -27,11 +27,8 @@ class Explorer extends Component {
             },
             canvasToBeReset: false,
             removeClass: '',
-<<<<<<< HEAD
             courseObject: undefined,
-=======
             isDisplayCollections: false,
->>>>>>> f8ffcc05c1bce24966c2f79f410b014f56cddf42
         }
     }
 
@@ -175,6 +172,7 @@ class Explorer extends Component {
                             handleLoadCollection={this.handleLoadCollection}
                             handleCancel={this.handleCancel} 
                             canvasToBeReset={this.state.canvasToBeReset}
+                            isDisplayCollections={this.state.isDisplayCollections}
                         />
                     </div>
                 </div>
