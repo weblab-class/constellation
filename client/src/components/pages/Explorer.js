@@ -19,16 +19,17 @@ class Explorer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            newClass: '',
+            newClass: '', //This prompts Vis to add things
             newClassesToAdd: {
                 prereqsToAdd: [],
                 coreqsToAdd: [],
                 afterreqsToAdd: [],
             },
             canvasToBeReset: false,
-            removeClass: '',
-            courseObject: undefined,
-            isDisplayCollections: false,
+            removeClass: '', //Prompts Vis to remove a class
+            courseObject: undefined, //Contains info for current course searched
+            isDisplayCollections: false, //Should the sidebar display collections?
+            currentCollectionName: null, //The collection to load in Vis
         }
     }
 
@@ -94,45 +95,48 @@ class Explorer extends Component {
         });
     }
 
-    getDummyNeighbors = (inputText) => {
-        return class6006;
-    }
-
-    getCollectionObject = () => {
-
-    }
-
     handleAddClass = () => {
+
+        //Triggers VisNetwork to add a class
 
     }
 
     handleRemoveClass = () => {
 
+        //Triggers VisNetwork to remove a class
+
     }
 
     handleLoadCollection = () => {
+
+        //Triggers VisNetwork loading of a collection
 
     }
 
     handleCancel = () => {
 
+        // While on myCollection mode of sidebar
+        // Cancel will revert the mode to pending class mode.
+        // This will exit the displayCollection
+
     }
 
     handleSaveCollection = () => {
 
+        // Activates the pop-up to save collection
+
     }
 
     handleUserCollections = () => {
+
+        //  Activates display of SideBar with collection options
+        // Will require an API request for all of the collection names
         
         // 1/16: setState is async
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
 
         this.setState( {isDisplayCollections: true} );
         
-    }
-
-    getLoadCollectionInfo = () => {
-
     }
 
     resetCanvas = () => {
