@@ -15,16 +15,6 @@ import { get } from "../../utilities";
  * @param {string} userId id of current logged in user
  */
 
-<<<<<<< HEAD
-//DUMMY DATA
-const class6006 = {
-    prereqsToAdd: ["6.001", "6.042", "18.01", "18.02"],
-    coreqsToAdd: [],
-    afterreqsToAdd: ["6.046", "6.854", "6.856"],
-}
-
-=======
->>>>>>> b5d4205cf9f80fe91e325586ca33de80e6cb0770
 class Explorer extends Component {
     constructor(props) {
         super(props);
@@ -143,7 +133,6 @@ class Explorer extends Component {
     render() {
         return (
             <div className="Explorer-all">
-<<<<<<< HEAD
                 <CanvasOptions 
                     handleSaveCollection={this.handleSaveCollection}
                     handleUserCollections={this.handleUserCollections}
@@ -151,12 +140,6 @@ class Explorer extends Component {
                 <div className="Explorer-container">
                     <div className="Explorer-canvas">
                         <Canvas
-=======
-                <CanvasOptions/>
-                <div className="Explorer-container"> 
-                    <div className="Explorer-canvas"> 
-                        <Canvas 
->>>>>>> b5d4205cf9f80fe91e325586ca33de80e6cb0770
                             newClass={this.state.newClass}
                             getNeighbors={this.getNeighbors}
                             resetCanvas={this.state.resetCanvas}
