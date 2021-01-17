@@ -1,0 +1,18 @@
+.CanvasOptions-navBar {
+    display: inline-block;
+    height: 50px
+}
+
+.CanvasOptions-navButton {
+
+    text-align: center;
+    
+    display: inline;
+    flex-direction: row;
+    margin: 0vw 5vw 5vw 0vw;
+    width: 200px;
+
+    align-content: center;
+
+
+}

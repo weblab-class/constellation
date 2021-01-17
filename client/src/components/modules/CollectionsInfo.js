@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { get } from "../../utilities";
 
-import "./TagBar.css";
+import "./CollectionsInfo.css";
  
 /**
  * Holds the tags used to filter classes
@@ -20,14 +20,10 @@ class TagBar extends Component {
 
     render(){
         return(
-            <div class="container">
-                <div id="title"> Constellation </div>
-                <SearchBar/>
-                <TagBar/>
-                <DisplayBar/>
-            </div>
+            <>
+            </>
         )
     }
 }
 
-export default TagBar;
+export default CollectionsInfo;
