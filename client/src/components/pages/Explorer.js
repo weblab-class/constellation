@@ -3,6 +3,7 @@ import Canvas from "../modules/Canvas.js";
 import SideBar from "../modules/SideBar.js";
 import CanvasOptions from "../modules/CanvasOptions.js";
 
+
 import "./Explorer.css";
 
 import { get } from "../../utilities";
@@ -13,13 +14,6 @@ import { get } from "../../utilities";
  * Proptypes
  * @param {string} userId id of current logged in user
  */
-
- //DUMMY DATA
- const class6006 = {
-     prereqsToAdd: ["6.001", "6.042", "18.01", "18.02"],
-     coreqsToAdd: [],
-     afterreqsToAdd: ["6.046", "6.854", "6.856"],
- }
 
 class Explorer extends Component {
     constructor(props) {
@@ -79,7 +73,7 @@ class Explorer extends Component {
     render(){
         return(
             <div className="Explorer-all">
-                <CanvasOptions />
+                <CanvasOptions/>
                 <div className="Explorer-container"> 
                     <div className="Explorer-canvas"> 
                         <Canvas 
