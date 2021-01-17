@@ -104,9 +104,9 @@ class VisNetwork extends Component {
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
   //val: 0 for prereq, 1 for coreq, 2 for after_subject
   processSuggestionAddition = (classId, suggestionId, val) => {
+    this.addEdge(classId, suggestionId, val);
     if(!this.alreadyAddedNode(suggestionId)){
       this.addNode(suggestionId,true,this.relevanceToCurrentNetwork(suggestionId));
-      this.addEdge(classId, suggestionId, val);
     } else if(this.isSuggestionDict[classId]){
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
       console.log("We've already added: " + suggestionId);
@@ -123,7 +123,7 @@ class VisNetwork extends Component {
     console.log("Pushing: " + classId);
    }
 
-   //edge id is of the form SMALLER_CLASS@LARGER_CLASS (wirt string order)
+   //edge id is of the form SMALLER_CLASS@LARGER_CLASS (wrt string order)
    getEdgeId = (classFrom, classTo) => {
      if(classFrom === classTo) return "SAME";
      return (classFrom < classTo) ? (classFrom + '@' + classTo) : (classTo + '@' + classFrom);

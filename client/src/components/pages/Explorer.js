@@ -73,13 +73,14 @@ class Explorer extends Component {
         });
     }
 
+
     //returns neighbors for the class and updates state so that network re-renders
     getNeighbors = (inputText) => {
         return get("/api/graphNode", { subject_id: inputText }).then((graphInfo) => {
             const newClassesToAdd = {
-                prereqsToAdd: graphInfo[0].prerequisites,
-                coreqsToAdd: graphInfo[0].corequisites,
-                afterreqsToAdd: graphInfo[0].after_subjects,
+                prereqsToAdd: graphInfo[0].prerequisites.map(classId => classId.trim()),
+                coreqsToAdd: graphInfo[0].corequisites.map(classId => classId.trim()),
+                afterreqsToAdd: graphInfo[0].after_subjects.map(classId => classId.trim()),
             };
             console.log(newClassesToAdd);
             return newClassesToAdd;
