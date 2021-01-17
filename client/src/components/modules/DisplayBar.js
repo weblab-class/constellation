@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import CourseInfo from "./CourseInfo.js";
 import { get } from "../../utilities";
 
 import "./DisplayBar.css";
@@ -20,42 +20,21 @@ class DisplayBar extends Component {
     //componentDidMount(){}
 
     render() {
+        let toDisplay;
+        if(!this.props.courseObject) {
+            toDisplay=<p>no class selected...</p>;
+        }
+        else if(!this.props.courseObject.found) {
+            toDisplay=<p className="DisplayBar-notFound">Subject with ID '{this.props.courseObject.searchedText}' not found...</p>;
+        }
+        else {
+            toDisplay=<CourseInfo courseObject={this.props.courseObject}/>;
+        }
         return (
             <>
                 <div className="DisplayBar-containerOuter">
                     <div className="DisplayBar-containerInner">
-                        <div className="DisplayBar-courseTitle u-bold">
-                            <p>6.006</p>
-                            <p>Introduction to Algorithms</p>
-                        </div>
-                        <div className="DisplayBar-courseTerm">
-                            <p>Term: Spring 2021 </p>
-                        </div>
-                        <div className="DisplayBar-prerequisites">
-                            <p><bold>Prerequisites</bold>: 6.042, 6.0001</p>
-                        </div>
-                        <div className="DisplayBar-information">
-                            <p>Course Information: Introduction to mathematical modeling of computational problems,
-                            as well as common algorithms, algorithmic paradigms, and data structures
-                            used to solve these problems. Emphasizes the relationship between algorithms
-                            and programming, and introduces basic performance measures and analysis
-                            techniques for these problems. Enrollment may be limited.
-                            Course Information: Introduction to mathematical modeling of computational problems,
-                            as well as common algorithms, algorithmic paradigms, and data structures
-                            used to solve these problems. Emphasizes the relationship between algorithms
-                            and programming, and introduces basic performance measures and analysis
-                            techniques for these problems. Enrollment may be limited.
-                            Course Information: Introduction to mathematical modeling of computational problems,
-                            as well as common algorithms, algorithmic paradigms, and data structures
-                            used to solve these problems. Emphasizes the relationship between algorithms
-                            and programming, and introduces basic performance measures and analysis
-                            techniques for these problems. Enrollment may be limited.
-                            Course Information: Introduction to mathematical modeling of computational problems,
-                            as well as common algorithms, algorithmic paradigms, and data structures
-                            used to solve these problems. Emphasizes the relationship between algorithms
-                            and programming, and introduces basic performance measures and analysis
-                         techniques for these problems. Enrollment may be limited.</p>
-                        </div>
+                        {toDisplay}
                     </div>
                 </div>
                 <div className="DisplayBar-buttonContainer">
