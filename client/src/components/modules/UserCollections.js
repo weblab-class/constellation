@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { get } from "../../utilities";
 
-import "./CanvasOptions.css";
+import "./UserCollections.css";
+import "./CanvasOptions.css"
  
 /**
  * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
@@ -21,7 +22,7 @@ class UserCollections extends Component {
 
     render(){
         return(
-            <button>
+            <button className="CanvasOptions-navButton">
                 My Constellations
             </button>
         )

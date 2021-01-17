@@ -31,7 +31,6 @@ class VisNetwork extends Component {
     //1 for added node, 0 for suggestion
     this.isSuggestionDict = {}; //Suggestion or Fully added class
     this.network = {};
-    this.edgesToAdd = [];
     this.appRef = createRef();
     this.state={
         data: {
@@ -39,6 +38,7 @@ class VisNetwork extends Component {
             edges: edges,
         },
         nodeIds: [1],
+        edgeIds: [],
         options: {
           height: '700px',
           width: '1000px',
@@ -56,11 +56,15 @@ class VisNetwork extends Component {
   //add all new edges
   //update transparency
 
-  alreadyAdded = (classId) => {
+  alreadyAddedNode = (classId) => {
     return this.state.nodeIds.includes(classId);
   }
 
-  relevanceToCurrentNetwork = (classid) => {
+  alreadyAddedEdge = (edgeId) => {
+    return this.state.edgeIds.includes(edgeId);
+  }
+
+  relevanceToCurrentNetwork = (classId) => {
     //look through classes that are FULLY ADDED
     //iterate through classes and check to see which of prereqsare satisfied
     return 0.1;
@@ -79,35 +83,61 @@ class VisNetwork extends Component {
 
   //adds class newUpdate to network, adds suggestions to neighbors
   processAddition = async (classId) => {
-    if(this.alreadyAdded(classId)){
+    if(this.alreadyAddedNode(classId)){
       if(!this.isSuggestionDict[classId]) return;
       else this.updateToFull(classId);
     }
     else this.addNode(classId, false, 1);
     const neighbors = await this.props.getNeighbors(classId);
-    neighbors.prereqsToAdd.forEach(this.processSuggestionAddition);
-    neighbors.coreqsToAdd.forEach(this.processSuggestionAddition);
-    neighbors.afterreqsToAdd.forEach(this.processSuggestionAddition);
-    this.edgesToAdd=[];
+    neighbors.prereqsToAdd.forEach((suggestionId) => {
+      this.processSuggestionAddition(classId, suggestionId, 0);
+    });
+    neighbors.coreqsToAdd.forEach((suggestionId) => {
+      this.processSuggestionAddition(classId, suggestionId, 1);
+    });
+    neighbors.afterreqsToAdd.forEach((suggestionId) => {
+      this.processSuggestionAddition(classId, suggestionId, 2);
+    });
   }
 
-  processSuggestionAddition = (classId) => {
-    if(!this.alreadyAdded(classId)){
-      this.addNode(classId,true,this.relevanceToCurrentNetwork(classId));
-      // this.edgesToAdd.push
+  //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
+  //val: 0 for prereq, 1 for coreq, 2 for after_subject
+  processSuggestionAddition = (classId, suggestionId, val) => {
+    if(!this.alreadyAddedNode(suggestionId)){
+      this.addNode(suggestionId,true,this.relevanceToCurrentNetwork(suggestionId));
+      this.addEdge(classId, suggestionId, val);
     } else if(this.isSuggestionDict[classId]){
-      this.updateNodeOpacity(classId,this.relevanceToCurrentNetwork(classId));
-      console.log("We've already added: " + classId);
+      this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
+      console.log("We've already added: " + suggestionId);
     }
   }
 
   //two parameters: nodeLabel=courseID
   addNode = (classId, suggestionStatus, opacity) => {
-    if(this.alreadyAdded(classId)) return;
+    if(this.alreadyAddedNode(classId)) return;
     this.isSuggestionDict[classId]=suggestionStatus;
     this.state.data.nodes.add({ id: classId, label: classId, opacity: opacity}); //add group
     this.state.nodeIds.push(classId);
     console.log("Pushing: " + classId);
+   }
+
+   //edge id is of the form SMALLER_CLASS@LARGER_CLASS (wirt string order)
+   getEdgeId = (classFrom, classTo) => {
+     if(classFrom === classTo) return "SAME";
+     return (classFrom < classTo) ? (classFrom + '@' + classTo) : (classTo + '@' + classFrom);
+   }
+
+   //TODO: add functionality for val
+   addEdge = (classFrom, classTo, val) => {
+    //check if edge already exists
+    const edgeId = this.getEdgeId(classFrom, classTo);
+    if(this.alreadyAddedEdge(edgeId)) return;
+    this.state.data.edges.add({
+      id: edgeId,
+      from: classFrom,
+      to: classTo,
+    });
+    this.state.edgeIds.push(edgeId);
    }
    
    changeNode1 = () => {
