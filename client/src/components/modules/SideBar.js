@@ -24,39 +24,19 @@ class SideBar extends Component {
 
     //componentDidMount(){}
     
-    setCourseObject = (input) => {
-        get("/api/sidebarNode", {subject_id: input}).then((courseArray) => {
-            console.log(courseArray);
-            if(courseArray.length === 0) {
-                this.setState({
-                    courseObject: {
-                        found: false,
-                        searchedText: input
-                    }
-                })
-            }
-            else {
-                const courseObjectFromAPI = courseArray[0];
-                this.setState({
-                    courseObject: {
-                        found: true,
-                        searchedText: input,
-                        prerequisites: courseObjectFromAPI.prerequisites,
-                        subject_id: courseObjectFromAPI.subject_id,
-                        title: courseObjectFromAPI.title,
-                        description: courseObjectFromAPI.description
-                    }
-                });
-            }
-        });
-    }
+    
 
     render(){
         return(
             <div>
                 <div className="Sidebar-title"> constellation </div>
-                <SearchBar handleSearch={this.props.handleSearch} setCourseObject={this.setCourseObject}/>
-                <DisplayBar courseObject={this.state.courseObject}/>
+                <SearchBar handleSearch={this.props.handleSearch} setCourseObject={this.props.setCourseObject}/>
+                <DisplayBar 
+                    courseObject={this.state.courseObject} 
+                    handleAddClass={this.props.handleAddClass} 
+                    handleRemoveClass={this.props.handleRemoveClass}
+                    handleLoadCollection={this.props.handleCollection}
+                    handleCancel={this.props.handleCancel}/>
                 
             </div>
         )

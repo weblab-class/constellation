@@ -23,12 +23,22 @@ class Canvas extends Component {
         }
     }
 
+    handleNodeClick = () => {
+
+    }
+
     render(){
         return(
             <div className="Canvas-container" ref={this.divRef}>
                     <VisNetwork 
                         newClass = {this.props.newClass}
-                        getNeighbors = {this.props.getNeighbors}/>
+                        getNeighbors = {this.props.getNeighbors}
+                        handleNodeClick = {this.props.handleNodeClick}
+                        getLoadCollectionInfo = {this.props.getLoadCollectionInfo}
+                        resetCanvas = {this.props.resetCanvas}
+                        newClass = {this.props.newClass}
+                        removeClass = {this.props.removeClass}
+                    />
             </div>
         )
     }
