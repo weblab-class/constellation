@@ -82,10 +82,6 @@ router.get("/graphNode", (req, res) => {
 });
 
 router.get("/sidebarNode", (req, res) => {
-<<<<<<< HEAD
-  sidebarInfo.find({"subject_id" : String(req.query.subject_id)}).then(
-    (nodeInfo) => {res.send(nodeInfo)}
-=======
   if(!goodGraphInfoArguments(req, res)){
     return;
   }
@@ -94,7 +90,6 @@ router.get("/sidebarNode", (req, res) => {
     (nodeInfo) => {res.send(nodeInfo);}
     ).catch(
       (err) => {res.status(500); res.send({info : err.message});}
->>>>>>> a6cfda940b50eda2d7e2761544ffdd7187740950
     );
 });
 
