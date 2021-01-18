@@ -3,6 +3,7 @@ import Canvas from "../modules/Canvas.js";
 import SideBar from "../modules/SideBar.js";
 import CanvasOptions from "../modules/CanvasOptions.js";
 
+import NamePopUp from "../modules/NamePopUp.js";
 
 import "./Explorer.css";
 
@@ -31,6 +32,7 @@ class Explorer extends Component {
             saveCanvasCounter: 0,
             courseObject: undefined,
             isDisplayCollections: false,
+            isDisplayGetName : false, //This is used to conditionally render the future pop up
             removeClass: '', //Prompts Vis to remove a class
             currentCollectionName: null, //The collection to load in Vis
             collectionsArray: [], //array of collection names for the user
@@ -39,7 +41,7 @@ class Explorer extends Component {
     }
 
     //this function is passed as a prop to the search bar on Sidebar
-    //upon recieving input, makes cal to API to recieve class data
+    //upon recieving input, makes call to API to recieve class data
     //passes class data down to canvas
 
     handleSearch = async (inputText) => {
@@ -99,7 +101,7 @@ class Explorer extends Component {
         });
     }
 
-    handleAddClass = () => {
+    handleAddClass = async (inputText) => {
 
         //Triggers VisNetwork to add a class
         this.setState({
@@ -157,6 +159,21 @@ class Explorer extends Component {
         });
     }
 
+    handleNewName = () => {
+
+        //To be passed down into the button namePopUp
+        //This will retrieve the 
+
+    }
+
+    exportCollection = (graphObject) => {
+
+        if (this.state.currentCollectionName === null){
+            //Need to trigger the popup here later.
+            
+        }
+    }
+
     setToLoaded = () => {
         this.setState({
             loaded: true,
@@ -164,6 +181,7 @@ class Explorer extends Component {
     }
     // componentDidMount() {}
 
+    //BELOW: Remove the TempBar
     render() {
         return (
             <div className="Explorer-all">
@@ -171,6 +189,8 @@ class Explorer extends Component {
                     handleSaveCollection={this.handleSaveCollection}
                     handleUserCollections={this.handleUserCollections}
                     resetCanvas={this.handleResetCanvas}
+                />
+                <NamePopUp
                 />
                 <div className="Explorer-container">
                     <div className="Explorer-canvas">
