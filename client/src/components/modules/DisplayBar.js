@@ -16,6 +16,9 @@ import "./DisplayBar.css";
 class DisplayBar extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            reset: false,
+        }
     }
 
     //componentDidMount(){}
@@ -26,13 +29,27 @@ class DisplayBar extends Component {
         this.props.setToNoCollections();
     }
 
+    componentDidUpdate(prevProps) {
+        //if canvasToBeReset isn't previous canvasToBeReset, update
+        if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) {
+            this.setState({
+                reset: true
+            })
+        }
+        else if(this.props.courseObject !== prevProps.courseObject) {
+            this.setState({
+                reset: false
+            })
+        }
+    }
     
     render() {
         let toDisplay;
         let addRemoveActive = false;
+        console.log(this.state.reset);
         if(this.props.isDisplayCollections) {
             toDisplay=<CollectionsList collectionsArray={this.props.collectionsArray} setToLoaded={this.props.setToLoaded}/>
-        } else if(!this.props.courseObject) {
+        } else if(!this.props.courseObject || this.state.reset) {
             toDisplay=<p>no class selected...</p>;
         }
         else if(!this.props.courseObject.found) {
