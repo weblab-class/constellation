@@ -37,6 +37,7 @@ class Canvas extends Component {
                         setCourseObject = {this.props.setCourseObject}
                         getLoadCollectionInfo = {this.props.getLoadCollectionInfo}
                         canvasToBeReset = {this.props.canvasToBeReset}
+                        stabilizeCanvas = {this.props.stabilizeCanvas}
                         newClass = {this.props.newClass}
                         removeClass = {this.props.removeClass}
                     />

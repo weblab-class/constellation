@@ -26,7 +26,7 @@ class Explorer extends Component {
                 coreqsToAdd: [],
                 afterreqsToAdd: [],
             },
-            canvasToBeReset: false,
+            canvasToBeReset: 0,
             removeClass: '',
             courseObject: undefined,
             isDisplayCollections: false,
@@ -141,9 +141,11 @@ class Explorer extends Component {
         
     }
 
-    resetCanvas = () => {
+
+    handleResetCanvas = () => {
         this.setState({
-            canvasToBeReset: true,
+            canvasToBeReset: this.state.canvasToBeReset+1,
+            newClass: '',
         });
     }
     // componentDidMount() {}
@@ -154,7 +156,7 @@ class Explorer extends Component {
                 <CanvasOptions 
                     handleSaveCollection={this.handleSaveCollection}
                     handleUserCollections={this.handleUserCollections}
-                    resetCanvas={this.resetCanvas}
+                    resetCanvas={this.handleResetCanvas}
                 />
                 <div className="Explorer-container">
                     <div className="Explorer-canvas">
