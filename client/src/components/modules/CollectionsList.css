@@ -1,0 +1,28 @@
+.CollectionsList-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.CollectionsList-listElement {
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: left;
+    font-family: Comfortaa;
+    padding: 20px;
+    transition: 0.5s all;
+    background-color: #FBFFF1;
+
+}
+
+.CollectionsList-noElements {
+    font-size: 20px;
+    margin: 10px 0 0 10px;
+}
+
+.CollectionsList-listElement:hover {
+    background-color: #fdf1b4;
+}
+
+.CollectionsList-listElement:focus {
+    background-color: #fdf1b4;
+}

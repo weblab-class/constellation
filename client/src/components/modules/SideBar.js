@@ -24,14 +24,24 @@ class SideBar extends Component {
         return(
             <div>
                 <div className="Sidebar-title"> constellation </div>
-                <SearchBar handleSearch={this.props.handleSearch} setCourseObject={this.props.setCourseObject}/>
+                <SearchBar 
+                    handleSearch={this.props.handleSearch} 
+                    setCourseObject={this.props.setCourseObject}
+                    isDisplayCollections={this.props.isDisplayCollections}
+                />
                 <DisplayBar 
                     courseObject={this.props.courseObject} 
                     handleAddClass={this.props.handleAddClass} 
                     handleRemoveClass={this.props.handleRemoveClass}
                     handleLoadCollection={this.props.handleLoadCollection}
                     handleCancel={this.props.handleCancel}
-                    canvasToBeReset={this.props.canvasToBeReset}/>
+                    canvasToBeReset={this.props.canvasToBeReset}
+                    isDisplayCollections={this.props.isDisplayCollections}
+                    collectionsArray={this.props.collectionsArray}
+                    setToNoCollections={this.props.setToNoCollections}
+                    setToLoaded={this.props.setToLoaded}
+                    loaded={this.props.loaded}
+                />
             </div>
         )
     }

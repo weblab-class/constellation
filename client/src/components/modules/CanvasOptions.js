@@ -11,8 +11,9 @@ import "./CanvasOptions.css";
  * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
  *
  * Proptypes
- * @param {() => ()} resetCanvas clears graph, display bar
- * 
+ * @param {() => ()} resetCanvas callback function to clear graph, display bar
+ * @param {() => ()} handleSaveCollection callback function to active pop-up for saving collection
+ * @param {() => ()} handleUserCollections callback function to display of SideBar with collection options
  */
 
 class CanvasOptions extends Component {
@@ -30,10 +31,10 @@ class CanvasOptions extends Component {
         return(
             
             <nav className="CanvasOptions-navBar">
-                <button onClick={this.props.resetCanvas}>Reset Canvas</button>  
+                <button type="submit" onClick={this.props.resetCanvas}>Reset Canvas</button>  
                 <SaveCollection handleSaveCollection={this.props.handleSaveCollection}/>
                 <UserCollections handleUserCollections={this.props.handleUserCollections}/>
-                <button onClick={this.returnHome}> Back to Home </button>
+                <button type="submit" onClick={this.returnHome}> Back to Home </button>
             </nav>
         )
     }

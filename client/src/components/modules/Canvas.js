@@ -9,8 +9,8 @@ import "./Canvas.css";
  * Canvas for the graph
  *
  * Proptypes
- * @param {paramtype} paramname paramdescription
- *
+ * @param {String} newClass name of new class
+ * @param {(String) => (Array)} getNeighbors name of new class
  */
 
 class Canvas extends Component {
