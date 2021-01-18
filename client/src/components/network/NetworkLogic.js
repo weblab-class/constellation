@@ -3,21 +3,6 @@
   //retrieves data from backend
 */
 
-getNeighbors = (inputText) => {
-  get("api/graphNode", {subject_id: inputText}).then((graphInfo) => {
-    const prereqsToAdd = graphInfo.prerequisites;
-    const coreqsToAdd = graphInfo.coreqs;
-    const afterreqsToAdd = graphInfo.after_subjects;
-  }).catch((err) => {
-    console.log("Oops, there was an error trying to recieve classes!");
-  });
-  const neighbors = {
-    prereqsToAdd: prereqsToAdd,
-    coreqsToAdd: coreqsToAdd,
-    afterreqsToAdd: afterreqsToAdd,
-  };
-  return neighbors;
-}
 
 
 //parameters: userId and tagId
