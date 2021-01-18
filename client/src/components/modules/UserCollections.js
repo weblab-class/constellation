@@ -18,10 +18,13 @@ class UserCollections extends Component {
     }
 
     //componentDidMount(){}
-    
+    handleButtonClick = () => {
+        this.props.handleUserCollections();
+    }
+
     render(){
         return(
-            <button className="CanvasOptions-navButton" onClick={this.props.handleUserCollections}>
+            <button type="submit" className="CanvasOptions-navButton" onClick={this.handleButtonClick}>
                 My Constellations
             </button>
         )
