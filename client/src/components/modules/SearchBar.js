@@ -38,8 +38,20 @@ class SearchBar extends Component {
         return (
             <div className="SearchBar-container">
                 <div className="SearchBar-search">
-                    <input type="text" className="SearchBar-input" placeholder="search for any course number!" value={this.state.inputText} onChange={this.handleChange}/>
-                    <button type="submit" className="SearchBar-button">
+                    <input 
+                        type="text" 
+                        className="SearchBar-input" 
+                        placeholder={this.props.isDisplayCollections ? "" : "search for a course number!"}
+                        value={this.state.inputText} 
+                        onChange={this.handleChange} 
+                        disabled={this.props.isDisplayCollections}
+                    />
+                    <button 
+                        type="submit" 
+                        className="SearchBar-button"
+                        disabled={this.props.isDisplayCollections}
+
+                    >
                         <GiMagnifyingGlass size={25} onClick={this.glassClick}/>
                     </button>
                 </div>

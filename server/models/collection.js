@@ -2,17 +2,16 @@ const mongoose = require("mongoose");
 
 const collectionSchema = new mongoose.Schema({
 
-    user_ID : String,
+    user_id : String,
     collection_name : String,
-    nodes_active: Array,
+    graph : Array
 
     },
-    {"collection": "tags"}
-
+    {"collection": "collections"}
     );
 
     // 1/13: https://stackoverflow.com/questions/18628656/model-find-returns-empty-in-mongoose
 
-module.exports = mongoose.model("Tags", tagsSchema);
+module.exports = mongoose.model("Collection", collectionSchema);
 
 

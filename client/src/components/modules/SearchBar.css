@@ -19,7 +19,7 @@ body {
 
 .SearchBar-input {
     text-align: center;
-    font-size: 10px;
+    font-size: 12px;
     font-family: 'Montserrat', sans-serif;
     border-radius: 5px 5px 5px 5px;
     border: 2px solid #4a4e69;
@@ -29,10 +29,14 @@ body {
 
 }
 
+.SearchBar-input:disabled {
+    filter: brightness(25%);
+}
+
 .SearchBar-button {
     width: 40px;
     height: 34px;
-    background: #9a8c98;
+    background: rgb(159, 179, 167);
     border: 2px solid #4a4e69;
     border-radius: 5px 5px 5px 5px;
     cursor: pointer;

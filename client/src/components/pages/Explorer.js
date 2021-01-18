@@ -32,6 +32,8 @@ class Explorer extends Component {
             isDisplayCollections: false,
             removeClass: '', //Prompts Vis to remove a class
             currentCollectionName: null, //The collection to load in Vis
+            collectionsArray: [], //array of collection names for the user
+            loaded: false,
         }
     }
 
@@ -65,8 +67,8 @@ class Explorer extends Component {
                         prerequisites: courseObjectFromAPI.prerequisites,
                         subject_id: courseObjectFromAPI.subject_id,
                         title: courseObjectFromAPI.title,
-                        description: courseObjectFromAPI.description
-                    }
+                        description: courseObjectFromAPI.description,
+                    }, 
                 });
             }
         });
@@ -115,12 +117,10 @@ class Explorer extends Component {
 
     }
 
-    handleCancel = () => {
-
-        // While on myCollection mode of sidebar
-        // Cancel will revert the mode to pending class mode.
-        // This will exit the displayCollection
-
+    setToNoCollections = () => {
+        this.setState( {
+            isDisplayCollections: false,
+        });
     }
 
     handleSaveCollection = () => {
@@ -138,7 +138,7 @@ class Explorer extends Component {
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
 
         this.setState( {isDisplayCollections: true} );
-        
+        this.setState( {collectionsArray: ["Spring 2021", "MaChInE lEaRnInG", "Alg :D", "!@#$^&*()~"]} );
     }
 
 
@@ -146,6 +146,12 @@ class Explorer extends Component {
         this.setState({
             canvasToBeReset: this.state.canvasToBeReset+1,
             newClass: '',
+        });
+    }
+
+    setToLoaded = () => {
+        this.setState({
+            loaded: true,
         });
     }
     // componentDidMount() {}
@@ -178,9 +184,12 @@ class Explorer extends Component {
                             handleAddClass={this.handleAddClass}
                             handleRemoveClass={this.handleRemoveClass}
                             handleLoadCollection={this.handleLoadCollection}
-                            handleCancel={this.handleCancel} 
+                            setToNoCollections={this.setToNoCollections}
                             canvasToBeReset={this.state.canvasToBeReset}
                             isDisplayCollections={this.state.isDisplayCollections}
+                            collectionsArray={this.state.collectionsArray}
+                            setToLoaded={this.setToLoaded}
+                            loaded={this.state.loaded}
                         />
                     </div>
                 </div>
