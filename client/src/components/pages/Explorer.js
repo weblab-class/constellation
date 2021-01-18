@@ -20,16 +20,20 @@ class Explorer extends Component {
         super(props);
         this.state = {
             newClass: '', //This prompts Vis to add things
+            currentlyViewedClass: '', //the class currently being shown on display bar
             newClassesToAdd: {
                 prereqsToAdd: [],
                 coreqsToAdd: [],
                 afterreqsToAdd: [],
             },
             canvasToBeReset: false,
+            removeClass: '',
+            courseObject: undefined,
+            isDisplayCollections: false,
             removeClass: '', //Prompts Vis to remove a class
-            courseObject: undefined, //Contains info for current course searched
-            isDisplayCollections: false, //Should the sidebar display collections?
             currentCollectionName: null, //The collection to load in Vis
+            collectionsArray: [], //array of collection names for the user
+            loaded: false,
         }
     }
 
@@ -39,12 +43,8 @@ class Explorer extends Component {
 
     handleSearch = async (inputText) => {
         this.setState({
-            newClass: inputText,
+            currentlyViewedClass: inputText,
         });
-        const classData = await this.getNeighbors(inputText);
-        console.log(classData.prereqsToAdd);
-        console.log(classData.coreqsToAdd);
-        console.log(classData.afterreqsToAdd);
     }
 
     setCourseObject = (input) => {
@@ -67,20 +67,21 @@ class Explorer extends Component {
                         prerequisites: courseObjectFromAPI.prerequisites,
                         subject_id: courseObjectFromAPI.subject_id,
                         title: courseObjectFromAPI.title,
-                        description: courseObjectFromAPI.description
-                    }
+                        description: courseObjectFromAPI.description,
+                    }, 
                 });
             }
         });
     }
 
+
     //returns neighbors for the class and updates state so that network re-renders
     getNeighbors = (inputText) => {
         return get("/api/graphNode", { subject_id: inputText }).then((graphInfo) => {
             const newClassesToAdd = {
-                prereqsToAdd: graphInfo[0].prerequisites,
-                coreqsToAdd: graphInfo[0].corequisites,
-                afterreqsToAdd: graphInfo[0].after_subjects,
+                prereqsToAdd: graphInfo[0].prerequisites.map(classId => classId.trim()),
+                coreqsToAdd: graphInfo[0].corequisites.map(classId => classId.trim()),
+                afterreqsToAdd: graphInfo[0].after_subjects.map(classId => classId.trim()),
             };
             console.log(newClassesToAdd);
             return newClassesToAdd;
@@ -98,6 +99,9 @@ class Explorer extends Component {
     handleAddClass = () => {
 
         //Triggers VisNetwork to add a class
+        this.setState({
+            newClass: this.state.courseObject.subject_id,
+        });
 
     }
 
@@ -113,12 +117,10 @@ class Explorer extends Component {
 
     }
 
-    handleCancel = () => {
-
-        // While on myCollection mode of sidebar
-        // Cancel will revert the mode to pending class mode.
-        // This will exit the displayCollection
-
+    setToNoCollections = () => {
+        this.setState( {
+            isDisplayCollections: false,
+        });
     }
 
     handleSaveCollection = () => {
@@ -136,12 +138,18 @@ class Explorer extends Component {
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
 
         this.setState( {isDisplayCollections: true} );
-        
+        this.setState( {collectionsArray: ["Spring 2021", "MaChInE lEaRnInG", "Alg :D", "!@#$^&*()~"]} );
     }
 
     resetCanvas = () => {
         this.setState({
             canvasToBeReset: true,
+        });
+    }
+
+    setToLoaded = () => {
+        this.setState({
+            loaded: true,
         });
     }
     // componentDidMount() {}
@@ -174,8 +182,12 @@ class Explorer extends Component {
                             handleAddClass={this.handleAddClass}
                             handleRemoveClass={this.handleRemoveClass}
                             handleLoadCollection={this.handleLoadCollection}
-                            handleCancel={this.handleCancel} 
+                            setToNoCollections={this.setToNoCollections}
                             canvasToBeReset={this.state.canvasToBeReset}
+                            isDisplayCollections={this.state.isDisplayCollections}
+                            collectionsArray={this.state.collectionsArray}
+                            setToLoaded={this.setToLoaded}
+                            loaded={this.state.loaded}
                         />
                     </div>
                 </div>
