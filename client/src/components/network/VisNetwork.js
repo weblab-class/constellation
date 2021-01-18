@@ -22,7 +22,7 @@ class VisNetwork extends Component {
     let shadowState = false;
 
     // create an array with nodes, and one with edges
-    let nodesArray = [{ id: 1, label: "Node 1"},];
+    let nodesArray = [{ id: 1, label: "Click me to get started!"},]; //generate the help node for new users
     let nodes = new DataSet(nodesArray);
     let edgesArray = [];
     let edges = new DataSet(edgesArray);
