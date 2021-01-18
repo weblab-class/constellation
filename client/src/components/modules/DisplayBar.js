@@ -49,6 +49,7 @@ class DisplayBar extends Component {
                     </div>
                 </div>
                 <div className="DisplayBar-buttonContainer">
+<<<<<<< HEAD
                     {this.props.isDisplayCollections ? (
                         <>
                         <button className="DisplayBar-button" disabled={!this.props.loaded}> Load </button>
@@ -72,6 +73,10 @@ class DisplayBar extends Component {
                     )
                     }
 
+=======
+                    <button className="DisplayBar-button" onClick={this.props.handleAddClass}>Add</button>
+                    <button className="DisplayBar-button">Remove</button>
+>>>>>>> 6c180708221baf26a0a2c531c86eff2491866d15
                 </div>
             </>
         )
