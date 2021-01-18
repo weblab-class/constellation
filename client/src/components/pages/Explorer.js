@@ -191,6 +191,7 @@ class Explorer extends Component {
                             handleSaveCollection={this.handleSaveCollection}
                             handleUserCollections={this.handleUserCollections}
                             resetCanvas={this.handleResetCanvas}
+                            isDisplayCollections={this.state.isDisplayCollections}
                         />
                         <Canvas
                             newClass={this.state.newClass}

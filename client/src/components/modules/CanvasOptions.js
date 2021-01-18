@@ -31,10 +31,10 @@ class CanvasOptions extends Component {
         return(
             
             <nav className="CanvasOptions-navBar">
-                <button type="submit" className="CanvasOptions-navButton" onClick={this.props.resetCanvas}>Reset Canvas</button>  
-                <SaveCollection handleSaveCollection={this.props.handleSaveCollection}/>
+                <button type="submit" className="CanvasOptions-navButton" onClick={this.props.resetCanvas} disabled={this.props.isDisplayCollections}>Reset Canvas</button>  
+                <SaveCollection handleSaveCollection={this.props.handleSaveCollection} isDisplayCollections={this.props.isDisplayCollections}/>
                 <UserCollections handleUserCollections={this.props.handleUserCollections}/>
-                <button type="submit" className="CanvasOptions-navButton" onClick={this.returnHome}> Back to Home </button>
+                <button type="submit" className="CanvasOptions-navButton" onClick={this.returnHome} disabled={this.props.isDisplayCollections}>  Back to Home </button>
             </nav>
         )
     }
