@@ -3,17 +3,16 @@
    flex-direction: row;
    height: 100vh;
    width: 100vw;
-   border: 1px solid black;
 }
 
 .Explorer-canvas {
    border: 1px solid #EDEDED;
-   flex-grow: 9;
+   flex-grow: 8;
  }
 
  .Explorer-sideBar{
    background-color: #EDEDED;
-   flex-grow: 1;
+   flex-grow: 2;
  }
 
  .Explorer-all{
