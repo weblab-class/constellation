@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CourseInfo from "./CourseInfo.js";
+import CollectionsList from "./CollectionsList.js";
 import { get } from "../../utilities";
 
 import "./DisplayBar.css";
@@ -18,12 +19,19 @@ class DisplayBar extends Component {
     }
 
     //componentDidMount(){}
+    handleCancel = () => {
+        if(!this.props.isDisplayCollections) {
+            return;
+        }
+        this.props.setToNoCollections();
+    }
 
     
     render() {
         let toDisplay;
+        let addRemoveActive = false;
         if(this.props.isDisplayCollections) {
-            toDisplay=<p>this is where my collections will go</p>
+            toDisplay=<CollectionsList collectionsArray={this.props.collectionsArray} setToLoaded={this.props.setToLoaded}/>
         } else if(!this.props.courseObject) {
             toDisplay=<p>no class selected...</p>;
         }
@@ -31,6 +39,7 @@ class DisplayBar extends Component {
             toDisplay=<p className="DisplayBar-notFound">Subject with ID '{this.props.courseObject.searchedText}' not found...</p>;
         }
         else {
+            addRemoveActive = true;
             toDisplay=<CourseInfo courseObject={this.props.courseObject}/>;
         }
         return (
@@ -41,8 +50,29 @@ class DisplayBar extends Component {
                     </div>
                 </div>
                 <div className="DisplayBar-buttonContainer">
-                    <button className="DisplayBar-button" onClick={this.props.handleAddClass}>Add</button>
-                    <button className="DisplayBar-button">Remove</button>
+                    {this.props.isDisplayCollections ? (
+                        <>
+                        <button className="DisplayBar-button" disabled={!this.props.loaded}> Load </button>
+                        <button 
+                            className="DisplayBar-button" 
+                            onClick={this.handleCancel}
+                        >
+                            Cancel
+                        </button>
+                        </>
+                    ) : (
+                        <>
+                        <button className="DisplayBar-button" disabled={!addRemoveActive} onClick={this.props.handleAddClass}> Add </button>
+                        <button 
+                            className="DisplayBar-button" 
+                            disabled={!addRemoveActive}
+                        >
+                            Remove
+                        </button>
+                        </>
+                    )
+                    }
+
                 </div>
             </>
         )
