@@ -20,12 +20,17 @@ class SideBar extends Component {
     }
 
     //componentDidMount(){}
+    
 
     render(){
         return(
             <div>
                 <div className="Sidebar-title"> constellation </div>
-                <SearchBar handleSearch={this.props.handleSearch} setCourseObject={this.props.setCourseObject}/>
+                <SearchBar 
+                    handleSearch={this.props.handleSearch} 
+                    setCourseObject={this.props.setCourseObject}
+                    isDisplayCollections={this.props.isDisplayCollections}
+                />
                 <DisplayBar 
                     courseObject={this.props.courseObject} 
                     handleAddClass={this.props.handleAddClass} 
@@ -34,6 +39,10 @@ class SideBar extends Component {
                     handleCancel={this.props.handleCancel}
                     canvasToBeReset={this.props.canvasToBeReset}
                     isDisplayCollections={this.props.isDisplayCollections}
+                    collectionsArray={this.props.collectionsArray}
+                    setToNoCollections={this.props.setToNoCollections}
+                    setToLoaded={this.props.setToLoaded}
+                    loaded={this.props.loaded}
                 />
             </div>
         )
