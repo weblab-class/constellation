@@ -28,6 +28,7 @@ class Explorer extends Component {
             },
             canvasToBeReset: 0,
             removeClass: '',
+            saveCanvasCounter: 0,
             courseObject: undefined,
             isDisplayCollections: false,
             removeClass: '', //Prompts Vis to remove a class
@@ -124,9 +125,10 @@ class Explorer extends Component {
     }
 
     handleSaveCollection = () => {
-
         // Activates the pop-up to save collection
-
+        this.setState({
+            saveCanvasCounter: this.state.saveCanvasCounter+1,
+        });
     }
 
     handleUserCollections = () => {
