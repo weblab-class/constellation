@@ -29,7 +29,7 @@ class Menu extends Component {
         <div className="Menu-getStarted"><p className="u-bold">Get Started</p>
         <p>Constellation builds a network for classes that you select. 
             It also gives you the option to expand your network to include pre-requisites and related classes. 
-            Drag and drop icons from the menu on the right into the canvas to start!</p>
+            Get started by logging in!</p>
         </div>
         </div>
     </>

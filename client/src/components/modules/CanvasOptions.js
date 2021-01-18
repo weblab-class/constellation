@@ -23,7 +23,7 @@ class CanvasOptions extends Component {
 
     //componentDidMount(){}
     
-    returnHome () {
+    returnHome = () => {
         navigate("/");
     }
     

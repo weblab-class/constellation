@@ -33,6 +33,7 @@ class Explorer extends Component {
             removeClass: '', //Prompts Vis to remove a class
             currentCollectionName: null, //The collection to load in Vis
             collectionsArray: [], //array of collection names for the user
+            loadCollectionCounter: 0,
             loaded: false,
         }
     }
@@ -110,13 +111,20 @@ class Explorer extends Component {
     handleRemoveClass = () => {
 
         //Triggers VisNetwork to remove a class
-
+        
     }
 
-    handleLoadCollection = () => {
+    handleLoadCollection = (collectionName) => {
 
         //Triggers VisNetwork loading of a collection
-
+        if(!collectionName) {
+            console.log("current collection name is undefined");
+            return;
+        }
+        this.setState({
+            loadCollectionCounter: this.state.loadCollectionCounter + 1,
+            currentCollectionName: collectionName,
+        });
     }
 
     setToNoCollections = () => {
@@ -138,13 +146,22 @@ class Explorer extends Component {
         
         // 1/16: setState is async
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
-
-        this.setState( {isDisplayCollections: true} );
+        
+        this.setState({
+            isDisplayCollections: true,
+            //collectionsArray: ["asdf", "sdfa", "dfas", "fasd", "asdfasdfasdf", "asdfasdffdsa", "asdfafdsasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"],
+        });
+        
+        
         get("/api/collectionNames").then((collectionsArrayFromAPI) => {
-            this.setState( {collectionsArray: collectionsArrayFromAPI} );
+            console.log(collectionsArrayFromAPI);
+            if(collectionsArrayFromAPI.length > 0) {
+                this.setState( {collectionsArray: collectionsArrayFromAPI[0].names} );
+            }
         }).catch((err) => {
             console.log("There was an error retrieving collections for the user. Specific error message:", err.message);
         });
+        
     }
 
 
