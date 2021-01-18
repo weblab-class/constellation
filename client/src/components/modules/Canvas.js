@@ -41,6 +41,7 @@ class Canvas extends Component {
                         loadCollectionCounter={this.props.loadCollectionCounter}
                         newClass = {this.props.newClass}
                         removeClass = {this.props.removeClass}
+                        importNetwork= {this.props.importNetwork}
                     />
             </div>
         )
