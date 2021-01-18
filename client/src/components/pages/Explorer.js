@@ -72,6 +72,8 @@ class Explorer extends Component {
                     }, 
                 });
             }
+        }).catch((err) => {
+            console.log("There was an error retrieving a course object for a side bary query. Specific error message:", err.message);
         });
     }
 
@@ -140,7 +142,11 @@ class Explorer extends Component {
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
 
         this.setState( {isDisplayCollections: true} );
-        this.setState( {collectionsArray: ["Spring 2021", "MaChInE lEaRnInG", "Alg :D", "!@#$^&*()~"]} );
+        get("/api/collectionNames").then((collectionsArrayFromAPI) => {
+            this.setState( {collectionsArray: collectionsArrayFromAPI} );
+        }).catch((err) => {
+            console.log("There was an error retrieving collections for the user. Specific error message:", err.message);
+        });
     }
 
 
