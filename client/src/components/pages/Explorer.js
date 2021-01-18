@@ -163,6 +163,11 @@ class Explorer extends Component {
             loaded: true,
         });
     }
+
+    importNetwork = () => {
+        //uses this.state.collectionName
+        //returns network object so that Vis can use it
+    }
     // componentDidMount() {}
 
     render() {
@@ -184,6 +189,7 @@ class Explorer extends Component {
                             loadCollectionCounter={this.state.loadCollectionCounter}
                             setCourseObject={this.setCourseObject}
                             getLoadCollectionInfo={this.getLoadCollectionInfo}
+                            importNetwork = {this.importNetwork}
                         />
                     </div>
                     <div className="Explorer-sideBar">
