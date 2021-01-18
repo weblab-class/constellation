@@ -15,7 +15,8 @@ const express = require("express");
 const User = require("./models/user");
 const graphInfo = require("./models/graphInfo.js");
 const sidebarInfo = require("./models/sidebarInfo.js");
-const Tags = require("./models/tags.js");
+const collectionName = require("./models/collectionName.js");
+const Collection = require("./models/collection.js");
 
 // import authentication library
 const auth = require("./auth");
@@ -93,11 +94,91 @@ router.get("/sidebarNode", (req, res) => {
     );
 });
 
-//Note to self for later: 403 not authorized. don't get user data -> req.user id is not the current user, throw an error!
+router.get("/collectionNames", (req, res) => {
+
+  collectionName.find({"user_id": req.user}).then(
+    (userCollectionNames) => {
+
+    //Check for authorized user.
+    if(req.user !== userCollectionNames.user_id){
+      const error_message = "Attempted to request information that does not belong to this user.";
+      console.log(error_message);
+      res.status(403); res.send({message : error_message});
+    }
+    
+    res.send(userCollectionNames);
+    
+    }).catch(
+      (err) => {res.status(500); res.send({info : err.message});}
+    );
+
+});
+
+router.get("/loadCollection", (req, res) => {
+
+  Collection.findOne({
+    "user_id": req.user, "collection_name": req.query.collection_name
+  }).then(
+    (thisGraph) => {
+      res.send(thisGraph);
+    }
+  );
+});
+
+router.post("/saveCollection", (req, res) => {
+
+  // If POST request is attempted and user is not logged in,
+  //    reject the POST request.
+
+  if (req.user === null){
+    console.log("Post request was attempted with non-logged in user. Terminating request.")
+    return;
+  }
+  
+  // this will save the name of the collection
+  
+  collectionName.findOne({"user_id": req.user}).then(
+    (userCollectionNames) => {
+
+      //If user does not yet have saved collections
+      if(userCollectionNames === null){
+
+        const newCollection = new collectionName({
+          user_id : req.user,
+          names : [req.body.collectionName]
+        });
+        
+        newCollection.save();
+      }
+
+      else if (userCollectionNames !== null){
+
+        // Need to update the collection names
+        userCollectionNames.names = [... userCollectionNames.names].concat([req.body.collectionName]);
+        userCollectionNames.save();
+        
+      }
+
+    });
+
+  // this will save the collection itself.
+
+  const graph = new Collection({
+    user_id : req.user,
+    collection_name : req.body.collection_name,
+    graph : req.body.graph,
+  });
+
+  graph.save();
+
+ });
+
 
 // POST REQUESTS : TAG INFORMATION
 
-router.post("/saveTags", (req, res) => {
+router.post("/dontUseSaveTags", (req, res) => {
+
+  // DON'T USE THIS FUNCTION, IT WILL BE REMOVED LATER
 
   if(typeof req.body.tag_name === "undefined" || typeof req.body.nodes_active === "undefined"){
     const errorString = "Did not specify either tag_name or nodes_active as parameters in empty query -- did you use the wrong parameter names?"

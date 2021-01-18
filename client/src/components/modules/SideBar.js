@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 
-import { get } from "../../utilities";
 import SearchBar from "./SearchBar.js";
 import DisplayBar from "./DisplayBar.js";
 
 import "./SideBar.css";
- 
+
 /**
  * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
  *
@@ -19,9 +18,7 @@ class SideBar extends Component {
         super(props);
     }
 
-    //componentDidMount(){}
-    
-    
+    componentDidMount(){};
 
     render(){
         return(
