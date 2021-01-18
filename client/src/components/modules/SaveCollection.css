@@ -1,12 +1,11 @@
-.CanvasOptions-navButton {
-
+.SaveCollection-navButton {
     text-align: center;
-    
     display: inline;
-    flex-direction: row;
-    margin: 1vw 5vw 5vw 1vw;
-    width: 200px;
-
+    margin: 1% 0 0 1%;
     align-content: center;
-
 }
+  
+.SaveCollection-navButton:hover {
+  box-shadow: 0 5px 5px rgba(97, 123, 133, 0.4);
+}
+  

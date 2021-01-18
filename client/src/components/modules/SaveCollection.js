@@ -22,7 +22,7 @@ class SaveCollection extends Component {
 
     render(){
         return(
-            <button className="CanvasOptions-navButton">Save Constellation</button>  
+            <button className="SaveCollection-navButton">Save Constellation</button>  
         )
     }
 }
