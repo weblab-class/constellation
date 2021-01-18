@@ -24,7 +24,7 @@ class UserCollections extends Component {
 
     render(){
         return(
-            <button type="submit" className="CanvasOptions-navButton" onClick={this.handleButtonClick}>
+            <button type="submit" className="UserCollections-navButton" onClick={this.handleButtonClick}>
                 My Constellations
             </button>
         )
