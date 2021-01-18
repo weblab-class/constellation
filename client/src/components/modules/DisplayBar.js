@@ -40,7 +40,7 @@ class DisplayBar extends Component {
                     </div>
                 </div>
                 <div className="DisplayBar-buttonContainer">
-                    <button className="DisplayBar-button">Add</button>
+                    <button className="DisplayBar-button" onClick={this.props.handleAddClass}>Add</button>
                     <button className="DisplayBar-button">Remove</button>
                 </div>
             </>

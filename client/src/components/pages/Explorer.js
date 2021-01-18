@@ -20,6 +20,7 @@ class Explorer extends Component {
         super(props);
         this.state = {
             newClass: '', //This prompts Vis to add things
+            currentlyViewedClass: '', //the class currently being shown on display bar
             newClassesToAdd: {
                 prereqsToAdd: [],
                 coreqsToAdd: [],
@@ -40,12 +41,8 @@ class Explorer extends Component {
 
     handleSearch = async (inputText) => {
         this.setState({
-            newClass: inputText,
+            currentlyViewedClass: inputText,
         });
-        const classData = await this.getNeighbors(inputText);
-        console.log(classData.prereqsToAdd);
-        console.log(classData.coreqsToAdd);
-        console.log(classData.afterreqsToAdd);
     }
 
     setCourseObject = (input) => {
@@ -100,6 +97,9 @@ class Explorer extends Component {
     handleAddClass = () => {
 
         //Triggers VisNetwork to add a class
+        this.setState({
+            newClass: this.state.courseObject.subject_id,
+        });
 
     }
 
