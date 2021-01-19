@@ -161,16 +161,35 @@ router.post("/saveCollection", (req, res) => {
 
     });
 
-  // this will save the collection itself.
+  //This will save the collection itself.
 
-  const graph = new Collection({
-    user_id : req.user,
-    collection_name : req.body.collection_name,
-    graph : req.body.graph,
-  });
+  //Either update the node_array, edge_array contents of the graph
+  //  or save a new Graph.
+  Collection.findOne({
+    "user_id": req.user, "collection_name": req.query.collection_name
+  }).then(
+    (thisGraph) => {
+      if(thisGraph === null){
+        //if the collection doesn't already exist
+        
+        const graph = new Collection({
+          user_id : req.user,
+          collection_name : req.body.collection_name,
+          node_array : req.body.nodeArray,
+          edge_array : req.body.edgeArray,
+        });
 
-  graph.save();
+        graph.save();
+      }
+      else{
+        //update the collection
+        thisGraph.node_array = req.body.nodeArray;
+        thisGraph.edge_array = req.body.edgeArray;
 
+        thisGraph.save();
+      }
+    }
+  );
  });
 
 
@@ -178,7 +197,8 @@ router.post("/saveCollection", (req, res) => {
 
 router.post("/dontUseSaveTags", (req, res) => {
 
-  // DON'T USE THIS FUNCTION, IT WILL BE REMOVED LATER
+  // DON'T USE THIS FUNCTION, IT WILL BE REMOVED LATER.
+  // Please don't remove it either! I may use some of it for later type checking.
 
   if(typeof req.body.tag_name === "undefined" || typeof req.body.nodes_active === "undefined"){
     const errorString = "Did not specify either tag_name or nodes_active as parameters in empty query -- did you use the wrong parameter names?"

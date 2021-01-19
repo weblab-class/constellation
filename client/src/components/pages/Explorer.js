@@ -30,12 +30,14 @@ class Explorer extends Component {
             canvasToBeReset: 0,
             removeClass: '',
             saveCanvasCounter: 0,
+            loadCollectionCounter: 0,
             courseObject: undefined,
             isDisplayCollections: false,
             isDisplayGetName : false, //This is used to conditionally render the future pop up
             removeClass: '', //Prompts Vis to remove a class
             currentCollectionName: null, //The collection to load in Vis
             collectionsArray: [], //array of collection names for the user
+            loadCollectionCounter: 0,
             loaded: false,
         }
     }
@@ -113,13 +115,20 @@ class Explorer extends Component {
     handleRemoveClass = () => {
 
         //Triggers VisNetwork to remove a class
-
+        
     }
 
-    handleLoadCollection = () => {
+    handleLoadCollection = (collectionName) => {
 
         //Triggers VisNetwork loading of a collection
-
+        if(!collectionName) {
+            console.log("current collection name is undefined");
+            return;
+        }
+        this.setState({
+            loadCollectionCounter: this.state.loadCollectionCounter + 1,
+            currentCollectionName: collectionName,
+        });
     }
 
     setToNoCollections = () => {
@@ -142,13 +151,22 @@ class Explorer extends Component {
         
         // 1/16: setState is async
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
-
-        this.setState( {isDisplayCollections: true} );
+        
+        this.setState({
+            isDisplayCollections: true,
+            //collectionsArray: ["asdf", "sdfa", "dfas", "fasd", "asdfasdfasdf", "asdfasdffdsa", "asdfafdsasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"],
+        });
+        
+        
         get("/api/collectionNames").then((collectionsArrayFromAPI) => {
-            this.setState( {collectionsArray: collectionsArrayFromAPI} );
+            console.log(collectionsArrayFromAPI);
+            if(collectionsArrayFromAPI.length > 0) {
+                this.setState( {collectionsArray: collectionsArrayFromAPI[0].names} );
+            }
         }).catch((err) => {
             console.log("There was an error retrieving collections for the user. Specific error message:", err.message);
         });
+        
     }
 
 
@@ -159,19 +177,72 @@ class Explorer extends Component {
         });
     }
 
-    handleNewName = () => {
+    handleNewName = async (responseText) => {
+
+        //post MVP function: for user input for collection name
 
         //To be passed down into the button namePopUp
-        //This will retrieve the 
+        //This will retrieve the name 
 
+        if (responseText in this.state.collectionsArray){
+
+            //TODO: Need to test this after doing the POST request.
+            // Prompt the user to enter a new name from the front end.
+            // TODO: Loop re-rendering instead of just exiting the loop and making the user re-click save canvas.
+
+            console.log("Collection name already exists in your collections. Please return to save canvas and input a distinct name.");
+            console.log("TODO: Prompt re-rendering of the valid input variable in the pop-up.");
+            
+            return;
+        }
+        else{
+            //note to self: tested below
+            this.setState({currentCollectionName : responseText});
+            this.setState({isDisplayGetName : false}); //Mark name as received.
+        }
     }
 
-    exportCollection = (graphObject) => {
+    exportCollection = async (graphObject) => {
+
+        //Will be prompted by VisNetwork in a callback.
 
         if (this.state.currentCollectionName === null){
-            //Need to trigger the popup here later.
-            
+
+
+            const nextName = String(Math.random() * 100000);
+
+            //Generate a random name (like a long string of numbers)
+            //NOTE TO SELF: Does not guarantee no collisions which is needed later.
+
+            // This will reply to the Explorer by triggering handleNewName
+            // in an input loop, until the user gives the right response.
+
+            //set the name directly here.
+
+            //DO NOT DELETE THE BELOW COMMENTS -- will be used later.
+
+            //console.log("The pop up will now be displayed.")
+            //this.setState({isDisplayGetName : true}); //Need to write pop up logic.
+
+            //Below will be allocated to handleNewName later.
+            this.setState({currentCollectionName : nextName});
         }
+
+        //NOTE TO SELF: Do we need an await here? Maybe write an assert?
+
+        post("/api/loadCollection", {
+            
+            collectionName : this.state.currentCollectionName,
+            nodeArray : graphObject.nodes,
+            edgeArray : graphObject.edges
+
+        }).catch((err) => {
+            console.log("There was an error loading a collection for the user. Specific error message:", err.message);
+        });
+
+        //Need to also add a name to the list of current collections that can be loaded (via setState)
+        this.setState({ collectionsArray : [... this.state.collectionsArray].concat([this.state.currentCollectionName])});
+
     }
 
     setToLoaded = () => {
@@ -181,7 +252,7 @@ class Explorer extends Component {
     }
     // componentDidMount() {}
 
-    //BELOW: Remove the TempBar
+    //BELOW: Change the NamePopUp to be a real popup
     render() {
         return (
             <div className="Explorer-all">
@@ -191,6 +262,7 @@ class Explorer extends Component {
                     resetCanvas={this.handleResetCanvas}
                 />
                 <NamePopUp
+                    handleNewName={this.handleNewName}
                 />
                 <div className="Explorer-container">
                     <div className="Explorer-canvas">
@@ -199,6 +271,8 @@ class Explorer extends Component {
                             getNeighbors={this.getNeighbors}
                             removeClass={this.state.removeClass}
                             canvasToBeReset={this.state.canvasToBeReset}
+                            saveCanvasCounter={this.state.saveCanvasCounter}
+                            loadCollectionCounter={this.state.loadCollectionCounter}
                             setCourseObject={this.setCourseObject}
                             getLoadCollectionInfo={this.getLoadCollectionInfo}
                         />

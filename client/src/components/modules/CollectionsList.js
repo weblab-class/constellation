@@ -17,7 +17,12 @@ class CollectionsList extends Component {
     }
 
     //componentDidMount(){}
-    
+    handleButtonClick = (clicked) => {
+        this.props.setToLoaded();
+        const buttonName = clicked.target.innerHTML;
+        this.props.updateCollectionName(buttonName);
+    }
+
     render(){
         let htmlToDisplay = [];
         for(const collectionName of this.props.collectionsArray) {
@@ -27,7 +32,7 @@ class CollectionsList extends Component {
             <>
             <div className="CollectionsList-list">
                 {htmlToDisplay.length === 0 ? <p className="CollectionsList-noElements">No Collections Saved</p> : htmlToDisplay.map((row, i) => {
-                    return <button className="CollectionsList-listElement" key={row} onClick={this.props.setToLoaded}>{row}</button>
+                    return <button className="CollectionsList-listElement" key={row} onClick={this.handleButtonClick}>{row}</button>
                 })}
             </div>
             </>
