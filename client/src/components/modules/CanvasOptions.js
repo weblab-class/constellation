@@ -19,7 +19,7 @@ class CanvasOptions extends Component {
     constructor(props){
         super(props);
     }
-
+  
     returnHome = () => {
         navigate("/");
     }
@@ -27,10 +27,10 @@ class CanvasOptions extends Component {
     render(){
         return(
             <nav className="CanvasOptions-navBar">
-                <button type="submit" onClick={this.props.resetCanvas}>Reset Canvas</button>  
+                <button type="submit" className="CanvasOptions-navButton" onClick={this.props.resetCanvas}>Reset Canvas</button>  
                 <SaveCollection handleSaveCollection={this.props.handleSaveCollection}/>
                 <UserCollections handleUserCollections={this.props.handleUserCollections}/>
-                <button type="submit" onClick={this.returnHome}> Back to Home </button>
+                <button type="submit" className="CanvasOptions-navButton" onClick={this.returnHome}> Back to Home </button>
             </nav>
         )
     }

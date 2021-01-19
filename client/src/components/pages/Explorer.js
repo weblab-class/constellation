@@ -73,7 +73,7 @@ class Explorer extends Component {
                         subject_id: courseObjectFromAPI.subject_id,
                         title: courseObjectFromAPI.title,
                         description: courseObjectFromAPI.description,
-                    }, 
+                    },
                 });
             }
         }).catch((err) => {
@@ -121,6 +121,7 @@ class Explorer extends Component {
     handleLoadCollection = (collectionName) => {
 
         //Triggers VisNetwork loading of a collection
+      
         if(!collectionName) {
             console.log("current collection name is undefined");
             return;
@@ -132,7 +133,7 @@ class Explorer extends Component {
     }
 
     setToNoCollections = () => {
-        this.setState( {
+        this.setState({
             isDisplayCollections: false,
         });
     }
@@ -140,7 +141,7 @@ class Explorer extends Component {
     handleSaveCollection = () => {
         // Activates the pop-up to save collection
         this.setState({
-            saveCanvasCounter: this.state.saveCanvasCounter+1,
+            saveCanvasCounter: this.state.saveCanvasCounter + 1,
         });
     }
 
@@ -148,31 +149,30 @@ class Explorer extends Component {
 
         //  Activates display of SideBar with collection options
         // Will require an API request for all of the collection names
-        
+
         // 1/16: setState is async
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
-        
+
         this.setState({
             isDisplayCollections: true,
             //collectionsArray: ["asdf", "sdfa", "dfas", "fasd", "asdfasdfasdf", "asdfasdffdsa", "asdfafdsasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"],
         });
-        
-        
+
         get("/api/collectionNames").then((collectionsArrayFromAPI) => {
             console.log(collectionsArrayFromAPI);
-            if(collectionsArrayFromAPI.length > 0) {
-                this.setState( {collectionsArray: collectionsArrayFromAPI[0].names} );
+            if (collectionsArrayFromAPI.length > 0) {
+                this.setState({ collectionsArray: collectionsArrayFromAPI[0].names });
             }
         }).catch((err) => {
             console.log("There was an error retrieving collections for the user. Specific error message:", err.message);
         });
-        
+
     }
 
 
     handleResetCanvas = () => {
         this.setState({
-            canvasToBeReset: this.state.canvasToBeReset+1,
+            canvasToBeReset: this.state.canvasToBeReset + 1,
             newClass: '',
         });
     }
@@ -250,22 +250,24 @@ class Explorer extends Component {
             loaded: true,
         });
     }
+
+    importNetwork = () => {
+        //uses this.state.collectionName
+        //returns network object so that Vis can use it
+    }
     // componentDidMount() {}
 
     //BELOW: Change the NamePopUp to be a real popup
     render() {
         return (
             <div className="Explorer-all">
-                <CanvasOptions 
-                    handleSaveCollection={this.handleSaveCollection}
-                    handleUserCollections={this.handleUserCollections}
-                    resetCanvas={this.handleResetCanvas}
-                />
-                <NamePopUp
-                    handleNewName={this.handleNewName}
-                />
                 <div className="Explorer-container">
                     <div className="Explorer-canvas">
+                        <CanvasOptions
+                            handleSaveCollection={this.handleSaveCollection}
+                            handleUserCollections={this.handleUserCollections}
+                            resetCanvas={this.handleResetCanvas}
+                        />
                         <Canvas
                             newClass={this.state.newClass}
                             getNeighbors={this.getNeighbors}
@@ -275,12 +277,13 @@ class Explorer extends Component {
                             loadCollectionCounter={this.state.loadCollectionCounter}
                             setCourseObject={this.setCourseObject}
                             getLoadCollectionInfo={this.getLoadCollectionInfo}
+                            importNetwork = {this.importNetwork}
                         />
                     </div>
                     <div className="Explorer-sideBar">
-                        <SideBar 
-                            handleSearch={this.handleSearch} 
-                            setCourseObject={this.setCourseObject} 
+                        <SideBar
+                            handleSearch={this.handleSearch}
+                            setCourseObject={this.setCourseObject}
                             courseObject={this.state.courseObject}
                             collectionObject={this.state.collectionObject}
                             handleAddClass={this.handleAddClass}
