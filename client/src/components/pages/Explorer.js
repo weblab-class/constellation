@@ -3,7 +3,7 @@ import Canvas from "../modules/Canvas.js";
 import SideBar from "../modules/SideBar.js";
 import CanvasOptions from "../modules/CanvasOptions.js";
 
-import NamePopUp from "../modules/NamePopUp.js";
+//import NamePopUp from "../modules/NamePopUp.js";
 
 import "./Explorer.css";
 
@@ -143,6 +143,7 @@ class Explorer extends Component {
         this.setState({
             saveCanvasCounter: this.state.saveCanvasCounter + 1,
         });
+        
     }
 
     handleUserCollections = () => {
@@ -202,7 +203,9 @@ class Explorer extends Component {
         }
     }
 
-    exportCollection = async (graphObject) => {
+    exportNetwork = (graphObject) => {
+
+        console.log("Exporting network!")
 
         //Will be prompted by VisNetwork in a callback.
 
@@ -254,6 +257,16 @@ class Explorer extends Component {
     importNetwork = () => {
         //uses this.state.collectionName
         //returns network object so that Vis can use it
+
+        get("/api/loadCollection", {collectionName : this.state.currentCollectionName}).then(
+            (graphObject) => {
+                return graphObject;
+            }
+        ).catch(
+            (err) => {
+                console.log("There was an error loading a collection for the user. Specific error message:", err.message);
+            }
+        )
     }
     // componentDidMount() {}
 

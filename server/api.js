@@ -99,6 +99,10 @@ router.get("/collectionNames", (req, res) => {
   collectionName.find({"user_id": req.user}).then(
     (userCollectionNames) => {
 
+    if (userCollectionNames === null){
+      return [];
+    }
+
     //Check for authorized user.
     if(req.user !== userCollectionNames.user_id){
       const error_message = "Attempted to request information that does not belong to this user.";
@@ -112,17 +116,20 @@ router.get("/collectionNames", (req, res) => {
       (err) => {res.status(500); res.send({info : err.message});}
     );
 
+
 });
 
 router.get("/loadCollection", (req, res) => {
 
   Collection.findOne({
-    "user_id": req.user, "collection_name": req.query.collection_name
+    "user_id": req.user, "collection_name": req.query.collectionName
   }).then(
     (thisGraph) => {
-      res.send(thisGraph);
+        res.send(thisGraph);
     }
   );
+
+
 });
 
 router.post("/saveCollection", (req, res) => {
