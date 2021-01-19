@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const graphInfoSchema = new mongoose.Schema({
 
-    subject_id : String,
+    subjectId : String,
     prerequisites: Array,
     corequisites: Array,
-    related_subjects: Array,
-    gir_attribute: String,
-    after_subjects: Array,
+    relatedSubjects: Array,
+    girAttribute: String,
+    afterSubjects: Array,
 
 },
 {'collection': 'graphInfo'}

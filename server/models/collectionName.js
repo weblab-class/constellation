@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const collectionNameSchema = new mongoose.Schema({
 
-    user_id : String,
+    userId : String,
     names : [String],
 
 },
