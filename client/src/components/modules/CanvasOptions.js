@@ -10,9 +10,10 @@ import "./CanvasOptions.css";
  * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
  *
  * Proptypes
- * @param {() => ()} resetCanvas callback function to clear graph, display bar
- * @param {() => ()} handleSaveCollection callback function to active pop-up for saving collection
- * @param {() => ()} handleUserCollections callback function to display of SideBar with collection options
+ * @param {Function} resetCanvas callback function to clear graph, display bar
+ * @param {Function} handleSaveCollection passed to SaveCollection
+ * @param {Function} handleUserCollections passed to UserCollection
+ * @param {Boolean} isDisplayCollections passed to SaveCollection 
  */
 
 class CanvasOptions extends Component {

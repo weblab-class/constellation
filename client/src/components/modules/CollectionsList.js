@@ -8,7 +8,7 @@ import "./CollectionsList.css";
  *
  * Proptypes
  * @param {Array} collectionsArray contains names of all collections the user has saved
- *
+ * @param {Function} setToLoaded sets loaded to true
  */
 
 class CollectionsList extends Component {
@@ -24,14 +24,10 @@ class CollectionsList extends Component {
     }
 
     render(){
-        let htmlToDisplay = [];
-        for(const collectionName of this.props.collectionsArray) {
-            htmlToDisplay.push(collectionName);
-        }
         return(
             <>
             <div className="CollectionsList-list">
-                {htmlToDisplay.length === 0 ? <p className="CollectionsList-noElements">No Collections Saved</p> : htmlToDisplay.map((row, i) => {
+                {this.props.collectionsArray.length === 0 ? <p className="CollectionsList-noElements">No Collections Saved</p> : this.props.collectionsArray.map((row, i) => {
                     return <button className="CollectionsList-listElement" key={row} onClick={this.handleButtonClick}>{row}</button>
                 })}
             </div>
