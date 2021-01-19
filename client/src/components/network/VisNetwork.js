@@ -103,6 +103,7 @@ class VisNetwork extends Component {
     this.setState({
       prevProcessedClass: classId,
     });
+    console.log(this.getCurrentNetworkData());
   }
 
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
@@ -157,9 +158,31 @@ class VisNetwork extends Component {
 
    getNodeData = () => {
 
+    let nodeData = [];
+    const nodePositions = this.network.getPositions();
+    Object.keys(nodePositions).forEach((classId) => {
+      nodeData.push({
+        x: nodePositions[classId].x,
+        y: nodePositions[classId].y,
+        id: classId,
+        opacity: this.isSuggestionDict[classId] ? 0.5 : 1,
+      });
+     });
+    return nodeData;
+
    }
 
    getEdgeData = () => {
+
+    let edgeData = [];
+    this.edgeIds.forEach((edgeId) => {
+      const endpoints = edgeId.split('@');
+      edgeData.push({
+        from: endpoints[0],
+        to: endpoints[1],
+      });
+    });
+    return edgeData;
 
    }
 
@@ -263,7 +286,7 @@ class VisNetwork extends Component {
     //handle saveNetwork stuff
     const currentNetworkData = this.getCurrentNetworkData();
     //bundle network into object, and send to explorer via export network
-    this.props.exportNetwork(currentNetworkArray);
+    this.props.exportNetwork(currentNetworkData);
    }
 
    loadNetwork = () => {

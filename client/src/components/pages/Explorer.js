@@ -7,7 +7,7 @@ import CanvasOptions from "../modules/CanvasOptions.js";
 
 import "./Explorer.css";
 
-import { get } from "../../utilities";
+import { get, post} from "../../utilities";
 
 /**
  * Explorer page. Where all the main features are: canvas, sidebar
@@ -37,7 +37,6 @@ class Explorer extends Component {
             removeClass: '', //Prompts Vis to remove a class
             currentCollectionName: null, //The collection to load in Vis
             collectionsArray: [], //array of collection names for the user
-            loadCollectionCounter: 0,
             loaded: false,
         }
     }
@@ -203,14 +202,30 @@ class Explorer extends Component {
         }
     }
 
-    exportNetwork = (graphObject) => {
 
-        console.log("Exporting network!")
+    postNetwork = (graphObject) => {
+
+        console.log("Posting the current name : "+this.state.currentCollectionName);
+        post("/api/saveCollection", {
+            
+            collectionName : this.state.currentCollectionName,
+            nodeArray : graphObject.nodes,
+            edgeArray : graphObject.edges
+
+        }).catch((err) => {
+            console.log("There was an error loading a collection for the user. Specific error message:", err.message);
+        });
+
+        //Need to also add a name to the list of current collections that can be loaded (via setState)
+        this.setState({ collectionsArray : [... this.state.collectionsArray].concat([this.state.currentCollectionName])});
+
+    }
+
+    exportNetwork = (graphObject) => {
 
         //Will be prompted by VisNetwork in a callback.
 
-        if (this.state.currentCollectionName === null){
-
+        if (!this.state.currentCollectionName){
 
             const nextName = String(Math.random() * 100000);
 
@@ -228,24 +243,14 @@ class Explorer extends Component {
             //this.setState({isDisplayGetName : true}); //Need to write pop up logic.
 
             //Below will be allocated to handleNewName later.
-            this.setState({currentCollectionName : nextName});
+            this.setState({currentCollectionName : nextName }, () => {
+                this.postNetwork(graphObject);
+            });
         }
-
-        //NOTE TO SELF: Do we need an await here? Maybe write an assert?
-
-        post("/api/loadCollection", {
-            
-            collectionName : this.state.currentCollectionName,
-            nodeArray : graphObject.nodes,
-            edgeArray : graphObject.edges
-
-        }).catch((err) => {
-            console.log("There was an error loading a collection for the user. Specific error message:", err.message);
-        });
-
-        //Need to also add a name to the list of current collections that can be loaded (via setState)
-        this.setState({ collectionsArray : [... this.state.collectionsArray].concat([this.state.currentCollectionName])});
-
+        else{
+            this.postNetwork(graphObject);
+        }
+        
     }
 
     setToLoaded = () => {
@@ -282,6 +287,7 @@ class Explorer extends Component {
                             resetCanvas={this.handleResetCanvas}
                         />
                         <Canvas
+                            exportNetwork={this.exportNetwork}
                             newClass={this.state.newClass}
                             getNeighbors={this.getNeighbors}
                             removeClass={this.state.removeClass}

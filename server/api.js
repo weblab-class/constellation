@@ -129,7 +129,6 @@ router.get("/loadCollection", (req, res) => {
     }
   );
 
-
 });
 
 router.post("/saveCollection", (req, res) => {
@@ -137,7 +136,7 @@ router.post("/saveCollection", (req, res) => {
   // If POST request is attempted and user is not logged in,
   //    reject the POST request.
 
-  if (req.user === null){
+  if (!req.user){
     console.log("Post request was attempted with non-logged in user. Terminating request.")
     return;
   }
@@ -148,8 +147,9 @@ router.post("/saveCollection", (req, res) => {
     (userCollectionNames) => {
 
       //If user does not yet have saved collections
-      if(userCollectionNames === null){
+      if(!userCollectionNames){
 
+        console.log("Req user in saveCollection" + req.user);
         const newCollection = new collectionName({
           user_id : req.user,
           names : [req.body.collectionName]
@@ -158,7 +158,7 @@ router.post("/saveCollection", (req, res) => {
         newCollection.save();
       }
 
-      else if (userCollectionNames !== null){
+      else {
 
         // Need to update the collection names
         userCollectionNames.names = [... userCollectionNames.names].concat([req.body.collectionName]);
@@ -172,8 +172,9 @@ router.post("/saveCollection", (req, res) => {
 
   //Either update the node_array, edge_array contents of the graph
   //  or save a new Graph.
+
   Collection.findOne({
-    "user_id": req.user, "collection_name": req.query.collection_name
+    "user_id": req.user, "collection_name": req.body.collectionName
   }).then(
     (thisGraph) => {
       if(thisGraph === null){
@@ -181,7 +182,7 @@ router.post("/saveCollection", (req, res) => {
         
         const graph = new Collection({
           user_id : req.user,
-          collection_name : req.body.collection_name,
+          collection_name : req.body.collectionName,
           node_array : req.body.nodeArray,
           edge_array : req.body.edgeArray,
         });
