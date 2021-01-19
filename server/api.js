@@ -99,8 +99,13 @@ router.get("/collectionNames", (req, res) => {
   collectionName.find({"user_id": req.user}).then(
     (userCollectionNames) => {
 
+    if (userCollectionNames === null){
+      return [];
+    }
+
     //Check for authorized user.
-    if(req.user !== userCollectionNames.user_id){
+
+    if(req.user._id !== userCollectionNames[0].user_id){
       const error_message = "Attempted to request information that does not belong to this user.";
       console.log(error_message);
       res.status(403); res.send({message : error_message});
@@ -112,17 +117,24 @@ router.get("/collectionNames", (req, res) => {
       (err) => {res.status(500); res.send({info : err.message});}
     );
 
+
 });
 
 router.get("/loadCollection", (req, res) => {
 
+  console.log("Req user in loadCollection:"+req.user._id);
+
   Collection.findOne({
-    "user_id": req.user, "collection_name": req.query.collection_name
+    "user_id": req.user._id, "collection_name": req.query.collectionName
   }).then(
     (thisGraph) => {
-      res.send(thisGraph);
+      res.send({
+        nodeArray: thisGraph.node_array,
+        edgeArray: thisGraph.edge_array,
+      });
     }
   );
+
 });
 
 router.post("/saveCollection", (req, res) => {
@@ -130,7 +142,7 @@ router.post("/saveCollection", (req, res) => {
   // If POST request is attempted and user is not logged in,
   //    reject the POST request.
 
-  if (req.user === null){
+  if (!req.user){
     console.log("Post request was attempted with non-logged in user. Terminating request.")
     return;
   }
@@ -141,7 +153,7 @@ router.post("/saveCollection", (req, res) => {
     (userCollectionNames) => {
 
       //If user does not yet have saved collections
-      if(userCollectionNames === null){
+      if(!userCollectionNames){
 
         const newCollection = new collectionName({
           user_id : req.user,
@@ -151,7 +163,7 @@ router.post("/saveCollection", (req, res) => {
         newCollection.save();
       }
 
-      else if (userCollectionNames !== null){
+      else {
 
         // Need to update the collection names
         userCollectionNames.names = [... userCollectionNames.names].concat([req.body.collectionName]);
@@ -161,16 +173,36 @@ router.post("/saveCollection", (req, res) => {
 
     });
 
-  // this will save the collection itself.
+  //This will save the collection itself.
 
-  const graph = new Collection({
-    user_id : req.user,
-    collection_name : req.body.collection_name,
-    graph : req.body.graph,
-  });
+  //Either update the node_array, edge_array contents of the graph
+  //  or save a new Graph.
 
-  graph.save();
+  Collection.findOne({
+    "user_id": req.user, "collection_name": req.body.collectionName
+  }).then(
+    (thisGraph) => {
+      if(thisGraph === null){
+        //if the collection doesn't already exist
+        
+        const graph = new Collection({
+          user_id : req.user,
+          collection_name : req.body.collectionName,
+          node_array : req.body.nodeArray,
+          edge_array : req.body.edgeArray,
+        });
 
+        graph.save();
+      }
+      else{
+        //update the collection
+        thisGraph.node_array = req.body.nodeArray;
+        thisGraph.edge_array = req.body.edgeArray;
+
+        thisGraph.save();
+      }
+    }
+  );
  });
 
 
@@ -178,7 +210,8 @@ router.post("/saveCollection", (req, res) => {
 
 router.post("/dontUseSaveTags", (req, res) => {
 
-  // DON'T USE THIS FUNCTION, IT WILL BE REMOVED LATER
+  // DON'T USE THIS FUNCTION, IT WILL BE REMOVED LATER.
+  // Please don't remove it either! I may use some of it for later type checking.
 
   if(typeof req.body.tag_name === "undefined" || typeof req.body.nodes_active === "undefined"){
     const errorString = "Did not specify either tag_name or nodes_active as parameters in empty query -- did you use the wrong parameter names?"

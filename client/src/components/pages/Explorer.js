@@ -3,10 +3,11 @@ import Canvas from "../modules/Canvas.js";
 import SideBar from "../modules/SideBar.js";
 import CanvasOptions from "../modules/CanvasOptions.js";
 
+//import NamePopUp from "../modules/NamePopUp.js";
 
 import "./Explorer.css";
 
-import { get } from "../../utilities";
+import { get, post} from "../../utilities";
 
 /**
  * Explorer page. Where all the main features are: canvas, sidebar
@@ -32,6 +33,7 @@ class Explorer extends Component {
             loadCollectionCounter: 0,
             courseObject: undefined,
             isDisplayCollections: false,
+            isDisplayGetName : false, //This is used to conditionally render the future pop up
             removeClass: '', //Prompts Vis to remove a class
             currentCollectionName: null, //The collection to load in Vis
             collectionsArray: [], //array of collection names for the user
@@ -40,7 +42,7 @@ class Explorer extends Component {
     }
 
     //this function is passed as a prop to the search bar on Sidebar
-    //upon recieving input, makes cal to API to recieve class data
+    //upon recieving input, makes call to API to recieve class data
     //passes class data down to canvas
 
     handleSearch = async (inputText) => {
@@ -51,7 +53,6 @@ class Explorer extends Component {
 
     setCourseObject = (input) => {
         get("/api/sidebarNode", { subject_id: input }).then((courseArray) => {
-            console.log("courseArray", courseArray);
             if (courseArray.length === 0) {
                 this.setState({
                     courseObject: {
@@ -100,7 +101,7 @@ class Explorer extends Component {
         });
     }
 
-    handleAddClass = () => {
+    handleAddClass = async (inputText) => {
 
         //Triggers VisNetwork to add a class
         this.setState({
@@ -112,13 +113,14 @@ class Explorer extends Component {
     handleRemoveClass = () => {
 
         //Triggers VisNetwork to remove a class
-
+        
     }
 
     handleLoadCollection = (collectionName) => {
 
         //Triggers VisNetwork loading of a collection
-        if (!collectionName) {
+      
+        if(!collectionName) {
             console.log("current collection name is undefined");
             return;
         }
@@ -139,6 +141,7 @@ class Explorer extends Component {
         this.setState({
             saveCanvasCounter: this.state.saveCanvasCounter + 1,
         });
+        
     }
 
     handleUserCollections = () => {
@@ -154,9 +157,7 @@ class Explorer extends Component {
             //collectionsArray: ["asdf", "sdfa", "dfas", "fasd", "asdfasdfasdf", "asdfasdffdsa", "asdfafdsasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"],
         });
 
-
         get("/api/collectionNames").then((collectionsArrayFromAPI) => {
-            console.log(collectionsArrayFromAPI);
             if (collectionsArrayFromAPI.length > 0) {
                 this.setState({ collectionsArray: collectionsArrayFromAPI[0].names });
             }
@@ -174,22 +175,108 @@ class Explorer extends Component {
         });
     }
 
+    handleNewName = async (responseText) => {
+
+        //post MVP function: for user input for collection name
+
+        //To be passed down into the button namePopUp
+        //This will retrieve the name 
+
+        if (responseText in this.state.collectionsArray){
+
+            //TODO: Need to test this after doing the POST request.
+            // Prompt the user to enter a new name from the front end.
+            // TODO: Loop re-rendering instead of just exiting the loop and making the user re-click save canvas.
+
+            console.log("Collection name already exists in your collections. Please return to save canvas and input a distinct name.");
+            console.log("TODO: Prompt re-rendering of the valid input variable in the pop-up.");
+            
+            return;
+        }
+        else{
+            //note to self: tested below
+            this.setState({currentCollectionName : responseText});
+            this.setState({isDisplayGetName : false}); //Mark name as received.
+        }
+    }
+
+
+    postNetwork = (graphObject) => {
+
+        post("/api/saveCollection", {
+            
+            collectionName : this.state.currentCollectionName,
+            nodeArray : graphObject.nodes,
+            edgeArray : graphObject.edges
+
+        }).catch((err) => {
+            console.log("There was an error loading a collection for the user. Specific error message:", err.message);
+        });
+
+        //Need to also add a name to the list of current collections that can be loaded (via setState)
+        this.setState({ collectionsArray : [... this.state.collectionsArray].concat([this.state.currentCollectionName])});
+
+    }
+
+    exportNetwork = (graphObject) => {
+
+        //Will be prompted by VisNetwork in a callback.
+
+        if (!this.state.currentCollectionName){
+
+            const nextName = String(Math.random() * 100000);
+
+            //Generate a random name (like a long string of numbers)
+            //NOTE TO SELF: Does not guarantee no collisions which is needed later.
+
+            // This will reply to the Explorer by triggering handleNewName
+            // in an input loop, until the user gives the right response.
+
+            //set the name directly here.
+
+            //DO NOT DELETE THE BELOW COMMENTS -- will be used later.
+
+            //console.log("The pop up will now be displayed.")
+            //this.setState({isDisplayGetName : true}); //Need to write pop up logic.
+
+            //Below will be allocated to handleNewName later.
+            this.setState({currentCollectionName : nextName }, () => {
+                this.postNetwork(graphObject);
+            });
+        }
+        else{
+            this.postNetwork(graphObject);
+        }
+        
+    }
+
     setToLoaded = () => {
         this.setState({
             loaded: true,
         });
     }
 
-    importNetwork = () => {
+    importNetwork = async () => {
         //uses this.state.collectionName
         //returns network object so that Vis can use it
+
+        try{
+            const networkObject = await get("/api/loadCollection", {
+                collectionName : this.state.currentCollectionName
+            });
+            return networkObject;
+            
+        } catch (err) {
+                console.log("There was an error loading a collection for the user. Specific error message:", err.message);
+        }
+       
     }
     // componentDidMount() {}
 
+    //BELOW: Change the NamePopUp to be a real popup
     render() {
         return (
             <div className="Explorer-all">
-
                 <div className="Explorer-container">
                     <div className="Explorer-canvas">
                         <CanvasOptions
@@ -198,6 +285,7 @@ class Explorer extends Component {
                             resetCanvas={this.handleResetCanvas}
                         />
                         <Canvas
+                            exportNetwork={this.exportNetwork}
                             newClass={this.state.newClass}
                             getNeighbors={this.getNeighbors}
                             removeClass={this.state.removeClass}

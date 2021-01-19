@@ -103,6 +103,7 @@ class VisNetwork extends Component {
     this.setState({
       prevProcessedClass: classId,
     });
+    console.log(this.getCurrentNetworkData());
   }
 
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
@@ -157,9 +158,31 @@ class VisNetwork extends Component {
 
    getNodeData = () => {
 
+    let nodeData = [];
+    const nodePositions = this.network.getPositions();
+    Object.keys(nodePositions).forEach((classId) => {
+      nodeData.push({
+        x: nodePositions[classId].x,
+        y: nodePositions[classId].y,
+        id: classId,
+        opacity: this.isSuggestionDict[classId] ? 0.5 : 1,
+      });
+     });
+    return nodeData;
+
    }
 
    getEdgeData = () => {
+
+    let edgeData = [];
+    this.edgeIds.forEach((edgeId) => {
+      const endpoints = edgeId.split('@');
+      edgeData.push({
+        from: endpoints[0],
+        to: endpoints[1],
+      });
+    });
+    return edgeData;
 
    }
 
@@ -220,7 +243,7 @@ class VisNetwork extends Component {
    }
 
    setNetworkToNewData = (newNodes, newEdges, newNodeIds, newEdgeIds) => {
-     thsi.network.setData({
+     this.network.setData({
        nodes: newNodes,
        edges: newEdges,
      });
@@ -236,9 +259,9 @@ class VisNetwork extends Component {
          this.isSuggestionDict[classId] = true
         });
       //step 2, set all new nodes from newNetworkData according to their opacity (not suggestion if opacity is 1, suggestion otherwise)
-      newNetworkData.forEach( (elem) => {
-
-      })
+      nodeArray.forEach( (elem) => {
+        this.isSuggestionDict[elem.id] = (elem.opacity === 1) ? false : true;
+      });
    }
   
    resetNetwork = () => {
@@ -248,7 +271,7 @@ class VisNetwork extends Component {
        if(classId !== 1) this.isSuggestionDict[classId] = true;
      });
      //must update state as well so state and network work with same object
-     console.log(newNodes);
+
      this.network.setData({
        nodes: newNodes,
        edges: newEdges,
@@ -263,12 +286,13 @@ class VisNetwork extends Component {
     //handle saveNetwork stuff
     const currentNetworkData = this.getCurrentNetworkData();
     //bundle network into object, and send to explorer via export network
-    this.props.exportNetwork(currentNetworkArray);
+    this.props.exportNetwork(currentNetworkData);
    }
 
-   loadNetwork = () => {
+   loadNetwork = async () => {
      //handle loadNetwork stuff
-      let newNetworkData = this.props.importNetwork();
+      let newNetworkData = await this.props.importNetwork();
+
       const nodeArray = newNetworkData.nodeArray;
       const edgeArray = newNetworkData.edgeArray;
       //create data = {nodes: , edges: }, and edgeId's, and suggestionId's
@@ -277,8 +301,8 @@ class VisNetwork extends Component {
       let newNodeIds = this.parseForNodeIdData(nodeArray);
       let newEdgeIds = this.parseForEdgeIdData(edgeArray);
       //update isSuggestionDict
-      setSuggestionDictToNewData(newNetworkData);
-      setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
+      this.setSuggestionDictToNewData(nodeArray);
+      this.setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
       //reset all relevant state variables as well
    }
 
@@ -291,14 +315,17 @@ class VisNetwork extends Component {
   }
 
   componentDidUpdate(prevProps) {
+
     //if new class isn't previous class, update
     if(this.props.newClass && this.props.newClass !== prevProps.newClass) this.processAddition(this.props.newClass);
     //process removing class
     //if(this.props.removeClass && this.props.removeClass !== prevProps.removeClass) this.processRemoval(this.props.removeClass)
     //if canvasToBeReset isn't previous canvasToBeReset, update
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
-    // if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
-    // if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
+    if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter){
+      this.saveNetwork();
+    }
+    if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
   }
 
   render() {
