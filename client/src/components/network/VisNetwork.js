@@ -13,6 +13,32 @@ import { GiBlackHandShield } from 'react-icons/gi';
 
 //to check if an edge exists, merely check that both endpoints are added
 
+//colors, courtesy of https://wondernote.org/color-palettes-for-web-digital-blog-graphic-design-with-hexadecimal-codes/
+const COLORS_ON = false;
+const SUMMER_COLORS = {
+  "1" :"#53CFDA",
+  "2":"#FF8860",
+  "3":"#FF3747", 
+  "4":"#FF458F",
+  "5":"#ECF7DD",
+  "6":"#F7D635",
+  "7":"#FF8BOF",
+  "8":"#FF8352",
+  "9":"#4FCBBB",
+  "10":"#FF7994",
+  "11":"#D6E8D9",
+  "12":"#FFD600",
+  "14":"#DEE500",
+  "15":"#2494CC",
+  "15":"#FFC900",
+  "16":"#FlC9C2",
+  "17":"#EAE45F",
+  "18":"#OOEIDF",
+  "20":"#FFEDOO",
+  "21":"#DDF5C2",
+  "22":"#00C3AF",
+}
+
 class VisNetwork extends Component {
 
   constructor(props) {
@@ -120,10 +146,15 @@ class VisNetwork extends Component {
   addNode = (classId, suggestionStatus, opacity) => {
     if(this.alreadyAddedNode(classId)) return;
     this.isSuggestionDict[classId]=suggestionStatus;
-    this.data.nodes.add({ id: classId, label: classId, opacity: opacity}); //add group
+    const nodeColor = this.getCourseColor(classId);
+    this.data.nodes.add({ id: classId, label: classId, opacity: opacity, color: nodeColor}); //add group
     this.nodeIds.push(classId);
    }
 
+   getCourseColor = (classId) => {
+     const courseId = classId.split('.')[0];
+     return (COLORS_ON ? SUMMER_COLORS[courseId] : null);
+   }
    //edge id is of the form SMALLER_CLASS@LARGER_CLASS (wrt string order)
    getEdgeId = (classFrom, classTo) => {
      if(classFrom === classTo) return "SAME";
