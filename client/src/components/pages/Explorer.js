@@ -59,10 +59,11 @@ class Explorer extends Component {
                         found: false,
                         searchedText: input
                     }
-                })
+                });
             }
             else {
                 const courseObjectFromAPI = courseArray[0];
+                console.log(courseObjectFromAPI);
                 this.setState({
                     courseObject: {
                         found: true,
@@ -71,6 +72,10 @@ class Explorer extends Component {
                         subject_id: courseObjectFromAPI.subject_id,
                         title: courseObjectFromAPI.title,
                         description: courseObjectFromAPI.description,
+                        offered_IAP: courseObjectFromAPI.offered_IAP,
+                        offered_fall: courseObjectFromAPI.offered_fall,
+                        offered_spring: courseObjectFromAPI.offered_spring,
+                        offered_summer: courseObjectFromAPI.offered_summer
                     },
                 });
             }
