@@ -18,6 +18,7 @@ class DisplayBar extends Component {
         super(props);
         this.state = {
             reset: false,
+            collectionName: undefined,
         }
     }
 
@@ -29,7 +30,7 @@ class DisplayBar extends Component {
         this.props.setToNoCollections();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate = (prevProps) => {
         //if canvasToBeReset isn't previous canvasToBeReset, update
         if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) {
             this.setState({
@@ -43,12 +44,28 @@ class DisplayBar extends Component {
         }
     }
     
+    updateCollectionName = (name) => {
+        this.setState({
+            collectionName: name,
+        });
+    }
+
+    handleLoadButtonClick = () => {
+        console.log(this.state.collectionName);
+        this.props.handleLoadCollection(this.state.collectionName);
+    }
+
     render() {
         let toDisplay;
         let addRemoveActive = false;
         console.log(this.state.reset);
         if(this.props.isDisplayCollections) {
-            toDisplay=<CollectionsList collectionsArray={this.props.collectionsArray} setToLoaded={this.props.setToLoaded}/>
+            toDisplay=
+            <CollectionsList 
+                collectionsArray={this.props.collectionsArray} 
+                setToLoaded={this.props.setToLoaded}
+                updateCollectionName={this.updateCollectionName}
+            />
         } else if(!this.props.courseObject || this.state.reset) {
             toDisplay=<p>no class selected...</p>;
         }
@@ -69,7 +86,13 @@ class DisplayBar extends Component {
                 <div className="DisplayBar-buttonContainer">
                     {this.props.isDisplayCollections ? (
                         <>
-                        <button className="DisplayBar-button" disabled={!this.props.loaded}> Load </button>
+                        <button 
+                            className="DisplayBar-button" 
+                            disabled={!this.props.loaded}
+                            onClick={this.handleLoadButtonClick}
+                        >
+                            Load 
+                        </button>
                         <button 
                             className="DisplayBar-button" 
                             onClick={this.handleCancel}
@@ -79,7 +102,13 @@ class DisplayBar extends Component {
                         </>
                     ) : (
                         <>
-                        <button className="DisplayBar-button" disabled={!addRemoveActive} onClick={this.props.handleAddClass}> Add </button>
+                        <button 
+                            className="DisplayBar-button" 
+                            disabled={!addRemoveActive} 
+                            onClick={this.props.handleAddClass}
+                        > 
+                            Add 
+                        </button>
                         <button 
                             className="DisplayBar-button" 
                             disabled={!addRemoveActive}

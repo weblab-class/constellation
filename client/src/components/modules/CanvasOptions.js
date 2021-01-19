@@ -3,7 +3,6 @@ import UserCollections from "./UserCollections.js";
 import SaveCollection from "./SaveCollection.js";
 
 import { navigate } from "@reach/router";
-import { get } from "../../utilities";
 
 import "./CanvasOptions.css";
  
@@ -21,15 +20,12 @@ class CanvasOptions extends Component {
         super(props);
     }
 
-    //componentDidMount(){}
-    
-    returnHome () {
+    returnHome = () => {
         navigate("/");
     }
     
     render(){
         return(
-            
             <nav className="CanvasOptions-navBar">
                 <button type="submit" onClick={this.props.resetCanvas}>Reset Canvas</button>  
                 <SaveCollection handleSaveCollection={this.props.handleSaveCollection}/>
