@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 const sidebarInfoSchema = new mongoose.Schema({
 
-    subject_id : String,
+    subjectId : String,
     title : String,
     description : String,
-    offered_fall : Boolean,
-    offered_spring : Boolean,
-    offered_IAP : Boolean,
-    gir_attribute : String,
+    offeredFall : Boolean,
+    offeredSpring : Boolean,
+    offeredIAP : Boolean,
+    girAttribute : String,
     instructors : Array,
-    total_units: Number,
+    totalUnits: Number,
     level : String,
     prerequisites: String,
     corequisites: String,

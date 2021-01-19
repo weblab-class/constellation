@@ -40,7 +40,7 @@ class DisplayBar extends Component {
         return (
             <>
                 <div className="CourseInfo-title u-bold">
-                    <p>{this.props.courseObject.subject_id}</p>
+                    <p>{this.props.courseObject.subjectId}</p>
                     <p>{this.props.courseObject.title}</p>
                 </div>
                 <div className="CourseInfo-term">
