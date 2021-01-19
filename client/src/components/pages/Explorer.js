@@ -42,7 +42,7 @@ class Explorer extends Component {
     }
 
     setCourseObject = (input) => {
-        get("/api/sidebarNode", { subject_id: input }).then((courseArray) => {
+        get("/api/sidebarNode", { subjectId: input }).then((courseArray) => {
             if (courseArray.length === 0) {
                 this.setState({
                     courseObject: {
@@ -59,13 +59,13 @@ class Explorer extends Component {
                         found: true,
                         searchedText: input,
                         prerequisites: courseObjectFromAPI.prerequisites,
-                        subject_id: courseObjectFromAPI.subject_id,
+                        subjectId: courseObjectFromAPI.subjectId,
                         title: courseObjectFromAPI.title,
                         description: courseObjectFromAPI.description,
-                        offered_IAP: courseObjectFromAPI.offered_IAP,
-                        offered_fall: courseObjectFromAPI.offered_fall,
-                        offered_spring: courseObjectFromAPI.offered_spring,
-                        offered_summer: courseObjectFromAPI.offered_summer
+                        offeredIAP: courseObjectFromAPI.offeredIAP,
+                        offeredFall: courseObjectFromAPI.offeredFall,
+                        offeredSpring: courseObjectFromAPI.offeredSpring,
+                        offeredSummer: courseObjectFromAPI.offeredSummer
                     },
                 });
             }
@@ -77,11 +77,11 @@ class Explorer extends Component {
 
     //returns neighbors for the class and updates state so that network re-renders
     getNeighbors = (inputText) => {
-        return get("/api/graphNode", { subject_id: inputText }).then((graphInfo) => {
+        return get("/api/graphNode", { subjectId: inputText }).then((graphInfo) => {
             const newClassesToAdd = {
                 prereqsToAdd: graphInfo[0].prerequisites.map(classId => classId.trim()),
                 coreqsToAdd: graphInfo[0].corequisites.map(classId => classId.trim()),
-                afterreqsToAdd: graphInfo[0].after_subjects.map(classId => classId.trim()),
+                afterreqsToAdd: graphInfo[0].afterSubjects.map(classId => classId.trim()),
             };
             console.log(newClassesToAdd);
             return newClassesToAdd;
@@ -100,7 +100,7 @@ class Explorer extends Component {
 
         //Triggers VisNetwork to add a class
         this.setState({
-            newClass: this.state.courseObject.subject_id,
+            newClass: this.state.courseObject.subjectId,
         });
 
     }
@@ -153,6 +153,7 @@ class Explorer extends Component {
         });
 
         get("/api/collectionNames").then((collectionsArrayFromAPI) => {
+            console.log(collectionsArrayFromAPI);
             if (collectionsArrayFromAPI.length > 0) {
                 this.setState({ collectionsArray: collectionsArrayFromAPI[0].names });
             }
@@ -198,6 +199,7 @@ class Explorer extends Component {
 
     postNetwork = (graphObject) => {
 
+        console.log("Posting the current name : "+this.state.currentCollectionName);
         post("/api/saveCollection", {
             
             collectionName : this.state.currentCollectionName,
