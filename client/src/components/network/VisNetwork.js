@@ -23,7 +23,7 @@ class VisNetwork extends Component {
     let shadowState = false;
 
     // create an array with nodes, and one with edges
-    let nodesArray = [{ id: 1, label: "Click me to get started!"},]; //generate the help node for new users
+    let nodesArray = [{ id: "Click me to get started!", label: "Click me to get started!"},]; //generate the help node for new users
     let nodes = new DataSet(nodesArray);
     let edgesArray = [];
     let edges = new DataSet(edgesArray);
@@ -103,7 +103,6 @@ class VisNetwork extends Component {
     this.setState({
       prevProcessedClass: classId,
     });
-    console.log(this.getCurrentNetworkData());
   }
 
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
@@ -114,7 +113,6 @@ class VisNetwork extends Component {
       this.addNode(suggestionId,true,this.relevanceToCurrentNetwork(suggestionId));
     } else if(this.isSuggestionDict[classId]){
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
-      console.log("We've already added: " + suggestionId);
     }
   }
 
@@ -125,7 +123,6 @@ class VisNetwork extends Component {
     this.isSuggestionDict[classId]=suggestionStatus;
     this.data.nodes.add({ id: classId, label: classId, opacity: opacity}); //add group
     this.nodeIds.push(classId);
-    console.log("Pushing: " + classId);
    }
 
    //edge id is of the form SMALLER_CLASS@LARGER_CLASS (wrt string order)
@@ -233,12 +230,12 @@ class VisNetwork extends Component {
    parseForEdgeIdData = (edgeArray) => {
       let edgeIds = [];
       edgeArray.forEach((edge) => {
-        edgeIds.push(edge.id);
+        edgeIds.push(this.getEdgeId(edge.to,edge.from));
       })
       return edgeIds;
    }
 
-   setNetworkToNewData = (newNodes, newEdges, newNodeIds, newEdgeIds) => {
+   setNetworkToNewData =  async (newNodes, newEdges, newNodeIds, newEdgeIds) => {
      this.network.setData({
        nodes: newNodes,
        edges: newEdges,
@@ -247,6 +244,11 @@ class VisNetwork extends Component {
      this.data.edges = newEdges;
      this.nodeIds = newNodeIds;
      this.edgeIds = newEdgeIds;
+    //  const newNodesAndEdges = {
+    //    nodeIds: newNodeIds,
+    //    edgeIds: newEdgeIds,
+    //  }
+    //  return newNodesAndEdges;
    }
 
    setSuggestionDictToNewData = (nodeArray) => {
@@ -261,7 +263,7 @@ class VisNetwork extends Component {
    }
   
    resetNetwork = () => {
-     let newNodes = new DataSet([{ id: 1, label: "Click me to get started!"},]);
+     let newNodes = new DataSet([{ id: "Click me to get started!", label: "Click me to get started!"},]);
      let newEdges = new DataSet();
      this.nodeIds.forEach((classId) => {
        if(classId !== 1) this.isSuggestionDict[classId] = true;
@@ -299,9 +301,6 @@ class VisNetwork extends Component {
       //update isSuggestionDict
       this.setSuggestionDictToNewData(nodeArray);
       this.setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
-      //reset all relevant state variables as well
-      console.log(this.nodeIds);
-      console.log(this.edgeIds);
    }
 
   componentDidMount() {
