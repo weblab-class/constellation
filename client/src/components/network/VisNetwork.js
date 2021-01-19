@@ -304,6 +304,8 @@ class VisNetwork extends Component {
       this.setSuggestionDictToNewData(nodeArray);
       this.setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
       //reset all relevant state variables as well
+      console.log(this.nodeIds);
+      console.log(this.edgeIds);
    }
 
   componentDidMount() {
