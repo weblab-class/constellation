@@ -54,14 +54,14 @@ const goodGraphInfoArguments = (req, res) => {
 
   // 1/15: https://stackoverflow.com/questions/203739/why-does-instanceof-return-false-for-some-literals
   
-  if(typeof req.query.subject_id === 'undefined'){
-    const errorStr = "Did not specify subject_id as parameter in empty query -- did you use the wrong parameter name?";
+  if(typeof req.query.subjectId === 'undefined'){
+    const errorStr = "Did not specify subjectId as parameter in empty query -- did you use the wrong parameter name?";
     console.log(errorStr);
     res.status(400).send( {errorMessage : errorStr} );
     return false;
     }
-  if(!(typeof req.query.subject_id === "string")){
-    errorStr = "subject_id argument is not a String.";
+  if(!(typeof req.query.subjectId === "string")){
+    errorStr = "subjectId argument is not a String.";
     console.log(errorStr);
     res.status(400).send( {errorMessage : errorStr} );
     return false;
@@ -74,7 +74,7 @@ router.get("/graphNode", (req, res) => {
     return;
   }
 
-  graphInfo.find({"subject_id" : String(req.query.subject_id)}).then(
+  graphInfo.find({"subjectId" : String(req.query.subjectId)}).then(
     (nodeInfo) => {
       res.send(nodeInfo);
     }).catch(
@@ -87,7 +87,7 @@ router.get("/sidebarNode", (req, res) => {
     return;
   }
 
-  sidebarInfo.find({"subject_id" : String(req.query.subject_id)}).then(
+  sidebarInfo.find({"subjectId" : String(req.query.subjectId)}).then(
     (nodeInfo) => {res.send(nodeInfo);}
     ).catch(
       (err) => {res.status(500); res.send({info : err.message});}
@@ -96,7 +96,7 @@ router.get("/sidebarNode", (req, res) => {
 
 router.get("/collectionNames", auth.ensureLoggedIn, (req, res) => {
 
-  collectionName.find({"user_id": req.user}).then(
+  collectionName.find({"userId": req.user}).then(
     (userCollectionNames) => {
 
     if (userCollectionNames === null){
@@ -105,10 +105,10 @@ router.get("/collectionNames", auth.ensureLoggedIn, (req, res) => {
 
     //Check for authorized user.
 
-    if(req.user._id !== userCollectionNames[0].user_id){
-      const error_message = "Attempted to request information that does not belong to this user.";
-      console.log(error_message);
-      res.status(403); res.send({message : error_message});
+    if(req.user._id !== userCollectionNames[0].userId){
+      const errorMessage = "Attempted to request information that does not belong to this user.";
+      console.log(errorMessage);
+      res.status(403); res.send({message : errorMessage});
     }
     
     res.send(userCollectionNames);
@@ -125,12 +125,12 @@ router.get("/loadCollection", auth.ensureLoggedIn, (req, res) => {
   console.log("Req user in loadCollection:"+req.user._id);
 
   Collection.findOne({
-    "user_id": req.user._id, "collection_name": req.query.collectionName
+    "userId": req.user._id, "collectionName": req.query.collectionName
   }).then(
     (thisGraph) => {
       res.send({
-        nodeArray: thisGraph.node_array,
-        edgeArray: thisGraph.edge_array,
+        nodeArray: thisGraph.nodeArray,
+        edgeArray: thisGraph.edgeArray,
       });
     }
   );
@@ -149,14 +149,14 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
   
   // this will save the name of the collection
   
-  collectionName.findOne({"user_id": req.user}).then(
+  collectionName.findOne({"userId": req.user}).then(
     (userCollectionNames) => {
 
       //If user does not yet have saved collections
       if(!userCollectionNames){
 
         const newCollection = new collectionName({
-          user_id : req.user,
+          userId : req.user,
           names : [req.body.collectionName]
         });
         
@@ -175,29 +175,29 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
 
   //This will save the collection itself.
 
-  //Either update the node_array, edge_array contents of the graph
+  //Either update the contents of the graph
   //  or save a new Graph.
 
   Collection.findOne({
-    "user_id": req.user, "collection_name": req.body.collectionName
+    "userId": req.user, "collectionName": req.body.collectionName
   }).then(
     (thisGraph) => {
       if(thisGraph === null){
         //if the collection doesn't already exist
         
         const graph = new Collection({
-          user_id : req.user,
-          collection_name : req.body.collectionName,
-          node_array : req.body.nodeArray,
-          edge_array : req.body.edgeArray,
+          userId : req.user,
+          collectionName : req.body.collectionName,
+          nodeArray : req.body.nodeArray,
+          edgeArray : req.body.edgeArray,
         });
 
         graph.save();
       }
       else{
         //update the collection
-        thisGraph.node_array = req.body.nodeArray;
-        thisGraph.edge_array = req.body.edgeArray;
+        thisGraph.nodeArray = req.body.nodeArray;
+        thisGraph.edgeArray = req.body.edgeArray;
 
         thisGraph.save();
       }
