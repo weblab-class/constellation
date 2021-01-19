@@ -4,7 +4,8 @@ const collectionSchema = new mongoose.Schema({
 
     user_id : String,
     collection_name : String,
-    graph : Array
+    node_array : Array,
+    edge_array : Array,
 
     },
     {"collection": "collections"}
