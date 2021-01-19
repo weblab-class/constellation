@@ -291,14 +291,18 @@ class VisNetwork extends Component {
   }
 
   componentDidUpdate(prevProps) {
+
     //if new class isn't previous class, update
     if(this.props.newClass && this.props.newClass !== prevProps.newClass) this.processAddition(this.props.newClass);
     //process removing class
     //if(this.props.removeClass && this.props.removeClass !== prevProps.removeClass) this.processRemoval(this.props.removeClass)
     //if canvasToBeReset isn't previous canvasToBeReset, update
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
-    // if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
-    // if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
+    if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter){
+      this.saveNetwork();
+      console.log("Save network called from vis JS");
+    }
+    if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
   }
 
   render() {
