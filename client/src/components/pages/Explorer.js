@@ -231,7 +231,7 @@ class Explorer extends Component {
 
         if (!this.state.currentCollectionName){
 
-            const nextName = String(Math.random() * 100000);
+            const nextName = String(Date.now());
 
             //Generate a random name (like a long string of numbers)
             //NOTE TO SELF: Does not guarantee no collisions which is needed later.
