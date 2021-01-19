@@ -8,8 +8,8 @@ import "./SaveCollection.css";
  * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
  *
  * Proptypes
- * @param {() => ()} resetCanvas clears graph, display bar
- * 
+ * @param {Function} handleSaveCollection saves current collection, prompts user to name if not saved before
+ * @param {Boolean} isDisplayCollections true if collections should be displayed 
  */
 
 class SaveCollection extends Component {
