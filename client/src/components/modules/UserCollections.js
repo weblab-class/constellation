@@ -8,7 +8,7 @@ import "./CanvasOptions.css"
  * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
  *
  * Proptypes
- * @param {paramtype} handleUserCollections function from Explorer to switch sidebar state
+ * @param {Function} handleUserCollections function from Explorer to switch sidebar state
  *
  */
 

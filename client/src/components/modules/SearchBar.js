@@ -7,8 +7,8 @@ import "./SearchBar.css";
  * Searchbar to search for class
  *
  * Proptypes
- * @param {(String) => ()} setCourseObject callback function that takes in input text and sets current course object
- *
+ * @param {Function} setCourseObject callback function that takes in input text and sets current course object
+ * @param {Boolean} isDisplayCollections true if collections should be displayed 
  */
 
 class SearchBar extends Component {
@@ -21,7 +21,6 @@ class SearchBar extends Component {
 
     glassClick = () =>{
         console.log("The glass was clicked!");
-        this.props.handleSearch(this.state.inputText);
         this.props.setCourseObject(this.state.inputText);
         this.state.inputText = '';
     }

@@ -9,8 +9,17 @@ import "./DisplayBar.css";
  * displays information for a course which is searched/selected. Contains automatic scroll feature
  *
  * Proptypes
- * @param {CourseObject} courseObject takes in the object containing information for the course searched/selected and renders as HTML
- *
+ * @param {Boolean} isDisplayCollections true if collections should be displayed 
+ * @param {Function} handleAddClass adds class to network when 'add' is clicked
+ * @param {Function} handleRemoveClass removes class from network when 'remove' is clicked
+ * @param {Function} handleLoadCollection loads collection name when 'load' is clicked
+ * @param {Function} handleCancel checks that collections are displayed when called, then calls setToNoCollections
+ * @param {Boolean} canvasToBeReset true if graph + display bar should be cleared
+ * @param {Function} setToNoCollections reverts page to state before 'my collections' was clicked
+ * @param {Boolean} loaded true if a collection is loaded
+ * @param {Array} collectionsArray passed to CollectionsList
+ * @param {Function} setToLoaded passed to CollectionsList
+ * @param {Object} courseObject passed to CourseInfo
  */
 
 class DisplayBar extends Component {
@@ -70,7 +79,7 @@ class DisplayBar extends Component {
             toDisplay=<p>no class selected...</p>;
         }
         else if(!this.props.courseObject.found) {
-            toDisplay=<p className="DisplayBar-notFound">Subject with ID '{this.props.courseObject.searchedText}' not found...</p>;
+            toDisplay=<p className="DisplayBar-notFound">Subject with ID ' {this.props.courseObject.searchedText} ' not found...</p>;
         }
         else {
             addRemoveActive = true;
