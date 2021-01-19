@@ -22,18 +22,18 @@ class DisplayBar extends Component {
     render() {
         let term = [];
         const YEAR = 2020;
-        if(this.props.courseObject.offered_fall) {
+        if(this.props.courseObject.offeredFall) {
             term.push("Fall " + YEAR);
         }
-        if(this.props.courseObject.offered_spring) {
+        if(this.props.courseObject.offeredSpring) {
             term.push("Spring " + (YEAR+1));
 
         }
-        if(this.props.courseObject.offered_IAP) {
+        if(this.props.courseObject.offeredIAP) {
             term.push("IAP " + (YEAR+1));
 
         }
-        if(this.props.courseObject.offered_summer) {
+        if(this.props.courseObject.offeredSummer) {
             term.push("Summer " + (YEAR+1));
         }
 
