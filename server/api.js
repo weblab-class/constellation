@@ -94,7 +94,7 @@ router.get("/sidebarNode", (req, res) => {
     );
 });
 
-router.get("/collectionNames", (req, res) => {
+router.get("/collectionNames", auth.ensureLoggedIn, (req, res) => {
 
   collectionName.find({"user_id": req.user}).then(
     (userCollectionNames) => {
@@ -120,7 +120,7 @@ router.get("/collectionNames", (req, res) => {
 
 });
 
-router.get("/loadCollection", (req, res) => {
+router.get("/loadCollection", auth.ensureLoggedIn, (req, res) => {
 
   console.log("Req user in loadCollection:"+req.user._id);
 
@@ -137,7 +137,7 @@ router.get("/loadCollection", (req, res) => {
 
 });
 
-router.post("/saveCollection", (req, res) => {
+router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
 
   // If POST request is attempted and user is not logged in,
   //    reject the POST request.
