@@ -9,8 +9,8 @@ import "./Canvas.css";
  * Canvas for the graph
  *
  * Proptypes
- * @param {String} newClass name of new class
- * @param {(String) => (Array)} getNeighbors name of new class
+ * @param {paramtype} paramname paramdescription
+ *
  */
 
 class Canvas extends Component {
@@ -30,16 +30,18 @@ class Canvas extends Component {
     render(){
         return(
             <div className="Canvas-container" ref={this.divRef}>
-                    <VisNetwork 
+                    <VisNetwork
                         newClass = {this.props.newClass}
                         getNeighbors = {this.props.getNeighbors}
                         handleNodeClick = {this.props.handleNodeClick}
                         setCourseObject = {this.props.setCourseObject}
                         getLoadCollectionInfo = {this.props.getLoadCollectionInfo}
                         canvasToBeReset = {this.props.canvasToBeReset}
-                        stabilizeCanvas = {this.props.stabilizeCanvas}
+                        saveCanvasCounter= {this.props.saveCollectionCounter}
+                        loadCollectionCounter={this.props.loadCollectionCounter}
                         newClass = {this.props.newClass}
                         removeClass = {this.props.removeClass}
+                        importNetwork= {this.props.importNetwork}
                     />
             </div>
         )
