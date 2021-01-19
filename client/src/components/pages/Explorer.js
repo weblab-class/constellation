@@ -53,7 +53,6 @@ class Explorer extends Component {
 
     setCourseObject = (input) => {
         get("/api/sidebarNode", { subject_id: input }).then((courseArray) => {
-            console.log("courseArray", courseArray);
             if (courseArray.length === 0) {
                 this.setState({
                     courseObject: {
@@ -159,7 +158,6 @@ class Explorer extends Component {
         });
 
         get("/api/collectionNames").then((collectionsArrayFromAPI) => {
-            console.log(collectionsArrayFromAPI);
             if (collectionsArrayFromAPI.length > 0) {
                 this.setState({ collectionsArray: collectionsArrayFromAPI[0].names });
             }
@@ -205,7 +203,6 @@ class Explorer extends Component {
 
     postNetwork = (graphObject) => {
 
-        console.log("Posting the current name : "+this.state.currentCollectionName);
         post("/api/saveCollection", {
             
             collectionName : this.state.currentCollectionName,
@@ -259,19 +256,20 @@ class Explorer extends Component {
         });
     }
 
-    importNetwork = () => {
+    importNetwork = async () => {
         //uses this.state.collectionName
         //returns network object so that Vis can use it
 
-        get("/api/loadCollection", {collectionName : this.state.currentCollectionName}).then(
-            (graphObject) => {
-                return graphObject;
-            }
-        ).catch(
-            (err) => {
+        try{
+            const networkObject = await get("/api/loadCollection", {
+                collectionName : this.state.currentCollectionName
+            });
+            return networkObject;
+            
+        } catch (err) {
                 console.log("There was an error loading a collection for the user. Specific error message:", err.message);
-            }
-        )
+        }
+       
     }
     // componentDidMount() {}
 

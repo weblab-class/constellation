@@ -104,7 +104,8 @@ router.get("/collectionNames", (req, res) => {
     }
 
     //Check for authorized user.
-    if(req.user !== userCollectionNames.user_id){
+
+    if(req.user._id !== userCollectionNames[0].user_id){
       const error_message = "Attempted to request information that does not belong to this user.";
       console.log(error_message);
       res.status(403); res.send({message : error_message});
@@ -121,11 +122,16 @@ router.get("/collectionNames", (req, res) => {
 
 router.get("/loadCollection", (req, res) => {
 
+  console.log("Req user in loadCollection:"+req.user._id);
+
   Collection.findOne({
-    "user_id": req.user, "collection_name": req.query.collectionName
+    "user_id": req.user._id, "collection_name": req.query.collectionName
   }).then(
     (thisGraph) => {
-        res.send(thisGraph);
+      res.send({
+        nodeArray: thisGraph.node_array,
+        edgeArray: thisGraph.edge_array,
+      });
     }
   );
 
@@ -149,7 +155,6 @@ router.post("/saveCollection", (req, res) => {
       //If user does not yet have saved collections
       if(!userCollectionNames){
 
-        console.log("Req user in saveCollection" + req.user);
         const newCollection = new collectionName({
           user_id : req.user,
           names : [req.body.collectionName]
