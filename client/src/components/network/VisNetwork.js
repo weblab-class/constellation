@@ -157,10 +157,6 @@ class VisNetwork extends Component {
    }
 
    getNodeData = () => {
-<<<<<<< HEAD
-=======
-
->>>>>>> 3cc29554011b31ba1eaf90d3df2c5d466f7f0146
     let nodeData = [];
     const nodePositions = this.network.getPositions();
     Object.keys(nodePositions).forEach((classId) => {
@@ -172,17 +168,9 @@ class VisNetwork extends Component {
       });
      });
     return nodeData;
-<<<<<<< HEAD
    }
 
    getEdgeData = () => {
-=======
-
-   }
-
-   getEdgeData = () => {
-
->>>>>>> 3cc29554011b31ba1eaf90d3df2c5d466f7f0146
     let edgeData = [];
     this.edgeIds.forEach((edgeId) => {
       const endpoints = edgeId.split('@');
@@ -192,10 +180,6 @@ class VisNetwork extends Component {
       });
     });
     return edgeData;
-<<<<<<< HEAD
-=======
-
->>>>>>> 3cc29554011b31ba1eaf90d3df2c5d466f7f0146
    }
 
    //returns array that will be stored in database 
@@ -271,15 +255,9 @@ class VisNetwork extends Component {
          this.isSuggestionDict[classId] = true
         });
       //step 2, set all new nodes from newNetworkData according to their opacity (not suggestion if opacity is 1, suggestion otherwise)
-<<<<<<< HEAD
-      newNetworkData.forEach( (elem) => {
-        //FILL THIS IN LOL
-      })
-=======
       nodeArray.forEach( (elem) => {
         this.isSuggestionDict[elem.id] = (elem.opacity === 1) ? false : true;
       });
->>>>>>> 3cc29554011b31ba1eaf90d3df2c5d466f7f0146
    }
   
    resetNetwork = () => {
@@ -333,20 +311,13 @@ class VisNetwork extends Component {
   }
 
   componentDidUpdate(prevProps) {
-
     //if new class isn't previous class, update
     if(this.props.newClass && this.props.newClass !== prevProps.newClass) this.processAddition(this.props.newClass);
     //process removing class
     //if(this.props.removeClass && this.props.removeClass !== prevProps.removeClass) this.processRemoval(this.props.removeClass)
     //if canvasToBeReset isn't previous canvasToBeReset, update
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
-<<<<<<< HEAD
     if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
-=======
-    if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter){
-      this.saveNetwork();
-    }
->>>>>>> 3cc29554011b31ba1eaf90d3df2c5d466f7f0146
     if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
   }
 
