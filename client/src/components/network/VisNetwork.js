@@ -13,7 +13,6 @@ import { GiBlackHandShield } from 'react-icons/gi';
 
 //to check if an edge exists, merely check that both endpoints are added
 
-
 class VisNetwork extends Component {
 
   constructor(props) {
