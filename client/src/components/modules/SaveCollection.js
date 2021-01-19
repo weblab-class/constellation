@@ -22,7 +22,7 @@ class SaveCollection extends Component {
 
     render(){
         return(
-            <button className="SaveCollection-navButton" disabled={this.props.isDisplayCollections}>Save Constellation</button>  
+            <button className="SaveCollection-navButton" disabled={this.props.isDisplayCollections} onClick={this.props.handleSaveCollection}>Save Constellation</button>  
         )
     }
 }

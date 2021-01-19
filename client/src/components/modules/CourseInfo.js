@@ -20,6 +20,23 @@ class DisplayBar extends Component {
     //componentDidMount(){}
 
     render() {
+        let term = [];
+        const YEAR = 2020;
+        if(this.props.courseObject.offered_fall) {
+            term.push("Fall " + YEAR);
+        }
+        if(this.props.courseObject.offered_spring) {
+            term.push("Spring " + (YEAR+1));
+
+        }
+        if(this.props.courseObject.offered_IAP) {
+            term.push("IAP " + (YEAR+1));
+
+        }
+        if(this.props.courseObject.offered_summer) {
+            term.push("Summer " + (YEAR+1));
+        }
+
         return (
             <>
                 <div className="CourseInfo-title u-bold">
@@ -27,7 +44,7 @@ class DisplayBar extends Component {
                     <p>{this.props.courseObject.title}</p>
                 </div>
                 <div className="CourseInfo-term">
-                    <p>Term: Spring 2021 </p>
+                    <p>Terms offered: {term.length !== 0 ? term.join(', ') : `Not offered in the ${YEAR}-${YEAR+1} school year`} </p>
                 </div>
                 <div className="CourseInfo-prerequisites">
                     <p>Prerequisites: {this.props.courseObject.prerequisites ? this.props.courseObject.prerequisites.toString() : "None"}</p>
