@@ -156,11 +156,29 @@ class VisNetwork extends Component {
    }
 
    getNodeData = () => {
-
+    let nodeData = [];
+    const nodePositions = this.network.getPositions();
+    Object.keys(nodePositions).forEach((classId) => {
+      nodeData.push({
+        x: nodePositions[classId].x,
+        y: nodePositions[classId].y,
+        id: classId,
+        opacity: this.isSuggestionDict[classId] ? 0.5 : 1,
+      });
+     });
+    return nodeData;
    }
 
    getEdgeData = () => {
-
+    let edgeData = [];
+    this.edgeIds.forEach((edgeId) => {
+      const endpoints = edgeId.split('@');
+      edgeData.push({
+        from: endpoints[0],
+        to: endpoints[1],
+      });
+    });
+    return edgeData;
    }
 
    //returns array that will be stored in database 
@@ -237,7 +255,7 @@ class VisNetwork extends Component {
         });
       //step 2, set all new nodes from newNetworkData according to their opacity (not suggestion if opacity is 1, suggestion otherwise)
       newNetworkData.forEach( (elem) => {
-
+        //FILL THIS IN LOL
       })
    }
   
@@ -297,8 +315,8 @@ class VisNetwork extends Component {
     //if(this.props.removeClass && this.props.removeClass !== prevProps.removeClass) this.processRemoval(this.props.removeClass)
     //if canvasToBeReset isn't previous canvasToBeReset, update
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
-    // if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
-    // if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
+    if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
+    if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
   }
 
   render() {
