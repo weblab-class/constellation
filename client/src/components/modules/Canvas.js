@@ -37,8 +37,9 @@ class Canvas extends Component {
                         setCourseObject = {this.props.setCourseObject}
                         getLoadCollectionInfo = {this.props.getLoadCollectionInfo}
                         canvasToBeReset = {this.props.canvasToBeReset}
-                        saveCanvasCounter= {this.props.saveCollectionCounter}
+                        saveCanvasCounter= {this.props.saveCanvasCounter}
                         loadCollectionCounter={this.props.loadCollectionCounter}
+                        exportNetwork={this.props.exportNetwork}
                         newClass = {this.props.newClass}
                         removeClass = {this.props.removeClass}
                         importNetwork= {this.props.importNetwork}
