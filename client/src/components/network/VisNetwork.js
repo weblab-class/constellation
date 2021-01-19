@@ -243,7 +243,7 @@ class VisNetwork extends Component {
    }
 
    setNetworkToNewData = (newNodes, newEdges, newNodeIds, newEdgeIds) => {
-     thsi.network.setData({
+     this.network.setData({
        nodes: newNodes,
        edges: newEdges,
      });
@@ -259,9 +259,9 @@ class VisNetwork extends Component {
          this.isSuggestionDict[classId] = true
         });
       //step 2, set all new nodes from newNetworkData according to their opacity (not suggestion if opacity is 1, suggestion otherwise)
-      newNetworkData.forEach( (elem) => {
-
-      })
+      nodeArray.forEach( (elem) => {
+        this.isSuggestionDict[elem.id] = (elem.opacity === 1) ? false : true;
+      });
    }
   
    resetNetwork = () => {
@@ -271,7 +271,7 @@ class VisNetwork extends Component {
        if(classId !== 1) this.isSuggestionDict[classId] = true;
      });
      //must update state as well so state and network work with same object
-     console.log(newNodes);
+
      this.network.setData({
        nodes: newNodes,
        edges: newEdges,
@@ -289,9 +289,10 @@ class VisNetwork extends Component {
     this.props.exportNetwork(currentNetworkData);
    }
 
-   loadNetwork = () => {
+   loadNetwork = async () => {
      //handle loadNetwork stuff
-      let newNetworkData = this.props.importNetwork();
+      let newNetworkData = await this.props.importNetwork();
+
       const nodeArray = newNetworkData.nodeArray;
       const edgeArray = newNetworkData.edgeArray;
       //create data = {nodes: , edges: }, and edgeId's, and suggestionId's
@@ -300,8 +301,8 @@ class VisNetwork extends Component {
       let newNodeIds = this.parseForNodeIdData(nodeArray);
       let newEdgeIds = this.parseForEdgeIdData(edgeArray);
       //update isSuggestionDict
-      setSuggestionDictToNewData(newNetworkData);
-      setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
+      this.setSuggestionDictToNewData(nodeArray);
+      this.setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
       //reset all relevant state variables as well
    }
 
@@ -323,7 +324,6 @@ class VisNetwork extends Component {
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
     if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter){
       this.saveNetwork();
-      console.log("Save network called from vis JS");
     }
     if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
   }
