@@ -41,16 +41,6 @@ class Explorer extends Component {
         }
     }
 
-    //this function is passed as a prop to the search bar on Sidebar
-    //upon recieving input, makes call to API to recieve class data
-    //passes class data down to canvas
-
-    handleSearch = async (inputText) => {
-        this.setState({
-            currentlyViewedClass: inputText,
-        });
-    }
-
     setCourseObject = (input) => {
         get("/api/sidebarNode", { subject_id: input }).then((courseArray) => {
             if (courseArray.length === 0) {
@@ -148,7 +138,7 @@ class Explorer extends Component {
         });
         
     }
-
+    
     handleUserCollections = () => {
 
         //  Activates display of SideBar with collection options

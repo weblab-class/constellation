@@ -10,7 +10,18 @@ import "./SideBar.css";
  *
  * Proptypes
  * @param {paramtype} paramname paramdescription
- *
+ * @param {Function} setCourseObject passed to search bar
+ * @param {Boolean} isDisplayCollections passed to search and display bar
+ * @param {Object} courseObject passed to display bar
+ * @param {Function} handleAddClass passed to display bar
+ * @param {Function} handleRemoveClass passed to display bar
+ * @param {Function} handleLoadCollection passed to display bar
+ * @param {Function} handleCancel passed to display bar
+ * @param {Boolean} canvasToBeReset passed to display bar
+ * @param {Array} collectionsArray passed to display bar
+ * @param {Function} setToNoCollections passed to display bar
+ * @param {Function} setToLoaded passed to display bar
+ * @param {Boolean} loaded passed to display bar
  */
 
 class SideBar extends Component {
@@ -25,7 +36,6 @@ class SideBar extends Component {
             <div>
                 <div className="Sidebar-title"> constellation </div>
                 <SearchBar 
-                    handleSearch={this.props.handleSearch} 
                     setCourseObject={this.props.setCourseObject}
                     isDisplayCollections={this.props.isDisplayCollections}
                 />
