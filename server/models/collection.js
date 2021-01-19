@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const collectionSchema = new mongoose.Schema({
 
-    user_id : String,
-    collection_name : String,
-    node_array : Array,
-    edge_array : Array
+    userId : String,
+    collectionName : String,
+    nodeArray : Array,
+    edgeArray : Array
 
     },
     {"collection": "collections"}
