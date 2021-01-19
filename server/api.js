@@ -165,10 +165,14 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
 
       else {
 
-        // Need to update the collection names
-        userCollectionNames.names = [... userCollectionNames.names].concat([req.body.collectionName]);
-        userCollectionNames.save();
-        
+        // Need to update the collection names if this canvas is not already present.
+        //If the canvas is already present, it's updating an old collection by definition
+        //  (front end will eventually reject duplicate names for different canvas)
+        if (req.body.collectionName in userCollectionNames.names){
+          userCollectionNames.names = [... userCollectionNames.names].concat([req.body.collectionName]);
+          userCollectionNames.save();
+        }
+  
       }
 
     });
