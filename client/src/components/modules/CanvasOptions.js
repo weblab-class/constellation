@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import UserCollections from "./UserCollections.js";
 import SaveCollection from "./SaveCollection.js";
-
+import NewCollection from "./NewCollection.js";
+import Dropdown from "./Dropdown.js";
 import { navigate } from "@reach/router";
 
 import "./CanvasOptions.css";
@@ -28,9 +29,12 @@ class CanvasOptions extends Component {
     render(){
         return(
             <nav className="CanvasOptions-navBar">
-                <button type="submit" className="CanvasOptions-navButton" onClick={this.props.resetCanvas} disabled={this.props.isDisplayCollections}>Reset Canvas</button>  
-                <SaveCollection handleSaveCollection={this.props.handleSaveCollection} isDisplayCollections={this.props.isDisplayCollections}/>
+                <Dropdown />
                 <UserCollections handleUserCollections={this.props.handleUserCollections}/>
+                <NewCollection />
+                <button type="submit" className="CanvasOptions-navButton" onClick={this.props.resetCanvas} disabled={this.props.isDisplayCollections}>reset</button>  
+                <SaveCollection handleSaveCollection={this.props.handleSaveCollection} isDisplayCollections={this.props.isDisplayCollections}/>
+
                 <button type="submit" className="CanvasOptions-navButton" onClick={this.returnHome} disabled={this.props.isDisplayCollections}>  Back to Home </button>
             </nav>
         )
