@@ -14,6 +14,7 @@ import { get, post} from "../../utilities";
  *
  * Proptypes
  * @param {string} userId id of current logged in user
+ * @param {Function} handleLogout passed to CanvasOptions
  */
 
 class Explorer extends Component {
@@ -283,6 +284,7 @@ class Explorer extends Component {
                             handleUserCollections={this.handleUserCollections}
                             resetCanvas={this.handleResetCanvas}
                             isDisplayCollections={this.state.isDisplayCollections}
+                            handleLogout={this.props.handleLogout}
                         />
                         <Canvas
                             exportNetwork={this.exportNetwork}
