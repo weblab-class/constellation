@@ -49,8 +49,9 @@ class SearchBar extends Component {
                         type="submit" 
                         className="SearchBar-button"
                         disabled={this.props.isDisplayCollections}
+                        onClick={this.glassClick}
                     >
-                        <GiMagnifyingGlass size={25} onClick={this.glassClick}/>
+                        <GiMagnifyingGlass size={25} />
                     </button>
                 </div>
             </div>

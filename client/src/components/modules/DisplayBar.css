@@ -23,7 +23,7 @@ p {
     word-wrap:break-word;
 }
 
-.DisplayBar-containerOuter:hover {
+.DisplayBar-containerOuter:hover:enabled {
     opacity: 100%;
 }
 
@@ -49,7 +49,7 @@ p {
     outline: none;
 }
 
-.DisplayBar-button:hover {
+.DisplayBar-button:hover:enabled {
     box-shadow: 0 5px 5px rgba(97, 123, 133, 0.4);
 }
 
