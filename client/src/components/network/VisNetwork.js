@@ -250,25 +250,45 @@ class VisNetwork extends Component {
      return classId.split('.')[0];
    }
 
-   getCourseColor = (classId) => {
-     const courseId = this.getCourseId(classId);
-     return (MANUAL_COLORS ? SUMMER_COLORS[courseId] : null);
-   }
    //edge id is of the form SMALLER_CLASS@LARGER_CLASS (wrt string order)
-   getEdgeId = (classFrom, classTo) => {
-     if(classFrom === classTo) return "SAME";
-     return (classFrom < classTo) ? (classFrom + '@' + classTo) : (classTo + '@' + classFrom);
+   getEdgeId = (classFrom, classTo, val) => {
+     const relationList = ['>', "=", "<"];
+     return (classFrom < classTo) ? (classFrom + relationList[val] + classTo) : (classTo + relationList[2-val] + classFrom);
    }
+
+   getEdgeOptions = (classFrom, classTo, val) => {
+     let prereq, afterreq;
+     let type = (val !== 1) ? 'arrow' : 'diamond';
+     if(val === 0){
+       [prereq, afterreq] = [classTo, classFrom];
+     } else{
+       [prereq, afterreq] = [classFrom, classTo];
+     }
+     const edgeOptions = {
+        prereq: prereq,
+        afterreq: afterreq,
+        type: type,
+     }
+     return edgeOptions;
+    }
 
    //TODO: add functionality for val
    addEdge = (classFrom, classTo, val) => {
     //check if edge already exists
-    const edgeId = this.getEdgeId(classFrom, classTo);
+    const edgeId = this.getEdgeId(classFrom, classTo, val);
     if(this.alreadyAddedEdge(edgeId)) return;
+    const edgeOptions = this.getEdgeOptions(classFrom, classTo, val);
+    console.log(edgeOptions);
     this.data.edges.add({
       id: edgeId,
-      from: classFrom,
-      to: classTo,
+      from: edgeOptions.prereq,
+      to: edgeOptions.afterreq,
+      arrows: {
+        middle: {
+          enabled: true,
+          type: edgeOptions.type,
+        }
+      }
     });
     this.edgeIds.push(edgeId);
    }
@@ -282,6 +302,7 @@ class VisNetwork extends Component {
     this.data.nodes.update([{ id: 1, color: { background: newColor } }]);
    }
 
+   //prepares current node data for export
    getNodeData = () => {
     let nodeData = [];
     const nodePositions = this.network.getPositions();
@@ -296,6 +317,7 @@ class VisNetwork extends Component {
     return nodeData;
    }
 
+   //prepares current edge data for export
    getEdgeData = () => {
     let edgeData = [];
     this.edgeIds.forEach((edgeId) => {
