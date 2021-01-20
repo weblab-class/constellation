@@ -211,8 +211,9 @@ class Explorer extends Component {
         });
 
         //Need to also add a name to the list of current collections that can be loaded (via setState)
-        this.setState({ collectionsArray : [... this.state.collectionsArray].concat([this.state.currentCollectionName])});
-
+        if (!(this.state.collectionsArray.includes(this.state.currentCollectionName))){
+            this.setState({ collectionsArray : [... this.state.collectionsArray].concat([this.state.currentCollectionName])});
+        }
     }
 
     exportNetwork = (graphObject) => {

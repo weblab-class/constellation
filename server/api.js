@@ -96,11 +96,12 @@ router.get("/sidebarNode", (req, res) => {
 
 router.get("/collectionNames", auth.ensureLoggedIn, (req, res) => {
 
+  console.log("Current user" + req.user._id)
   collectionName.find({"userId": req.user}).then(
     (userCollectionNames) => {
 
-    if (userCollectionNames === null){
-      return [];
+    if (userCollectionNames.length === 0){
+      res.send([]); return;
     }
 
     //Check for authorized user.
@@ -168,7 +169,17 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
         // Need to update the collection names if this canvas is not already present.
         //If the canvas is already present, it's updating an old collection by definition
         //  (front end will eventually reject duplicate names for different canvas)
-        if (req.body.collectionName in userCollectionNames.names){
+
+        console.log("Collect name"+req.body.collectionName);
+        console.log(typeof req.body.collectionName);
+        console.log("User collection names"+ userCollectionNames.names);
+        console.log(typeof userCollectionNames.names);
+
+        if (!(userCollectionNames.names.includes(req.body.collectionName))){
+
+          console.log("Entering!")
+          console.log("CONCAT"+[... userCollectionNames.names].concat([req.body.collectionName]));
+
           userCollectionNames.names = [... userCollectionNames.names].concat([req.body.collectionName]);
           userCollectionNames.save();
         }
