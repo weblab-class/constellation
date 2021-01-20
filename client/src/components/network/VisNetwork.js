@@ -15,6 +15,7 @@ import { GiBlackHandShield } from 'react-icons/gi';
 
 //colors, courtesy of https://wondernote.org/color-palettes-for-web-digital-blog-graphic-design-with-hexadecimal-codes/
 const COLORS_ON = false;
+
 const SUMMER_COLORS = {
   "1" :"#53CFDA",
   "2":"#FF8860",
@@ -140,7 +141,6 @@ class VisNetwork extends Component {
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
     }
   }
-
 
   //two parameters: nodeLabel=courseID
   addNode = (classId, suggestionStatus, opacity) => {
