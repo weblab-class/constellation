@@ -14,7 +14,102 @@ import { GiBlackHandShield } from 'react-icons/gi';
 //to check if an edge exists, merely check that both endpoints are added
 
 //colors, courtesy of https://wondernote.org/color-palettes-for-web-digital-blog-graphic-design-with-hexadecimal-codes/
-const COLORS_ON = false;
+const MANUAL_COLORS = true;
+
+/*sample group options
+  "courseNumber": {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+*/
+
+const GROUP_COLOR_OPTIONS = {
+  1: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  2: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  3:{ 
+    color: "#00C3AF",
+    borderWidth: 3,
+  }, 
+  4: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  5: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  6: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  7: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  8: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  9: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  10: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  11: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  12: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  14: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  15: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  16: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  17: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  18: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  20: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  21: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  22: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  },
+  myGroup: {
+    color: "#00C3AF",
+    borderWidth: 3,
+  }
+}
+
 const SUMMER_COLORS = {
   "1" :"#53CFDA",
   "2":"#FF8860",
@@ -48,7 +143,7 @@ class VisNetwork extends Component {
     let shadowState = false;
 
     // create an array with nodes, and one with edges
-    let nodesArray = [{ id: "Click me to get started!", label: "Click me to get started!"},]; //generate the help node for new users
+    let nodesArray = [{ id: "Click me to get started!", label: "Click me to get started!", group: 'myGroup'},]; //generate the help node for new users
     let nodes = new DataSet(nodesArray);
     let edgesArray = [];
     let edges = new DataSet(edgesArray);
@@ -76,6 +171,7 @@ class VisNetwork extends Component {
              opacity: 0.3,
           },
         },
+        groups: MANUAL_COLORS ? GROUP_COLOR_OPTIONS : null,
     };
   }
 
@@ -141,35 +237,58 @@ class VisNetwork extends Component {
     }
   }
 
-
   //two parameters: nodeLabel=courseID
   addNode = (classId, suggestionStatus, opacity) => {
     if(this.alreadyAddedNode(classId)) return;
     this.isSuggestionDict[classId]=suggestionStatus;
-    const nodeColor = this.getCourseColor(classId);
-    this.data.nodes.add({ id: classId, label: classId, opacity: opacity, color: nodeColor}); //add group
+    const courseId = this.getCourseId(classId);
+    this.data.nodes.add({ id: classId, label: classId, opacity: opacity, group: courseId}); //add group
     this.nodeIds.push(classId);
    }
 
-   getCourseColor = (classId) => {
-     const courseId = classId.split('.')[0];
-     return (COLORS_ON ? SUMMER_COLORS[courseId] : null);
+   getCourseId = (classId) => {
+     return classId.split('.')[0];
    }
+
    //edge id is of the form SMALLER_CLASS@LARGER_CLASS (wrt string order)
-   getEdgeId = (classFrom, classTo) => {
-     if(classFrom === classTo) return "SAME";
-     return (classFrom < classTo) ? (classFrom + '@' + classTo) : (classTo + '@' + classFrom);
+   getEdgeId = (classFrom, classTo, val) => {
+     const relationList = ['>', "=", "<"];
+     return (classFrom < classTo) ? (classFrom + relationList[val] + classTo) : (classTo + relationList[2-val] + classFrom);
    }
+
+   getEdgeOptions = (classFrom, classTo, val) => {
+     let prereq, afterreq;
+     let type = (val !== 1) ? 'arrow' : 'diamond';
+     if(val === 0){
+       [prereq, afterreq] = [classTo, classFrom];
+     } else{
+       [prereq, afterreq] = [classFrom, classTo];
+     }
+     const edgeOptions = {
+        prereq: prereq,
+        afterreq: afterreq,
+        type: type,
+     }
+     return edgeOptions;
+    }
 
    //TODO: add functionality for val
    addEdge = (classFrom, classTo, val) => {
     //check if edge already exists
-    const edgeId = this.getEdgeId(classFrom, classTo);
+    const edgeId = this.getEdgeId(classFrom, classTo, val);
     if(this.alreadyAddedEdge(edgeId)) return;
+    const edgeOptions = this.getEdgeOptions(classFrom, classTo, val);
+    console.log(edgeOptions);
     this.data.edges.add({
       id: edgeId,
-      from: classFrom,
-      to: classTo,
+      from: edgeOptions.prereq,
+      to: edgeOptions.afterreq,
+      arrows: {
+        middle: {
+          enabled: true,
+          type: edgeOptions.type,
+        }
+      }
     });
     this.edgeIds.push(edgeId);
    }
@@ -183,6 +302,7 @@ class VisNetwork extends Component {
     this.data.nodes.update([{ id: 1, color: { background: newColor } }]);
    }
 
+   //prepares current node data for export
    getNodeData = () => {
     let nodeData = [];
     const nodePositions = this.network.getPositions();
@@ -197,6 +317,7 @@ class VisNetwork extends Component {
     return nodeData;
    }
 
+   //prepares current edge data for export
    getEdgeData = () => {
     let edgeData = [];
     this.edgeIds.forEach((edgeId) => {
@@ -224,12 +345,14 @@ class VisNetwork extends Component {
    parseForNodeData = (nodeArray) => {
     let nodes = [];
     nodeArray.forEach((node) => {
+      const courseId = this.getCourseId(node.id);
       nodes.push({
         id: node.id,
         label: node.id,
         x: node.x,
         y: node.y,
         opacity: node.opacity,
+        group: courseId,
       });
     });
     return new DataSet(nodes);
