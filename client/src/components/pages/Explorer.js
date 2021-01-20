@@ -122,6 +122,7 @@ class Explorer extends Component {
         this.setState({
             loadCollectionCounter: this.state.loadCollectionCounter + 1,
             currentCollectionName: collectionName,
+            isDisplayCollections: false,
         });
     }
 

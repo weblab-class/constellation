@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { get } from "../../utilities";
 
-import "./SaveCollection.css";
+import "./Dropdown.css";
  
 /**
  * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
@@ -12,7 +12,7 @@ import "./SaveCollection.css";
  * @param {Boolean} isDisplayCollections true if collections should be displayed 
  */
 
-class SaveCollection extends Component {
+class Dropdown extends Component {
     constructor(props){
         super(props);
     }
@@ -22,9 +22,9 @@ class SaveCollection extends Component {
 
     render(){
         return(
-            <button className="SaveCollection-navButton" disabled={this.props.isDisplayCollections} onClick={this.props.handleSaveCollection}>save</button>  
+            <button> dropdown </button>
         )
     }
 }
 
-export default SaveCollection;
+export default Dropdown;

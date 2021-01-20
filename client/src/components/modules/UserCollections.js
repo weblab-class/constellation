@@ -25,7 +25,7 @@ class UserCollections extends Component {
     render(){
         return(
             <button type="submit" className="UserCollections-navButton" onClick={this.handleButtonClick} disabled={this.props.isDisplayCollections}>
-                My Constellations
+                load
             </button>
         )
     }
