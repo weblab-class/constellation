@@ -1,0 +1,10 @@
+.NewCollection-navButton {
+    text-align: center;
+    display: inline;
+    margin: 1% 0 0 1%;
+    align-content: center;
+}
+  
+.NewCollection-navButton:hover {
+  box-shadow: 0 5px 5px rgba(97, 123, 133, 0.4);
+}
