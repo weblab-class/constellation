@@ -24,7 +24,7 @@ class UserCollections extends Component {
 
     render(){
         return(
-            <button type="submit" className="UserCollections-navButton" onClick={this.handleButtonClick} disabled={this.props.isDisplayCollections}>
+            <button type="submit" className="UserCollections-gridLoad" onClick={this.handleButtonClick} disabled={this.props.isDisplayCollections}>
                 load
             </button>
         )

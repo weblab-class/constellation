@@ -1,14 +1,13 @@
-.UserCollections-navButton {
-
+.UserCollections-gridLoad {
     text-align: center;
-    
-    display: inline;
-    margin: 1% 1% 1% 1%;
-    align-content: center;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
 }
 
-.UserCollections-navButton:hover {
-    box-shadow: 0 5px 5px rgba(97, 123, 133, 0.4);
+.UserCollections-gridLoad:hover:enabled {
+    background-color:rgba(0, 0, 0, 0.1);
 }
 
     

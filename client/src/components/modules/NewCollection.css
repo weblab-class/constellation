@@ -1,10 +1,11 @@
 .NewCollection-navButton {
     text-align: center;
-    display: inline;
-    margin: 1% 0 0 1%;
-    align-content: center;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
 }
   
-.NewCollection-navButton:hover {
-  box-shadow: 0 5px 5px rgba(97, 123, 133, 0.4);
+.NewCollection-navButton:hover:enabled {
+    background-color:rgba(0, 0, 0, 0.1);
 }
