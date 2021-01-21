@@ -24,6 +24,7 @@ import { GiBlackHandShield } from 'react-icons/gi';
 
 const SUGGESTED_EDGE_OPACITY = 0.2;
 const SUGGESTED_NODE_OPACITY = 0.2;
+const CLUTTER_COURSES = ['ES', 'CC', "HST"];
 
 const SUMMER_COLORS = {
   "1" :"#53CFDA",
@@ -126,6 +127,13 @@ class VisNetwork extends Component {
     this.data.edges.update([{ id: edgeId, color: {opacity: 1}}]);
   }
 
+  //for 7.05 this reduces the afterreqs from 76 to 49
+  filterClutterClasses = (classList) => {
+    return classList.filter((classId) => {
+      return !CLUTTER_COURSES.includes(this.getCourseId(classId));
+    });
+  }
+
   //adds class newUpdate to network, adds suggestions to neighbors
   processAddition = async (classId) => {
     if(this.alreadyAddedNode(classId)){
@@ -134,13 +142,16 @@ class VisNetwork extends Component {
     }
     else this.addNode(classId, false, 1);
     const neighbors = await this.props.getNeighbors(classId);
-    neighbors.prereqsToAdd.forEach((suggestionId) => {
+    const prereqsToAdd = this.filterClutterClasses(neighbors.prereqsToAdd);
+    const coreqsToAdd = this.filterClutterClasses(neighbors.coreqsToAdd);
+    const afterreqsToAdd = this.filterClutterClasses(neighbors.afterreqsToAdd);
+    prereqsToAdd.forEach((suggestionId) => {
       this.processSuggestionAddition(classId, suggestionId, 0);
     });
-    neighbors.coreqsToAdd.forEach((suggestionId) => {
+    coreqsToAdd.forEach((suggestionId) => {
       this.processSuggestionAddition(classId, suggestionId, 1);
     });
-    neighbors.afterreqsToAdd.forEach((suggestionId) => {
+    afterreqsToAdd.forEach((suggestionId) => {
       this.processSuggestionAddition(classId, suggestionId, 2);
     });
     this.setState({
