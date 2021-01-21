@@ -271,6 +271,13 @@ class Explorer extends Component {
         }
        
     }
+
+
+    handleNewCollection = () => {
+        
+    }
+
+
     // componentDidMount() {}
 
     //BELOW: Change the NamePopUp to be a real popup
@@ -285,6 +292,7 @@ class Explorer extends Component {
                             resetCanvas={this.handleResetCanvas}
                             isDisplayCollections={this.state.isDisplayCollections}
                             handleLogout={this.props.handleLogout}
+                            handleNewCollection={this.handleNewCollection}
                         />
                         <Canvas
                             exportNetwork={this.exportNetwork}

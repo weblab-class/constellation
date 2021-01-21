@@ -16,8 +16,6 @@
     font-family: Comfortaa, sans-serif;   
     border-radius: 5px;
     font-size: 14px;
-    cursor: pointer;
-    outline: none;
     text-align: center;
     align-content: center;
     border: none;
@@ -33,4 +31,7 @@
 
 .CanvasOptions-gridReset:hover:enabled {
     background-color:rgba(0, 0, 0, 0.1);
+    transition: background-color 1s ease-in;
+    cursor: pointer;
+    outline: none;
 }

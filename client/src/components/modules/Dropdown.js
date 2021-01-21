@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { navigate } from "@reach/router";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { slide as dropdown} from "react-burger-menu";
+import { slide as dropdown } from "react-burger-menu";
 
 import { get } from "../../utilities";
 
@@ -14,7 +14,7 @@ import "./Dropdown.css";
  * @param {Function} handleSaveCollection saves current collection, prompts user to name if not saved before
  * @param {Boolean} isDisplayCollections true if collections should be displayed 
  * @param {Function} handleLogout logs user out
-
+ * @param {Function} toggleRenderNetwork toggles the renderNetwork boolean
  */
 
 class Dropdown extends Component {
@@ -26,11 +26,6 @@ class Dropdown extends Component {
 
     }
 
-    showSettings (event) {
-        event.preventDefault();
-    }
-    
-    //componentDidMount(){}
     showDropdown = (event) => {
         event.preventDefault();
         this.setState({
@@ -61,16 +56,18 @@ class Dropdown extends Component {
     render() {
         return (
             <>
-                <button onClick={this.showDropdown} className="Dropdown-gridDropdown"> <GiHamburgerMenu size={25}/> </button>
+                <button onClick={this.showDropdown} className="Dropdown-gridDropdown"> <GiHamburgerMenu size={25} /> </button>
                 {
-                this.state.showDropdown ? (
-                    <>
-                        <button className="Dropdown-gridHome" onClick={this.returnHome}>home</button>
-                        <button className="Dropdown-gridLogout" onClick={this.handleLogoutClick}>logout</button>
-                    </>
-                ) : (
-                        null
-                    )
+                    this.state.showDropdown ? (
+                        <>
+                            <div className="Dropdown-gridHome">
+                                <button onClick={this.returnHome} className>home</button>
+                                <button onClick={this.handleLogoutClick}>logout</button>
+                            </div>
+                        </>
+                    ) : (
+                            null
+                        )
                 }
             </>
         )

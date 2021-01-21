@@ -5,7 +5,7 @@ import { get } from "../../utilities";
 import "./NewCollection.css";
  
 /**
- * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
+ * create new collection
  *
  * Proptypes
  * 
@@ -22,7 +22,7 @@ class NewCollection extends Component {
 
     render(){
         return(
-            <button className="NewCollection-navButton">new</button>  
+            <button className="NewCollection-navButton" disabled={this.props.isDisplayCollections} onClick={this.props.handleNewCollection}>new</button>  
         )
     }
 }
