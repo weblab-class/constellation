@@ -123,7 +123,6 @@ class VisNetwork extends Component {
   updateEdgeOpacity = (classId, suggestionId, val) => {
     //reconstruct edge id
     const edgeId = this.getEdgeId(classId, suggestionId, val);
-    console.log("updating edge opacity: " + edgeId);
     this.data.edges.update([{ id: edgeId, color: {opacity: 1}}]);
   }
 
@@ -157,6 +156,7 @@ class VisNetwork extends Component {
     this.setState({
       prevProcessedClass: classId,
     });
+    console.log(this.getCurrentNetworkData());
   }
 
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
@@ -164,12 +164,14 @@ class VisNetwork extends Component {
   processSuggestionAddition = (classId, suggestionId, val) => {
     if(!this.alreadyAddedNode(suggestionId)){
       this.addNode(suggestionId,true,this.relevanceToCurrentNetwork(suggestionId));
+      this.addEdge(classId, suggestionId, val);
     } else if(this.isSuggestionDict[classId]){
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
+      this.addEdge(classId, suggestionId, val);
     } else if(!this.isSuggestionDict[suggestionId]){
+      this.addEdge(classId, suggestionId, val);
       this.updateEdgeOpacity(classId, suggestionId, val);
     }
-    this.addEdge(classId, suggestionId, val);
   }
 
   //two parameters: nodeLabel=courseID
@@ -218,7 +220,6 @@ class VisNetwork extends Component {
     if(this.alreadyAddedEdge(edgeId)) return;
     const edgeOptions = this.getEdgeOptions(classFrom, classTo, val);
     const opacity = this.getEdgeOpacity(classFrom, classTo);
-    console.log("edge: " + edgeId + " opacity: " + opacity); 
     this.data.edges.add({
       id: edgeId,
       from: edgeOptions.prereq,
@@ -268,6 +269,8 @@ class VisNetwork extends Component {
    getEdgeData = () => {
     let edgeData = [];
     this.edgeIds.forEach((edgeId) => {
+      const endpoints = edgeId.split(/[<,>,=]/);
+      const [classFrom, classTo] = endpoints;
       const opacityIndicator = (!this.isSuggestionDict[classFrom] && !this.isSuggestionDict[classTo]) ? '1' : '0'; //check for @3 for special edges
       const edgeStorageId = edgeId + '@' + opacityIndicator;
       edgeData.push(edgeStorageId);
