@@ -14,7 +14,6 @@ import { GiBlackHandShield } from 'react-icons/gi';
 //to check if an edge exists, merely check that both endpoints are added
 
 //colors, courtesy of https://wondernote.org/color-palettes-for-web-digital-blog-graphic-design-with-hexadecimal-codes/
-const MANUAL_COLORS = true;
 
 /*sample group options
   "courseNumber": {
@@ -23,92 +22,8 @@ const MANUAL_COLORS = true;
   },
 */
 
-const GROUP_COLOR_OPTIONS = {
-  1: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  2: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  3:{ 
-    color: "#00C3AF",
-    borderWidth: 3,
-  }, 
-  4: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  5: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  6: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  7: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  8: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  9: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  10: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  11: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  12: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  14: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  15: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  16: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  17: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  18: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  20: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  21: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  22: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  },
-  myGroup: {
-    color: "#00C3AF",
-    borderWidth: 3,
-  }
-}
+const SUGGESTED_EDGE_OPACITY = 0.2;
+const SUGGESTED_NODE_OPACITY = 0.2;
 
 const SUMMER_COLORS = {
   "1" :"#53CFDA",
@@ -171,7 +86,7 @@ class VisNetwork extends Component {
              opacity: 0.3,
           },
         },
-        groups: MANUAL_COLORS ? GROUP_COLOR_OPTIONS : null,
+        // groups: MANUAL_COLORS ? GROUP_COLOR_OPTIONS : null,
     };
   }
 
@@ -190,7 +105,7 @@ class VisNetwork extends Component {
   relevanceToCurrentNetwork = (classId) => {
     //look through classes that are FULLY ADDED
     //iterate through classes and check to see which of prereqsare satisfied
-    return 0.1;
+    return SUGGESTED_NODE_OPACITY;
   }
 
   //updates suggestion to fully added node
@@ -202,6 +117,13 @@ class VisNetwork extends Component {
   //set Node opacity to val
   updateNodeOpacity = (classId, val) => {
     this.data.nodes.update([{ id: classId, opacity: val }]); 
+  }
+
+  updateEdgeOpacity = (classId, suggestionId, val) => {
+    //reconstruct edge id
+    const edgeId = this.getEdgeId(classId, suggestionId, val);
+    console.log("updating edge opacity: " + edgeId);
+    this.data.edges.update([{ id: edgeId, color: {opacity: 1}}]);
   }
 
   //adds class newUpdate to network, adds suggestions to neighbors
@@ -229,12 +151,14 @@ class VisNetwork extends Component {
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
   //val: 0 for prereq, 1 for coreq, 2 for after_subject
   processSuggestionAddition = (classId, suggestionId, val) => {
-    this.addEdge(classId, suggestionId, val);
     if(!this.alreadyAddedNode(suggestionId)){
       this.addNode(suggestionId,true,this.relevanceToCurrentNetwork(suggestionId));
     } else if(this.isSuggestionDict[classId]){
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
+    } else if(!this.isSuggestionDict[suggestionId]){
+      this.updateEdgeOpacity(classId, suggestionId, val);
     }
+    this.addEdge(classId, suggestionId, val);
   }
 
   //two parameters: nodeLabel=courseID
@@ -254,6 +178,10 @@ class VisNetwork extends Component {
    getEdgeId = (classFrom, classTo, val) => {
      const relationList = ['>', "=", "<"];
      return (classFrom < classTo) ? (classFrom + relationList[val] + classTo) : (classTo + relationList[2-val] + classFrom);
+   }
+
+   getEdgeOpacity = (classFrom, classTo) => {
+     return (!this.isSuggestionDict[classFrom] && !this.isSuggestionDict[classTo]) ? 1 : SUGGESTED_EDGE_OPACITY;
    }
 
    getEdgeOptions = (classFrom, classTo, val) => {
@@ -278,11 +206,15 @@ class VisNetwork extends Component {
     const edgeId = this.getEdgeId(classFrom, classTo, val);
     if(this.alreadyAddedEdge(edgeId)) return;
     const edgeOptions = this.getEdgeOptions(classFrom, classTo, val);
-    console.log(edgeOptions);
+    const opacity = this.getEdgeOpacity(classFrom, classTo);
+    console.log("edge: " + edgeId + " opacity: " + opacity); 
     this.data.edges.add({
       id: edgeId,
       from: edgeOptions.prereq,
       to: edgeOptions.afterreq,
+      color: {
+        opacity: opacity,
+      },
       arrows: {
         middle: {
           enabled: true,
@@ -311,21 +243,23 @@ class VisNetwork extends Component {
         x: nodePositions[classId].x,
         y: nodePositions[classId].y,
         id: classId,
-        opacity: this.isSuggestionDict[classId] ? 0.5 : 1,
+        opacity: this.isSuggestionDict[classId] ? SUGGESTED_NODE_OPACITY : 1,
       });
      });
     return nodeData;
    }
 
    //prepares current edge data for export
+   //edges are represented as strings courseOne + RELATION + courseTwo + '@' + opacity, where courseOne <= courseTwo wrt string order, 
+   //and RELATION is the prereq/aftererq relation (</> or = for coreq)
+   //for example, an edge between 18.117 and 18.965 would be `18.117>18.965@1' for a full opacity edge
+   //TO DO need to handle tutorial edges (connected to "Click me to start!" differently) --> HANDLE THIS WITH '@3'
    getEdgeData = () => {
     let edgeData = [];
     this.edgeIds.forEach((edgeId) => {
-      const endpoints = edgeId.split('@');
-      edgeData.push({
-        from: endpoints[0],
-        to: endpoints[1],
-      });
+      const opacityIndicator = (!this.isSuggestionDict[classFrom] && !this.isSuggestionDict[classTo]) ? '1' : '0'; //check for @3 for special edges
+      const edgeStorageId = edgeId + '@' + opacityIndicator;
+      edgeData.push(edgeStorageId);
     });
     return edgeData;
    }
@@ -357,14 +291,55 @@ class VisNetwork extends Component {
     });
     return new DataSet(nodes);
    }
+
+  //idea for future: to handle special edges (ie tutorial edges), do '@3' at the end
+  //prototypical edgeStorageID: `18.117>18.965@1'
+  retrieveEdgeInfoFromStorageId = (edgeStorageId) => {
+    const edgeSplit = edge.split('@');
+    const opacity = (edgeSplit[1] === '1') ? 1 : SUGGESTED_EDGE_OPACITY;
+    const edgeId = edgeSplit[0];
+    let prereq, afterreq, type = 'arrow';
+    if(edgeId.includes('>')){
+      const classIds = edgeId.split('>');
+      [prereq, afterreq] = [classIds[1],classIds[0]];
+    }else if(edgeId.includes('=')){
+      const classIds = edgeId.split('=');
+      [prereq, afterreq] = [classIds[1],classIds[0]];
+      type = 'diamond';
+    }else if(edgeId.includes('<')){
+      const classIds = edgeId.split('<');
+      [prereq, afterreq] = [classIds[0],classIds[1]];
+    }
+    const edgeInfo = {
+      id: edgeId,
+      prereq: prereq,
+      afterreq: afterreq,
+      opacity: opacity,
+      type: type,
+    }
+    return edgeInfo;
+  }
+
   //reconstructs Edge data from imported array
-   parseForEdgeData = (edgeArray) => {
+  //edge Ids in imported array of form `18.117>18.965@1'
+  //TO DO: handle tutorial edges separately (thise are not of the above form)
+  parseForEdgeData = (edgeArray) => {
     let edges = [];
-    edgeArray.forEach((edge) => {
+    edgeArray.forEach((edgeStorageId) => {
+      const edgeInfo = this.retrieveEdgeInfoFromStorageId(edgeStorageId);
       edges.push({
-        id: this.getEdgeId(edge.to, edge.from),
-        from: edge.from,
-        to: edge.to,
+        id: edgeInfo.id,
+        from: edgeInfo.prereq,
+        to: edgeInfo.afterreq,
+        color: {
+          opacity: edgeInfo.opacity
+        },
+        arrows: {
+          middle: {
+            enabled: true,
+            type: edgeInfo.type,
+          },
+        },
       });
     });
     return new DataSet(edges);
@@ -397,11 +372,6 @@ class VisNetwork extends Component {
      this.data.edges = newEdges;
      this.nodeIds = newNodeIds;
      this.edgeIds = newEdgeIds;
-    //  const newNodesAndEdges = {
-    //    nodeIds: newNodeIds,
-    //    edgeIds: newEdgeIds,
-    //  }
-    //  return newNodesAndEdges;
    }
 
    setSuggestionDictToNewData = (nodeArray) => {
