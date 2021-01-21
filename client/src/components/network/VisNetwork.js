@@ -50,6 +50,14 @@ const SUMMER_COLORS = {
   "22":"#00C3AF",
 }
 
+/**
+ * Graph logic goes here!!
+ *
+ * Proptypes
+ * @param {paramtype} paramname paramdescription
+ * @param {Boolean} renderNetwork true if network is to be rendered
+ */
+
 class VisNetwork extends Component {
 
   constructor(props) {

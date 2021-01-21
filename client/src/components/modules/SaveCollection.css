@@ -8,5 +8,8 @@
   
 .SaveCollection-navButton:hover:enabled {
   background-color:rgba(0, 0, 0, 0.1);
+  transition: background-color 1s ease-in;
+  cursor: pointer;
+  outline: none;
 }
   

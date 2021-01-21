@@ -15,7 +15,6 @@ import "./CanvasOptions.css";
  * @param {Function} handleUserCollections passed to UserCollection
  * @param {Boolean} isDisplayCollections passed to SaveCollection 
  * @param {Function} handleLogout passed to dropdown
-
  */
 
 class CanvasOptions extends Component {
@@ -24,6 +23,10 @@ class CanvasOptions extends Component {
         
         
     }
+
+    //componentDidMount(){}
+    
+
     
     
     render(){
@@ -32,7 +35,7 @@ class CanvasOptions extends Component {
             <nav className="CanvasOptions-navBar">
                 <Dropdown handleLogout={this.props.handleLogout}/>
                 <UserCollections handleUserCollections={this.props.handleUserCollections}/>
-                <NewCollection />
+                <NewCollection handleNewCollection={this.props.handleNewCollection} isDisplayCollections={this.props.isDisplayCollections}/>
                 <button type="submit" className="CanvasOptions-gridReset" onClick={this.props.resetCanvas} disabled={this.props.isDisplayCollections}>reset</button>  
                 <SaveCollection handleSaveCollection={this.props.handleSaveCollection} isDisplayCollections={this.props.isDisplayCollections}/>
             </nav>
