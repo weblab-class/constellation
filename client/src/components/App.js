@@ -58,7 +58,7 @@ class App extends Component {
             handleLogout={this.handleLogout}
             userId={this.state.userId}
           />
-          <Explorer path="/explorer/" userId={this.state.userId} />
+          <Explorer path="/explorer/" userId={this.state.userId} handleLogout={this.handleLogout}/>
           <NotFound default />
         </Router>
       </>

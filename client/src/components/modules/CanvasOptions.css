@@ -1,29 +1,36 @@
 .CanvasOptions-navBar {
-    height: 8%;
-    background-color: #dbd7d1;
+    height: 50px;
     border-bottom: 1px solid #dad1c4;
     border-right: 1px solid #dad1c4;
+    display: grid;
+    grid-template-columns: 60px repeat(7, minmax(0, 1fr));
+    grid-template-rows: 50px 50px 50px 50px;
+}
+
+.CanvasOptions-navBar, .CanvasOptions-navBar * {
+    background-color: #fde6cf;
+
 }
 
 .CanvasOptions-navBar * {
     font-family: Comfortaa, sans-serif;   
-    background-color: #f7e9d5; 
     border-radius: 5px;
     font-size: 14px;
-    height: 60%;
     cursor: pointer;
     outline: none;
-}
-
-.CanvasOptions-navButton {
     text-align: center;
     align-content: center;
+    border: none;
+    
 }
 
-.CanvasOptions-navButton:hover {
-    box-shadow: 0 5px 5px rgba(97, 123, 133, 0.4);
+.CanvasOptions-gridReset {
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 1;
+    grid-row-end: 2;
 }
 
-.CanvasOptions-navButton:active {
-    transform: scale(1.05);
+.CanvasOptions-gridReset:hover:enabled {
+    background-color:rgba(0, 0, 0, 0.1);
 }

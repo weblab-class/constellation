@@ -75,7 +75,7 @@ class VisNetwork extends Component {
     this.appRef = createRef();
     this.state={
         prevProcessedClass:'',
-        clickToUse: false,
+        clickToUse: true,
         options: {
           height: '700px',
           width: '1000px',
