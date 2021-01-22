@@ -14,7 +14,6 @@ import "./Dropdown.css";
  * @param {Function} handleSaveCollection saves current collection, prompts user to name if not saved before
  * @param {Boolean} isDisplayCollections true if collections should be displayed 
  * @param {Function} handleLogout logs user out
- * @param {Function} toggleRenderNetwork toggles the renderNetwork boolean
  */
 
 class Dropdown extends Component {
@@ -60,10 +59,8 @@ class Dropdown extends Component {
                 {
                     this.state.showDropdown ? (
                         <>
-                            <div className="Dropdown-gridHome">
-                                <button onClick={this.returnHome} className>home</button>
-                                <button onClick={this.handleLogoutClick}>logout</button>
-                            </div>
+                            <button onClick={this.returnHome} className="Dropdown-gridHome">home</button>
+                            <button onClick={this.handleLogoutClick} className="Dropdown-gridLogout">logout</button>
                         </>
                     ) : (
                             null
