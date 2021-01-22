@@ -1,4 +1,5 @@
 .Dropdown-gridDropdown {
+    cursor: pointer;
     align-self: left;
     justify-self: left;
     grid-column-start: 1;
@@ -9,12 +10,15 @@
 
 .Dropdown-gridHome {
     grid-column: 1 / 2;
-    grid-row: 2 / 4;
+    grid-row: 2 / 3;
+    cursor: pointer;
 }
 
 .Dropdown-gridLogout {
+    cursor: pointer;
     grid-column: 1 / 2;
     grid-row: 3 / 4;
+    
 }
 
 .Dropdown-gridAbout {

@@ -12,6 +12,7 @@
     transition: 0.5s all;
     background-color: #FBFFF1;
     overflow-wrap: break-word;
+    cursor: pointer;
 }
 
 .CollectionsList-noElements {
