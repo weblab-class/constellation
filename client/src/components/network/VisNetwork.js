@@ -173,12 +173,14 @@ class VisNetwork extends Component {
     if(!this.alreadyAddedNode(suggestionId)){
       this.addNode(suggestionId,true,this.relevanceToCurrentNetwork(suggestionId));
       this.addEdge(classId, suggestionId, val);
-    } else if(this.isSuggestionDict[classId]){
+    } else if(this.isSuggestionDict[suggestionId]){
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
       this.addEdge(classId, suggestionId, val);
     } else if(!this.isSuggestionDict[suggestionId]){
       this.addEdge(classId, suggestionId, val);
       this.updateEdgeOpacity(classId, suggestionId, val);
+    } else{
+      console.log("none were true!");
     }
   }
 
