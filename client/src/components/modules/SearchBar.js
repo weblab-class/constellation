@@ -19,10 +19,22 @@ class SearchBar extends Component {
         }
     }
 
+
     glassClick = () =>{
         console.log("The glass was clicked!");
         this.props.setCourseObject(this.state.inputText);
-        this.state.inputText = '';
+        this.setState({
+            inputText: '',
+        });
+    }
+
+    handleKeyDown = (event) => {
+        if(event.keyCode === 13){
+            this.props.setCourseObject(this.state.inputText);
+            this.setState({
+                inputText: '',
+            });
+        }
     }
 
     handleChange = (event) => {
@@ -43,6 +55,7 @@ class SearchBar extends Component {
                         placeholder={this.props.isDisplayCollections ? "" : "search for a course number!"}
                         value={this.state.inputText} 
                         onChange={this.handleChange} 
+                        onKeyDown={this.handleKeyDown}
                         disabled={this.props.isDisplayCollections}
                     />
                     <button 
