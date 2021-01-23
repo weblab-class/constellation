@@ -255,6 +255,9 @@ class Explorer extends Component {
             const networkObject = await get("/api/loadCollection", {
                 collectionName : this.state.currentCollectionName
             });
+            if (!networkObject){
+                console.log("Network object is null or undefined! No network was retrieved.")
+            }
             return networkObject;
             
         } catch (err) {
