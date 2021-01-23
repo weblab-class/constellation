@@ -121,6 +121,7 @@ class DisplayBar extends Component {
                         <button 
                             className="DisplayBar-button" 
                             disabled={!addRemoveActive}
+                            onClick={this.props.handleRemoveClass}
                         >
                             Remove
                         </button>
