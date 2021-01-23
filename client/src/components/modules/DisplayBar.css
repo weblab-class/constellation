@@ -41,7 +41,7 @@ p {
     width: 50%;
     height: 34px;
     margin: 5px;
-    background: #C4C4C4;
+    background-color: var(--sidebar-buttonColor);
     color: var(--sidebar-buttonTextColor);
 
     border: 2px solid #4a4e69;
