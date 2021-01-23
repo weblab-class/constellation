@@ -5,6 +5,7 @@ import { ImCross } from "react-icons/im";
 import UserCollections from "./UserCollections.js";
 import SaveCollection from "./SaveCollection.js";
 import NewCollection from "./NewCollection.js";
+import NameCollection from "./NameCollection.js";
 import Dropdown from "./Dropdown.js";
 
 import "./CanvasOptions.css";
@@ -124,6 +125,15 @@ class CanvasOptions extends Component {
                     >
                         reset
                     </button>
+
+                    <NameCollection
+                    currentCollectionName={this.props.currentCollectionName} 
+                    newCollectionNameCounter={this.props.newCollectionNameCounter}
+                    isSaved={this.props.isSaved}
+                    isSavedCounter={this.props.isSavedCounter}
+                    setCollectionName={this.props.setCollectionName}
+                    tellVisNetworkToExport={this.props.tellVisNetworkToExport}
+                    />
 
                 </nav>
             </>
