@@ -23,7 +23,17 @@
   --darkgrey: #666666;
   --medgrey: #e0e0e0;
   --grey: #f7f7f7;
-  --white: #fff;
+  --white: rgba(250, 248, 248, 0.952);
+  --canvas-backgroundColor: #E6E9DD;
+  --canvas-textColor: #000000;
+  --sidebar-backgroundColor: #24231C;
+  --sidebar-textColor: #F5D3D3;
+  --sidebar-headerColor: #E3B8B8;
+  --displaybar-backgroundColor: #706161;
+  --displaybar-textColor: #F5D3D3;
+  --collectionEntryColor: #4B0C0C;
+  --sidebar-buttonColor: #C4C4C4;
+  --sidebar-buttonTextColor: #4B0C0C;
   --spacing: 10%;
 
   --xs: 4px;

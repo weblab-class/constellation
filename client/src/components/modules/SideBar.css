@@ -1,6 +1,5 @@
 .Sidebar-title{
-    top: 100px;
-    margin: 50px;
+    margin: 5% auto;
 
     font-family: Comfortaa;
     font-style: normal;
@@ -8,5 +7,4 @@
     font-size: 42px;
     text-align: center;
 
-    color: #000000;
 }
