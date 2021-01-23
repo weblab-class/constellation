@@ -52,7 +52,9 @@ class Canvas extends Component {
                         loadCollectionCounter={this.props.loadCollectionCounter}
                         exportNetwork={this.props.exportNetwork}
                         newClass = {this.props.newClass}
+                        newClassCounter = {this.props.newClassCounter}
                         removeClass = {this.props.removeClass}
+                        removeClassCounter = {this.props.removeClassCounter}
                         importNetwork= {this.props.importNetwork}
                         networkHeight = {this.state.height}
                         networkWidth = {this.state.width}
