@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Canvas from "../modules/Canvas.js";
 import SideBar from "../modules/SideBar.js";
 import CanvasOptions from "../modules/CanvasOptions.js";
+import _ from "lodash";
 
 //import NamePopUp from "../modules/NamePopUp.js";
 
@@ -43,6 +44,7 @@ class Explorer extends Component {
             loaded: false,
         }
     }
+
 
     setCourseObject = (input) => {
         get("/api/sidebarNode", { subjectId: input }).then((courseArray) => {
@@ -138,13 +140,12 @@ class Explorer extends Component {
         });
     }
 
-    handleSaveCollection = () => {
+    handleSaveCollection = _.debounce(() => {
         // Activates the pop-up to save collection
         this.setState({
             saveCanvasCounter: this.state.saveCanvasCounter + 1,
         });
-        
-    }
+    }, 1000);
     
     handleUserCollections = () => {
 
