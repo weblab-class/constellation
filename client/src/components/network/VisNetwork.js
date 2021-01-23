@@ -21,6 +21,7 @@ import "./VisNetwork.css";
   },
 */
 
+
 const SUGGESTED_EDGE_OPACITY = 0.2;
 const SUGGESTED_NODE_OPACITY = 0.2;
 const CLUTTER_COURSES = ['ES', 'CC', "HST"];
@@ -394,7 +395,7 @@ class VisNetwork extends Component {
   //idea for future: to handle special edges (ie tutorial edges), do '@3' at the end
   //prototypical edgeStorageID: `18.117>18.965@1'
   retrieveEdgeInfoFromStorageId = (edgeStorageId) => {
-    const edgeSplit = edge.split('@');
+    const edgeSplit = edgeStorageId.split('@');
     const opacity = (edgeSplit[1] === '1') ? 1 : SUGGESTED_EDGE_OPACITY;
     const edgeId = edgeSplit[0];
     let prereq, afterreq, type = 'arrow';
@@ -456,7 +457,7 @@ class VisNetwork extends Component {
    //reconstructs EdgeId data from imported array
    parseForEdgeIdData = (edgeArray) => {
       let edgeIds = [];
-      edgeArray.forEach((edge) => {
+      edgeArray.forEach((edgeId) => {
         edgeIds.push(edgeId.split(/[<,>,=]/)[0]);
       });
       return edgeIds;
