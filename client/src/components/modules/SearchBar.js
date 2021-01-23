@@ -1,5 +1,5 @@
 import React, { Component, createRef } from "react";
-import { GiMagnifyingGlass } from "react-icons/gi";
+import { GoTelescope } from "react-icons/go";
 
 import "./SearchBar.css";
 
@@ -64,7 +64,7 @@ class SearchBar extends Component {
                         disabled={this.props.isDisplayCollections}
                         onClick={this.glassClick}
                     >
-                        <GiMagnifyingGlass size={25} />
+                        <GoTelescope size={25} />
                     </button>
                 </div>
             </div>

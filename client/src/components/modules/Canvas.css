@@ -4,4 +4,5 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: var(--canvas-backgroundColor);
 }

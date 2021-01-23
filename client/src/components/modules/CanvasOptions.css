@@ -1,4 +1,3 @@
-
 .CanvasOptions-navBar {
     position: relative;
     height: 7vh;
@@ -9,7 +8,8 @@
 }
 
 .CanvasOptions-navBar, .CanvasOptions-navBar * {
-    background-color: #fde6cf;
+    background-color: var(--canvas-backgroundColor);
+    color: var(--sidebar-buttonTextColor);
 }
 
 .CanvasOptions-navBar * {
@@ -40,7 +40,7 @@
 .CanvasOptions-menuClosed {
     flex-basis: 5%;
     display: flex;
-    background-color: #fde6cf;
+    background-color:  var(--canvas-backgroundColor);
     transition: all 1s;
 
 }
@@ -113,4 +113,9 @@
 
 .CanvasOptions-button:active {
     transform: scale(1.05);
+}
+
+.CanvasOptions-button:disabled {
+    color: var(--darkgrey);
+    opacity: 0.3;
 }

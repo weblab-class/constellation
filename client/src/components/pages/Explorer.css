@@ -14,6 +14,8 @@
  }
 
  .Explorer-sideBar{
-   background-color: #EDEDED;
+   background-color: var(--sidebar-backgroundColor);
+   color: var(--sidebar-textColor);
+
    flex-basis: 25%;
  }

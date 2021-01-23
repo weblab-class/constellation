@@ -21,7 +21,8 @@ body {
     font-family: 'Montserrat', sans-serif;
     border-radius: 5px 5px 5px 5px;
     border: 2px solid #4a4e69;
-    color: #161a1d;
+    background-color: var(--sidebar-buttonColor);
+    color: var(--sidebar-buttonTextColor);
     outline: none;
     flex-grow: 2;
 }
@@ -31,11 +32,12 @@ body {
 }
 
 .SearchBar-button {
-    background: rgb(159, 179, 167);
+    background-color: var(--displaybar-backgroundColor);
     border: 2px solid #4a4e69;
     border-radius: 5px 5px 5px 5px;
     cursor: pointer;
     outline: none;
+    flex-grow: 1;
 }
 
 .SearchBar-button:active {
