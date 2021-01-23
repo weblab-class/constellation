@@ -45,11 +45,11 @@ p {
     background: #d6e2e9;
     border: 2px solid #4a4e69;
     border-radius: 5px 5px 5px 5px;
-    cursor: pointer;
     outline: none;
 }
 
 .DisplayBar-button:hover:enabled {
+    cursor: pointer;
     box-shadow: 0 5px 5px rgba(97, 123, 133, 0.4);
 }
 

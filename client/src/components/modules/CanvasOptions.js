@@ -54,39 +54,41 @@ class CanvasOptions extends Component {
 
     //componentDidMount(){}
 
+    /*
+   */
 
 
 
     render() {
-        let menuButtonClassName = "CanvasOptions-flexed";
-        if(!this.state.showDropdown) {
-            menuButtonClassName = "CanvasOptions-closed";
-        }
         return (
             <>
                 <nav className="CanvasOptions-navBar">
+                    <div className={this.state.showDropdown ? "CanvasOptions-menuButtonContainerOpen" : "CanvasOptions-menuButtonContainerClosed"}>
+                        <button
+                            type="submit"
+                            onClick={this.returnHome}
+                            className="CanvasOptions-menuButton"
+                        >
+                            home
+                        </button>
+                        <button
+                            type="submit"
+                            onClick={this.handleLogoutClick}
+                            className="CanvasOptions-menuButton"
+                        >
+                            logout
+                        </button>
+                    </div>
+                    <div className={this.state.showDropdown ? "CanvasOptions-menuOpen" : "CanvasOptions-menuClosed"}>
+                        <button
+                            type="submit"
+                            onClick={this.state.showDropdown ? this.closeDropdown : this.showDropdown}
+                            className="CanvasOptions-icon"
+                        >
 
-                    <button
-                        type="submit"
-                        onClick={this.state.showDropdown ? this.closeDropdown : this.showDropdown}
-                        className="CanvasOptions-icon"
-                    >
-                        {this.state.showDropdown ? <ImCross size={25} /> : <GiHamburgerMenu size={25} />}
-                    </button>
-                    <button
-                        type="submit"
-                        onClick={this.returnHome}
-                        className={menuButtonClassName}
-                    >
-                        home
+                            {this.state.showDropdown ? <ImCross size={25} /> : <GiHamburgerMenu size={25} />}
                         </button>
-                    <button
-                        type="submit"
-                        onClick={this.handleLogoutClick}
-                        className={menuButtonClassName}
-                    >
-                        logout
-                        </button>
+                    </div>
 
                     <button
                         type="submit"
