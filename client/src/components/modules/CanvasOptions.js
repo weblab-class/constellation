@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import UserCollections from "./UserCollections.js";
 import SaveCollection from "./SaveCollection.js";
 import NewCollection from "./NewCollection.js";
+import NameCollection from "./NameCollection.js";
 import Dropdown from "./Dropdown.js";
 
 import "./CanvasOptions.css";
@@ -20,14 +21,7 @@ import "./CanvasOptions.css";
 class CanvasOptions extends Component {
     constructor(props){
         super(props);
-        
-        
     }
-
-    //componentDidMount(){}
-    
-
-    
     
     render(){
         return(
@@ -38,6 +32,14 @@ class CanvasOptions extends Component {
                 <NewCollection handleNewCollection={this.props.handleNewCollection} isDisplayCollections={this.props.isDisplayCollections}/>
                 <button type="submit" className="CanvasOptions-gridReset" onClick={this.props.resetCanvas} disabled={this.props.isDisplayCollections}>reset</button>  
                 <SaveCollection handleSaveCollection={this.props.handleSaveCollection} isDisplayCollections={this.props.isDisplayCollections}/>
+                <NameCollection
+                    currentCollectionName={this.props.currentCollectionName} 
+                    newCollectionNameCounter={this.props.newCollectionNameCounter}
+                    isSaved={this.props.isSaved}
+                    isSavedCounter={this.props.isSavedCounter}
+                    setCollectionName={this.props.setCollectionName}
+                    tellVisNetworkToExport={this.props.tellVisNetworkToExport}
+                    />
             </nav>
             </>
         );
