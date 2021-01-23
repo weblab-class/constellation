@@ -27,7 +27,7 @@ class CollectionsList extends Component {
         return(
             <>
             <div className="CollectionsList-list">
-                {this.props.collectionsArray.length === 0 ? <p className="CollectionsList-noElements">No Collections Saved</p> : this.props.collectionsArray.map((row, i) => {
+                {this.props.collectionsArray.length === 0 ? <p className="CollectionsList-noElements">No Constellations Saved</p> : this.props.collectionsArray.map((row, i) => {
                     return <button className="CollectionsList-listElement" key={row} onClick={this.handleButtonClick}>{row}</button>
                 })}
             </div>

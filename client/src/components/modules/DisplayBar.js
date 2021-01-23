@@ -31,7 +31,6 @@ class DisplayBar extends Component {
         }
     }
 
-    //componentDidMount(){}
     handleCancel = () => {
         if(!this.props.isDisplayCollections) {
             return;
@@ -60,14 +59,13 @@ class DisplayBar extends Component {
     }
 
     handleLoadButtonClick = () => {
-        console.log(this.state.collectionName);
+        console.log("collectionName, DisplayBar 62: ", this.state.collectionName);
         this.props.handleLoadCollection(this.state.collectionName);
     }
 
     render() {
         let toDisplay;
         let addRemoveActive = false;
-        console.log(this.state.reset);
         if(this.props.isDisplayCollections) {
             toDisplay=
             <CollectionsList 
@@ -86,7 +84,7 @@ class DisplayBar extends Component {
             toDisplay=<CourseInfo courseObject={this.props.courseObject}/>;
         }
         return (
-            <>
+            <> 
                 <div className="DisplayBar-containerOuter">
                     <div className="DisplayBar-containerInner">
                         {toDisplay}
