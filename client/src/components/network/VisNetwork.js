@@ -2,6 +2,8 @@ import { DataSet, Network } from 'vis-network/standalone/umd/vis-network.min';
 import React, { Component, createRef } from "react";
 import { GiBlackHandShield } from 'react-icons/gi';
 
+import "./VisNetwork.css";
+
 /* TODO 
   //setAdjacencyCount to new data
   //fix skeleton edges upon removing class (see doc)
@@ -85,8 +87,8 @@ class VisNetwork extends Component {
         clickToUse: true,
         autoResize: true,
         options: {
-          height: '700px',
-          width: '1000px',
+          // height: '700px',
+          // width: '1000px',
           nodes: {
              shape: 'dot',
              size: 8,
@@ -546,24 +548,24 @@ class VisNetwork extends Component {
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
     if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
     if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
-    if(this.props.networkHeight !== prevProps.networkHeight || this.props.networkWidth !== prevProps.networkWidth){
-      this.setState({
-        options: {
-          height: this.props.networkHeight,
-          width: this.props.networkWidth,
-        }
-      })
-      this.network.setOptions({
-        height: String(this.props.networkHeight)+'px',
-        width: String(this.props.networkWidth)+'px',
-      });
-    } 
+    // if(this.props.networkHeight !== prevProps.networkHeight || this.props.networkWidth !== prevProps.networkWidth){
+    //   this.setState({
+    //     options: {
+    //       height: this.props.networkHeight,
+    //       width: this.props.networkWidth,
+    //     }
+    //   })
+    //   this.network.setOptions({
+    //     height: String(this.props.networkHeight)+'px',
+    //     width: String(this.props.networkWidth)+'px',
+    //   });
+    // } 
   }
 
   render() {
     return (
         <>
-            <div ref={this.appRef} />
+            <div ref={this.appRef} className = "VisNetwork-container" />
         </>
     );
   }

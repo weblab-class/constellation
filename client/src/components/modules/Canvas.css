@@ -1,5 +1,6 @@
 .Canvas-container{
-    height: 100vh;
+    height: 93vh;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
