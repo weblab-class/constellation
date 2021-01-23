@@ -23,6 +23,7 @@ class Explorer extends Component {
         super(props);
         this.state = {
             newClass: '', //This prompts Vis to add things
+            newClassCounter: 0,
             currentlyViewedClass: '', //the class currently being shown on display bar
             newClassesToAdd: {
                 prereqsToAdd: [],
@@ -31,6 +32,7 @@ class Explorer extends Component {
             },
             canvasToBeReset: 0,
             removeClass: '',
+            removeClassCounter: 0,
             saveCanvasCounter: 0,
             loadCollectionCounter: 0,
             courseObject: undefined,
@@ -104,14 +106,16 @@ class Explorer extends Component {
         //Triggers VisNetwork to add a class
         this.setState({
             newClass: this.state.courseObject.subjectId,
+            newClassCounter: this.state.newClassCounter+1,
         });
 
     }
 
     handleRemoveClass = () => {
-
-        //Triggers VisNetwork to remove a class
-        
+        this.setState({
+            removeClass: this.state.courseObject.subjectId,
+            removeClassCounter: this.state.removeClassCounter+1,
+        });
     }
 
     handleLoadCollection = (collectionName) => {
@@ -172,6 +176,7 @@ class Explorer extends Component {
         this.setState({
             canvasToBeReset: this.state.canvasToBeReset + 1,
             newClass: '',
+            removeClass: '',
         });
     }
 
@@ -299,8 +304,10 @@ class Explorer extends Component {
                         <Canvas
                             exportNetwork={this.exportNetwork}
                             newClass={this.state.newClass}
+                            newClassCounter={this.state.newClassCounter}
                             getNeighbors={this.getNeighbors}
                             removeClass={this.state.removeClass}
+                            removeClassCounter={this.state.removeClassCounter}
                             canvasToBeReset={this.state.canvasToBeReset}
                             saveCanvasCounter={this.state.saveCanvasCounter}
                             loadCollectionCounter={this.state.loadCollectionCounter}
