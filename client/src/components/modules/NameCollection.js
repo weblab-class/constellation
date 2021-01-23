@@ -104,6 +104,7 @@ class NameCollection extends Component {
             this.setState({
                 saveText : (this.props.isSaved ? "(saved)" : "(unsaved)")
             });
+            console.log("saved counter is incrementing detect in name collection")
         }
     }
 

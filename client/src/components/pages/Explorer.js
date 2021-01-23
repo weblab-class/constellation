@@ -161,8 +161,10 @@ class Explorer extends Component {
         this.setState({
             saveCanvasCounter: this.state.saveCanvasCounter+1,
             isSaved : true,
-            isSavedCounter : this.state.isSavedCounter + 1,
+        }, () => {
+            this.setState({setStateisSavedCounter : this.state.isSavedCounter + 1});
         });
+        console.log("Told saved counter to increment in explorer");
     }
 
     handleSaveCollection = _.debounce(() => {
