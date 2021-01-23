@@ -21,7 +21,7 @@ class SearchBar extends Component {
 
 
     glassClick = () =>{
-        console.log("The glass was clicked!");
+        console.log("SearchBar 24: The glass was clicked!");
         this.props.setCourseObject(this.state.inputText);
         this.setState({
             inputText: '',

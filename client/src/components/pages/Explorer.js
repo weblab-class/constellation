@@ -281,7 +281,6 @@ class Explorer extends Component {
     //BELOW: Change the NamePopUp to be a real popup
     render() {
         return (
-            <div className="Explorer-all">
                 <div className="Explorer-container">
                     <div className="Explorer-canvas">
                         <CanvasOptions
@@ -331,7 +330,6 @@ class Explorer extends Component {
                         />
                     </div>
                 </div>
-            </div>
         )
     }
 }
