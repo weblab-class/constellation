@@ -1,6 +1,6 @@
 
-
 .CanvasOptions-navBar {
+    position: relative;
     height: 50px;
     border-bottom: 1px solid #dad1c4;
     border-right: 1px solid #dad1c4;
@@ -22,31 +22,47 @@
     border: none;
 }
 
-.CanvasOptions-closed {
-    flex-grow: 0.00001;
-}
-
-.CanvasOptions-flexed {
-    flex-basis: var(--spacing);
-    flex-grow: 1;
-    transition: flex-grow 1000ms linear;
-}
 
 .CanvasOptions-icon {
-    flex-basis: 5%;
     outline: none;
     cursor: pointer;
+    margin-right: auto;
 }
 
-
-.CanvasOptions-home {
-    flex-basis: var(--spacing);
+.CanvasOptions-menuOpen {
+    flex-basis: 20%;
+    transition: 1s;
+    display: flex;
+    border: 2px solid #f38256;
 }
 
-.CanvasOptions-logout {
-    flex-basis: var(--spacing);
+.CanvasOptions-menuClosed {
+    flex-basis: 5%;
+    transition: 1s;
+    display: flex;
 }
 
+.CanvasOptions-menuButtonContainerClosed {
+    position: absolute;
+    transform: translate(30%, -150%);
+    transition: transform 0.5s ease-in;
+}
+
+.CanvasOptions-menuButtonContainerOpen {
+    position: absolute;
+    display: flex;
+    transform: translate(30%, 10%);
+    transition: transform 1s ease-in;
+}
+
+.CanvasOptions-menuButton {
+    font-size: var(--m);
+    margin: 10px;
+    background-color: #e96e3d;
+    cursor: pointer;
+    outline: none;
+    height: 100%;
+}
 
 .CanvasOptions-load {
     flex-basis: var(--spacing);
