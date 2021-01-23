@@ -16,7 +16,7 @@
     margin: 1px;
     font-family: Comfortaa, sans-serif;   
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 1vw;
     text-align: center;
     align-content: center;
     border: none;
@@ -31,37 +31,57 @@
 
 .CanvasOptions-menuOpen {
     flex-basis: 20%;
-    transition: 1s;
     display: flex;
     border: 2px solid #f38256;
+    background-color: #eb9a7b;
+    transition: all 1s;
 }
 
 .CanvasOptions-menuClosed {
     flex-basis: 5%;
-    transition: 1s;
     display: flex;
+    background-color: #fde6cf;
+    transition: all 1s;
+
 }
 
 .CanvasOptions-menuButtonContainerClosed {
+    height: 50%;
+    width: 8%;
     position: absolute;
-    transform: translate(30%, -150%);
+    display: flex;
+    left: 4%;
+    top: 50%;
+    background-color: #eb9a7b;
+    transform: translateY(-300%);
     transition: transform 0.5s ease-in;
+    visibility: hidden;
 }
 
 .CanvasOptions-menuButtonContainerOpen {
+    height: 50%;
+    width: 8%;
     position: absolute;
     display: flex;
-    transform: translate(30%, 10%);
+    left: 4%;
+    top: 50%;
+    background-color: #eb9a7b;
+    transform: translateY(-60%);
     transition: transform 1s ease-in;
 }
 
 .CanvasOptions-menuButton {
-    font-size: var(--m);
-    margin: 10px;
-    background-color: #e96e3d;
+    font-size: 1vw;
+    margin: auto 10%;
     cursor: pointer;
+    background-color: #eb9a7b;
+    color: #f8e7e7;
     outline: none;
     height: 100%;
+}
+
+.CanvasOptions-menuButton:hover {
+    color: #3f74e7;
 }
 
 .CanvasOptions-load {

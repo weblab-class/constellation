@@ -1,19 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
 .DisplayBar-containerOuter {
-    width: 24vw;
+    width: 90%;
     border: 2px solid #677DB7;
     border-radius: 10px;
-    margin: 10px 10px 30px 40px;
+    margin: 10px auto;
     background-color: #FBFFF1;
     opacity: 75%;
     overflow-y: auto;
-    max-height: 100vh;
 }
 
 .DisplayBar-containerInner {
     height: 60vh;
-    width: 24vw;
+    width: 95%;
     overflow-y: auto;
 }
 
