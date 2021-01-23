@@ -24,16 +24,17 @@
   --medgrey: #e0e0e0;
   --grey: #f7f7f7;
   --white: rgba(250, 248, 248, 0.952);
-  --canvas-backgroundColor: #E6E9DD;
-  --canvas-textColor: #000000;
-  --sidebar-backgroundColor: #24231C;
-  --sidebar-textColor: #F5D3D3;
+  --canvas-backgroundColor: #fefdf0;
+  --canvas-textColor: #cfd9e6;
+  --sidebar-backgroundColor: #e4e8ea;
+  --sidebar-textColor: ##000000;
   --sidebar-headerColor: #E3B8B8;
-  --displaybar-backgroundColor: #706161;
-  --displaybar-textColor: #F5D3D3;
-  --collectionEntryColor: #4B0C0C;
-  --sidebar-buttonColor: #C4C4C4;
-  --sidebar-buttonTextColor: #4B0C0C;
+  --searchbar-backgroundColor: #fefdf0;
+  --displaybar-backgroundColor: #fefdf0;
+  --displaybar-textColor: ##000000;
+  --collectionEntryColor: #e9d3d3;
+  --sidebar-buttonColor: #b2c0d5;
+  --sidebar-buttonTextColor: #0e0303;
   --spacing: 10%;
 
   --xs: 4px;
