@@ -67,7 +67,13 @@ class VisNetwork extends Component {
     let shadowState = false;
 
     // create an array with nodes, and one with edges
-    let nodesArray = [{ id: "Click me to get started!", label: "Click me to get started!", group: 'myGroup'},]; //generate the help node for new users
+    let nodesArray = [{
+       id: "Click me to get started!", 
+       label: "Click me to get started!", 
+       group: 'myGroup',
+        x: 68,
+        y: 15,
+      },]; //generate the help node for new users
     let nodes = new DataSet(nodesArray);
     let edgesArray = [];
     let edges = new DataSet(edgesArray);
@@ -88,8 +94,6 @@ class VisNetwork extends Component {
         clickToUse: true,
         autoResize: true,
         options: {
-          // height: '700px',
-          // width: '1000px',
           nodes: {
              shape: 'dot',
              size: 8,
@@ -232,10 +236,6 @@ class VisNetwork extends Component {
     });
     this.setState({
       prevProcessedClass: classId,
-    });
-    console.log("ADJ DATA");
-    this.nodeIds.forEach((classId) => {
-      console.log(classId + " : " + this.adjacencyCount[classId]);
     });
   }
 
@@ -549,18 +549,6 @@ class VisNetwork extends Component {
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
     if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
     if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
-    // if(this.props.networkHeight !== prevProps.networkHeight || this.props.networkWidth !== prevProps.networkWidth){
-    //   this.setState({
-    //     options: {
-    //       height: this.props.networkHeight,
-    //       width: this.props.networkWidth,
-    //     }
-    //   })
-    //   this.network.setOptions({
-    //     height: String(this.props.networkHeight)+'px',
-    //     width: String(this.props.networkWidth)+'px',
-    //   });
-    // } 
   }
 
   render() {
