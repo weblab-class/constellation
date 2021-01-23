@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import { navigate } from "@reach/router";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
-import UserCollections from "./UserCollections.js";
-import SaveCollection from "./SaveCollection.js";
-import NewCollection from "./NewCollection.js";
 import NameCollection from "./NameCollection.js";
-import Dropdown from "./Dropdown.js";
 
 import "./CanvasOptions.css";
 
