@@ -266,7 +266,6 @@ class Explorer extends Component {
        
     }
 
-
     handleNewCollection = () => {
 
         this.handleResetCanvas(); //This will clear the canvas itself
