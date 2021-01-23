@@ -5,16 +5,14 @@ body {
 }
 
 .SearchBar-container{
-    position: relative;
-    top: 50%;
-    left: 50%;
-    width: 50%;
-    transform: translate(-50%, -50%);
+    margin: 10% auto;
+    width: 70%;
+    
 }
 
 .SearchBar-search {
+    margin: 0 auto;
     display: flex;
-    justify-content: space-around;
 }
 
 .SearchBar-input {
@@ -23,10 +21,10 @@ body {
     font-family: 'Montserrat', sans-serif;
     border-radius: 5px 5px 5px 5px;
     border: 2px solid #4a4e69;
-    width: 180px;
-    color: #161a1d;
+    background-color: var(--sidebar-buttonColor);
+    color: var(--sidebar-buttonTextColor);
     outline: none;
-
+    flex-grow: 2;
 }
 
 .SearchBar-input:disabled {
@@ -34,20 +32,16 @@ body {
 }
 
 .SearchBar-button {
-    width: 40px;
-    height: 34px;
-    background: rgb(159, 179, 167);
+    background-color: var(--displaybar-backgroundColor);
     border: 2px solid #4a4e69;
     border-radius: 5px 5px 5px 5px;
     cursor: pointer;
     outline: none;
+    flex-grow: 1;
 }
 
 .SearchBar-button:active {
     filter: brightness(150%);
 }
-.SearchBar-icon {
-    width: 40px;
-    height: 34px;
-}
+
   

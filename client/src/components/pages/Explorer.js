@@ -162,9 +162,10 @@ class Explorer extends Component {
             saveCanvasCounter: this.state.saveCanvasCounter+1,
             isSaved : true,
         }, () => {
-            this.setState({setStateisSavedCounter : this.state.isSavedCounter + 1});
+            this.setState({isSavedCounter : this.state.isSavedCounter + 1});
+            console.log("Told saved counter to increment in explorer");
         });
-        console.log("Told saved counter to increment in explorer");
+        
     }
 
     handleSaveCollection = _.debounce(() => {
@@ -242,7 +243,6 @@ class Explorer extends Component {
         }
     }
 
-
     setToLoaded = () => {
         this.setState({
             loaded: true,
@@ -283,7 +283,6 @@ class Explorer extends Component {
     //BELOW: Change the NamePopUp to be a real popup
     render() {
         return (
-            <div className="Explorer-all">
                 <div className="Explorer-container">
                     <div className="Explorer-canvas">
                         <CanvasOptions
@@ -333,7 +332,6 @@ class Explorer extends Component {
                         />
                     </div>
                 </div>
-            </div>
         )
     }
 }
