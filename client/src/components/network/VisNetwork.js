@@ -2,13 +2,10 @@ import { DataSet, Network } from 'vis-network/standalone/umd/vis-network.min';
 import React, { Component, createRef } from "react";
 import { GiBlackHandShield } from 'react-icons/gi';
 
-
-// create a network
-//  let container = document.getElementById("mynetwork");
-
 /* TODO 
-  GROUP for full classes
-  GROUP for suggestions
+  //setAdjacencyCount to new data
+  //fix skeleton edges upon removing class (see doc)
+  //add parameters
 */
 
 //to check if an edge exists, merely check that both endpoints are added
@@ -458,8 +455,8 @@ class VisNetwork extends Component {
    parseForEdgeIdData = (edgeArray) => {
       let edgeIds = [];
       edgeArray.forEach((edge) => {
-        edgeIds.push(this.getEdgeId(edge.to,edge.from));
-      })
+        edgeIds.push(edgeId.split(/[<,>,=]/)[0]);
+      });
       return edgeIds;
    }
 
@@ -483,6 +480,10 @@ class VisNetwork extends Component {
       nodeArray.forEach( (elem) => {
         this.isSuggestionDict[elem.id] = (elem.opacity === 1) ? false : true;
       });
+   }
+
+   setAdjacencyCountToNewData = (edgeArray) => {
+      //todo
    }
   
    resetNetwork = () => {
@@ -513,7 +514,6 @@ class VisNetwork extends Component {
    loadNetwork = async () => {
      //handle loadNetwork stuff
       let newNetworkData = await this.props.importNetwork();
-
       const nodeArray = newNetworkData.nodeArray;
       const edgeArray = newNetworkData.edgeArray;
       //create data = {nodes: , edges: }, and edgeId's, and suggestionId's
@@ -522,8 +522,11 @@ class VisNetwork extends Component {
       let newNodeIds = this.parseForNodeIdData(nodeArray);
       let newEdgeIds = this.parseForEdgeIdData(edgeArray);
       //update isSuggestionDict
-      this.setSuggestionDictToNewData(nodeArray);
       this.setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
+      //update isSuggestionDict to reflect new data
+      this.setSuggestionDictToNewData(nodeArray);
+      //update adjacencyCounts to reflect new data
+      this.setAdjacencyCountToNewData(edgeArray); //TO DO
    }
 
   componentDidMount() {
