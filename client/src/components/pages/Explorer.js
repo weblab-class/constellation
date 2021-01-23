@@ -8,6 +8,7 @@ import CanvasOptions from "../modules/CanvasOptions.js";
 import "./Explorer.css";
 
 import { get, post} from "../../utilities";
+import { GiTrumpet } from "react-icons/gi";
 
 /**
  * Explorer page. Where all the main features are: canvas, sidebar
@@ -34,7 +35,9 @@ class Explorer extends Component {
             loadCollectionCounter: 0,
             courseObject: undefined,
             isDisplayCollections: false,
-            isDisplayGetName : false, //This is used to conditionally render the future pop up
+            newCollectionNameCounter : 0,
+            isSaved : false,
+            isSavedCounter : 0,
             removeClass: '', //Prompts Vis to remove a class
             currentCollectionName: null, //The collection to load in Vis
             collectionsArray: [], //array of collection names for the user
@@ -101,6 +104,8 @@ class Explorer extends Component {
 
         //Triggers VisNetwork to add a class
         this.setState({
+            isSaved : false,
+            isSavedCounter : this.state.isSavedCounter + 1,
             newClass: this.state.courseObject.subjectId,
         });
 
@@ -109,6 +114,11 @@ class Explorer extends Component {
     handleRemoveClass = () => {
 
         //Triggers VisNetwork to remove a class
+
+        this.setState({
+            isSaved : false,
+            isSavedCounter : this.state.isSavedCounter + 1,
+        });
         
     }
 
@@ -125,6 +135,8 @@ class Explorer extends Component {
             currentCollectionName: collectionName,
             isDisplayCollections: false,
             loaded: false,
+            isSaved : true,
+            isSavedCounter : this.state.isSavedCounter + 1,
         });
     }
 
@@ -134,12 +146,38 @@ class Explorer extends Component {
         });
     }
 
-    handleSaveCollection = () => {
-        // Activates the pop-up to save collection
+    setCollectionName = (newName) => {
         this.setState({
-            saveCanvasCounter: this.state.saveCanvasCounter + 1,
+            currentCollectionName : newName
+        })    
+    }
+
+    //also passed as prop to name collections
+    tellVisNetworkToExport = () => {
+        this.setState({
+            saveCanvasCounter: this.state.saveCanvasCounter+1,
+            isSaved : true,
+            isSavedCounter : this.state.isSavedCounter + 1,
         });
-        
+    }
+
+    handleSaveCollection = () => {
+        // Activates NameCollection to save collection, activates network save
+        if(!this.state.currentCollectionName){ //This activates the conditional rendering for name collection.
+            console.log("Collection name is undefined.")
+            this.setState({
+                newCollectionNameCounter : this.state.newCollectionNameCounter+1, //passed as a prop to name collection
+                //Note that the tellVisNetworkToExport is called within Name Collection,
+                // to ensure that the name is set properly.
+            });
+        }else{
+            this.tellVisNetworkToExport();
+        }
+
+        this.setState({
+            isSaved : true,
+            isSavedCounter : this.state.isSavedCounter + 1,
+        });
     }
     
     handleUserCollections = () => {
@@ -170,37 +208,20 @@ class Explorer extends Component {
     handleResetCanvas = () => {
         this.setState({
             canvasToBeReset: this.state.canvasToBeReset + 1,
-            newClass: '',
+            newClass: ''
+        });
+
+        this.setState({
+            isSaved : false,
+            isSavedCounter : this.state.isSavedCounter + 1,
         });
     }
 
-    handleNewName = async (responseText) => {
+    exportNetwork = (graphObject) => {
 
-        //post MVP function: for user input for collection name
-
-        //To be passed down into the button namePopUp
-        //This will retrieve the name 
-
-        if (responseText in this.state.collectionsArray){
-
-            //TODO: Need to test this after doing the POST request.
-            // Prompt the user to enter a new name from the front end.
-            // TODO: Loop re-rendering instead of just exiting the loop and making the user re-click save canvas.
-
-            console.log("Collection name already exists in your collections. Please return to save canvas and input a distinct name.");
-            console.log("TODO: Prompt re-rendering of the valid input variable in the pop-up.");
-            
-            return;
-        }
-        else{
-            //note to self: tested below
-            this.setState({currentCollectionName : responseText});
-            this.setState({isDisplayGetName : false}); //Mark name as received.
-        }
-    }
-
-
-    postNetwork = (graphObject) => {
+        //Will be prompted by VisNetwork in a callback.
+        //handleSaveCollection should guarantee that valid name will be set,
+        //  before this function (or even Vis saving) is ever prompted.
 
         console.log("Posting the current name : "+this.state.currentCollectionName);
         post("/api/saveCollection", {
@@ -219,37 +240,6 @@ class Explorer extends Component {
         }
     }
 
-    exportNetwork = (graphObject) => {
-
-        //Will be prompted by VisNetwork in a callback.
-
-        if (!this.state.currentCollectionName){
-
-            const nextName = String(Date.now());
-
-            //Generate a random name (like a long string of numbers)
-            //NOTE TO SELF: Does not guarantee no collisions which is needed later.
-
-            // This will reply to the Explorer by triggering handleNewName
-            // in an input loop, until the user gives the right response.
-
-            //set the name directly here.
-
-            //DO NOT DELETE THE BELOW COMMENTS -- will be used later.
-
-            //console.log("The pop up will now be displayed.")
-            //this.setState({isDisplayGetName : true}); //Need to write pop up logic.
-
-            //Below will be allocated to handleNewName later.
-            this.setState({currentCollectionName : nextName }, () => {
-                this.postNetwork(graphObject);
-            });
-        }
-        else{
-            this.postNetwork(graphObject);
-        }
-        
-    }
 
     setToLoaded = () => {
         this.setState({
@@ -275,9 +265,14 @@ class Explorer extends Component {
 
 
     handleNewCollection = () => {
-        
-    }
 
+        this.handleResetCanvas(); //This will clear the canvas itself
+        this.setState({
+            currentCollectionName : null, //This will exit saving/loading on top of the old canvas
+            isSaved : false,
+            isSavedCounter : this.state.isSavedCounter + 1,
+        });
+    }
 
     // componentDidMount() {}
 
@@ -292,6 +287,12 @@ class Explorer extends Component {
                             handleUserCollections={this.handleUserCollections}
                             resetCanvas={this.handleResetCanvas}
                             isDisplayCollections={this.state.isDisplayCollections}
+                            currentCollectionName={this.state.currentCollectionName}
+                            newCollectionNameCounter={this.state.newCollectionNameCounter}
+                            isSaved={this.state.isSaved}
+                            isSavedCounter={this.state.isSavedCounter}
+                            setCollectionName={this.setCollectionName}
+                            tellVisNetworkToExport={this.tellVisNetworkToExport}
                             handleLogout={this.props.handleLogout}
                             handleNewCollection={this.handleNewCollection}
                         />

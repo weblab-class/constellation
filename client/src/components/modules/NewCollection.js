@@ -17,9 +17,6 @@ class NewCollection extends Component {
         super(props);
     }
 
-    //componentDidMount(){}
-    
-
     render(){
         return(
             <button className="NewCollection-navButton" disabled={this.props.isDisplayCollections} onClick={this.props.handleNewCollection}>new</button>  
