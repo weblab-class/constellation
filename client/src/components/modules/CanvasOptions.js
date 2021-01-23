@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import { navigate } from "@reach/router";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
-import UserCollections from "./UserCollections.js";
-import SaveCollection from "./SaveCollection.js";
-import NewCollection from "./NewCollection.js";
 import NameCollection from "./NameCollection.js";
-import Dropdown from "./Dropdown.js";
 
 import "./CanvasOptions.css";
 
@@ -87,7 +83,7 @@ class CanvasOptions extends Component {
                             className="CanvasOptions-icon"
                         >
 
-                            {this.state.showDropdown ? <ImCross size={25} /> : <GiHamburgerMenu size={25} />}
+                            {this.state.showDropdown ? <ImCross size="1.2vw" /> : <GiHamburgerMenu size="1.2vw" />}
                         </button>
                     </div>
 
