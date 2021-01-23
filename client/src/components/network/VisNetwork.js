@@ -85,6 +85,7 @@ class VisNetwork extends Component {
     this.state={
         prevProcessedClass:'',
         clickToUse: true,
+        autoResize: true,
         options: {
           height: '700px',
           width: '1000px',
@@ -173,12 +174,14 @@ class VisNetwork extends Component {
     if(!this.alreadyAddedNode(suggestionId)){
       this.addNode(suggestionId,true,this.relevanceToCurrentNetwork(suggestionId));
       this.addEdge(classId, suggestionId, val);
-    } else if(this.isSuggestionDict[classId]){
+    } else if(this.isSuggestionDict[suggestionId]){
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
       this.addEdge(classId, suggestionId, val);
     } else if(!this.isSuggestionDict[suggestionId]){
       this.addEdge(classId, suggestionId, val);
       this.updateEdgeOpacity(classId, suggestionId, val);
+    } else{
+      console.log("none were true!");
     }
   }
 
@@ -465,6 +468,20 @@ class VisNetwork extends Component {
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
     if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
     if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
+    if(this.props.networkHeight !== prevProps.networkHeight || this.props.networkWidth !== prevProps.networkWidth){
+      this.setState({
+        options: {
+          height: this.props.networkHeight,
+          width: this.props.networkWidth,
+        }
+      })
+      console.log(String(this.props.networkHeight)+'px');
+      console.log(String(this.props.networkWidth)+'px');
+      this.network.setOptions({
+        height: String(this.props.networkHeight)+'px',
+        width: String(this.props.networkWidth)+'px',
+      });
+    } 
   }
 
   render() {
