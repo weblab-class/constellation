@@ -50,8 +50,17 @@ class NameCollection extends Component {
 
     validName = async (inputText) => {
 
+        console.log("IN VALID NAME")
         const isValidName = await get("/api/collectionNames").then(
-            (currentNames) => {
+            (currentNameObject) => {
+
+                // User was not found by the backend.
+                if (currentNameObject.length === 0){
+                    return true;
+                }
+
+                //Otherwise, a user was found.
+                const currentNames = currentNameObject[0].names
                 return !currentNames.includes(inputText);
             }
         ).catch(
@@ -65,9 +74,12 @@ class NameCollection extends Component {
     
     localHandleNameSubmission = async (inputText) => {
 
-        const isValidName = await this.validName(inputText)
+        const isValidName = await this.validName(inputText.trim())
+        console.log(isValidName);
 
         if (!isValidName){
+
+            console.log("Not valid name.")
 
             console.log("Bad invalid name branch");
 
@@ -78,6 +90,8 @@ class NameCollection extends Component {
             });
         }
         else { //Successfully got name
+
+            console.log("Is valid name")
 
             //Stop rendering input box.
             this.setState({
@@ -102,8 +116,8 @@ class NameCollection extends Component {
 
         if(prevProps.isSavedCounter !== this.props.isSavedCounter){
             this.setState({
-                saveText : (this.props.isSaved ? "(saved)" : "(unsaved)")
-            });
+                savedText : (this.props.isSaved ? "(saved)" : "(unsaved)")
+            }); 
         }
     }
 
