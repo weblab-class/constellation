@@ -1,19 +1,19 @@
+
+
 .CanvasOptions-navBar {
     height: 50px;
     border-bottom: 1px solid #dad1c4;
     border-right: 1px solid #dad1c4;
-    display: grid;
-    grid-template-columns: 60px repeat(7, minmax(0, 1fr));
-    grid-template-rows: 50px 50px 50px 50px;
-    grid-gap: 2px;
+    display: flex;
+    flex-direction: row;
 }
 
 .CanvasOptions-navBar, .CanvasOptions-navBar * {
     background-color: #fde6cf;
-
 }
 
 .CanvasOptions-navBar * {
+    margin: 1px;
     font-family: Comfortaa, sans-serif;   
     border-radius: 5px;
     font-size: 14px;
@@ -22,19 +22,59 @@
     border: none;
 }
 
-.CanvasOptions-gridReset {
-    grid-column-start: 5;
-    grid-column-end: 6;
-    grid-row-start: 1;
-    grid-row-end: 2;
+.CanvasOptions-closed {
+    flex-grow: 0.00001;
 }
 
-.CanvasOptions-gridReset:hover:enabled {
-    background-color:rgba(0, 0, 0, 0.1);
-    transition: background-color 1s ease-in;
+.CanvasOptions-flexed {
+    flex-basis: var(--spacing);
+    flex-grow: 1;
+    transition: flex-grow 1000ms linear;
+}
+
+.CanvasOptions-icon {
+    flex-basis: 5%;
+    outline: none;
     cursor: pointer;
 }
 
-.CanvasOptions-gridReset:active {
+
+.CanvasOptions-home {
+    flex-basis: var(--spacing);
+}
+
+.CanvasOptions-logout {
+    flex-basis: var(--spacing);
+}
+
+
+.CanvasOptions-load {
+    flex-basis: var(--spacing);
+
+}
+
+.CanvasOptions-new {
+    flex-basis: var(--spacing);
+}
+
+.CanvasOptions-save { 
+    flex-basis: var(--spacing);
+
+}
+
+.CanvasOptions-reset {
+    flex-basis: var(--spacing);
+
+}
+
+.CanvasOptions-button:hover:enabled {
+    background-color:rgba(20, 17, 17, 0.3);
+    color: #dde9a3;
+    font-size: 18px;
+    transition: background-color 0.5s ease-in;
+    cursor: pointer;
+}
+
+.CanvasOptions-button:active {
     transform: scale(1.05);
 }

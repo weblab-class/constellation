@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import { navigate } from "@reach/router";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { ImCross } from "react-icons/im";
 import UserCollections from "./UserCollections.js";
 import SaveCollection from "./SaveCollection.js";
 import NewCollection from "./NewCollection.js";
 import Dropdown from "./Dropdown.js";
 
 import "./CanvasOptions.css";
- 
+
 /**
  * Where most of the user inputs are found - searchbar, displaybar, tagbar, etc. 
  *
@@ -18,27 +21,109 @@ import "./CanvasOptions.css";
  */
 
 class CanvasOptions extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        
-        
+        this.state = {
+            showDropdown: false,
+        };
+
+    }
+
+    showDropdown = (event) => {
+        event.preventDefault();
+        this.setState({
+            showDropdown: true,
+        });
+    }
+
+    closeDropdown = (event) => {
+        event.preventDefault();
+        this.setState({
+            showDropdown: false,
+        });
+    }
+
+    returnHome = () => {
+        navigate("/");
+    }
+
+    handleLogoutClick = () => {
+        this.props.handleLogout();
+        this.returnHome();
     }
 
     //componentDidMount(){}
-    
 
-    
-    
-    render(){
-        return(
+
+
+
+    render() {
+        let menuButtonClassName = "CanvasOptions-flexed";
+        if(!this.state.showDropdown) {
+            menuButtonClassName = "CanvasOptions-closed";
+        }
+        return (
             <>
-            <nav className="CanvasOptions-navBar">
-                <Dropdown handleLogout={this.props.handleLogout}/>
-                <UserCollections handleUserCollections={this.props.handleUserCollections}/>
-                <NewCollection handleNewCollection={this.props.handleNewCollection} isDisplayCollections={this.props.isDisplayCollections}/>
-                <button type="submit" className="CanvasOptions-gridReset" onClick={this.props.resetCanvas} disabled={this.props.isDisplayCollections}>reset</button>  
-                <SaveCollection handleSaveCollection={this.props.handleSaveCollection} isDisplayCollections={this.props.isDisplayCollections}/>
-            </nav>
+                <nav className="CanvasOptions-navBar">
+
+                    <button
+                        type="submit"
+                        onClick={this.state.showDropdown ? this.closeDropdown : this.showDropdown}
+                        className="CanvasOptions-icon"
+                    >
+                        {this.state.showDropdown ? <ImCross size={25} /> : <GiHamburgerMenu size={25} />}
+                    </button>
+                    <button
+                        type="submit"
+                        onClick={this.returnHome}
+                        className={menuButtonClassName}
+                    >
+                        home
+                        </button>
+                    <button
+                        type="submit"
+                        onClick={this.handleLogoutClick}
+                        className={menuButtonClassName}
+                    >
+                        logout
+                        </button>
+
+                    <button
+                        type="submit"
+                        className="CanvasOptions-button CanvasOptions-load"
+                        onClick={this.props.handleUserCollections}
+                    >
+                        load
+                    </button>
+
+                    <button
+                        type="submit"
+                        className="CanvasOptions-button CanvasOptions-new"
+                        onClick={this.props.handleNewCollection}
+                        disabled={this.props.isDisplayCollections}
+                    >
+                        new
+                    </button>
+
+                    <button
+                        type="submit"
+                        className="CanvasOptions-button CanvasOptions-save"
+                        onClick={this.props.handleSaveCollection}
+                        disabled={this.props.isDisplayCollections}
+                    >
+                        save
+                    </button>
+
+                    <button
+                        type="submit"
+                        className="CanvasOptions-button CanvasOptions-reset"
+                        onClick={this.props.resetCanvas}
+                        disabled={this.props.isDisplayCollections}
+                    >
+                        reset
+                    </button>
+
+                </nav>
             </>
         );
     }

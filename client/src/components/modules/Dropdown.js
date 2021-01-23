@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router";
-import { GiHamburgerMenu } from "react-icons/gi";
+
 import { slide as dropdown } from "react-burger-menu";
 
 import { get } from "../../utilities";
