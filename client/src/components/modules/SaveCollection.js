@@ -19,10 +19,12 @@ class SaveCollection extends Component {
 
     //componentDidMount(){}
     
+    
+
 
     render(){
         return(
-            <button className="SaveCollection-navButton" disabled={this.props.isDisplayCollections} onClick={this.props.handleSaveCollection}>save</button>  
+            <button className="SaveCollection-navButton" disabled={this.props.isDisplayCollections} onClick={debounce(this.props.handleSaveCollection, 1000)}>save</button>  
         )
     }
 }

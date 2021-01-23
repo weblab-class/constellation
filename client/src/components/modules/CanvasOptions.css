@@ -1,19 +1,19 @@
+
 .CanvasOptions-navBar {
+    position: relative;
     height: 50px;
     border-bottom: 1px solid #dad1c4;
     border-right: 1px solid #dad1c4;
-    display: grid;
-    grid-template-columns: 60px repeat(7, minmax(0, 1fr));
-    grid-template-rows: 50px 50px 50px 50px;
-    grid-gap: 2px;
+    display: flex;
+    flex-direction: row;
 }
 
 .CanvasOptions-navBar, .CanvasOptions-navBar * {
     background-color: #fde6cf;
-
 }
 
 .CanvasOptions-navBar * {
+    margin: 1px;
     font-family: Comfortaa, sans-serif;   
     border-radius: 5px;
     font-size: 14px;
@@ -22,19 +22,75 @@
     border: none;
 }
 
-.CanvasOptions-gridReset {
-    grid-column-start: 5;
-    grid-column-end: 6;
-    grid-row-start: 1;
-    grid-row-end: 2;
+
+.CanvasOptions-icon {
+    outline: none;
+    cursor: pointer;
+    margin-right: auto;
 }
 
-.CanvasOptions-gridReset:hover:enabled {
-    background-color:rgba(0, 0, 0, 0.1);
-    transition: background-color 1s ease-in;
+.CanvasOptions-menuOpen {
+    flex-basis: 20%;
+    transition: 1s;
+    display: flex;
+    border: 2px solid #f38256;
+}
+
+.CanvasOptions-menuClosed {
+    flex-basis: 5%;
+    transition: 1s;
+    display: flex;
+}
+
+.CanvasOptions-menuButtonContainerClosed {
+    position: absolute;
+    transform: translate(30%, -150%);
+    transition: transform 0.5s ease-in;
+}
+
+.CanvasOptions-menuButtonContainerOpen {
+    position: absolute;
+    display: flex;
+    transform: translate(30%, 10%);
+    transition: transform 1s ease-in;
+}
+
+.CanvasOptions-menuButton {
+    font-size: var(--m);
+    margin: 10px;
+    background-color: #e96e3d;
+    cursor: pointer;
+    outline: none;
+    height: 100%;
+}
+
+.CanvasOptions-load {
+    flex-basis: var(--spacing);
+
+}
+
+.CanvasOptions-new {
+    flex-basis: var(--spacing);
+}
+
+.CanvasOptions-save { 
+    flex-basis: var(--spacing);
+
+}
+
+.CanvasOptions-reset {
+    flex-basis: var(--spacing);
+
+}
+
+.CanvasOptions-button:hover:enabled {
+    background-color:rgba(20, 17, 17, 0.3);
+    color: #dde9a3;
+    font-size: 18px;
+    transition: background-color 0.5s ease-in;
     cursor: pointer;
 }
 
-.CanvasOptions-gridReset:active {
+.CanvasOptions-button:active {
     transform: scale(1.05);
 }

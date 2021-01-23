@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Canvas from "../modules/Canvas.js";
 import SideBar from "../modules/SideBar.js";
 import CanvasOptions from "../modules/CanvasOptions.js";
+import _ from "lodash";
 
 //import NamePopUp from "../modules/NamePopUp.js";
 
@@ -23,6 +24,7 @@ class Explorer extends Component {
         super(props);
         this.state = {
             newClass: '', //This prompts Vis to add things
+            newClassCounter: 0,
             currentlyViewedClass: '', //the class currently being shown on display bar
             newClassesToAdd: {
                 prereqsToAdd: [],
@@ -31,6 +33,7 @@ class Explorer extends Component {
             },
             canvasToBeReset: 0,
             removeClass: '',
+            removeClassCounter: 0,
             saveCanvasCounter: 0,
             loadCollectionCounter: 0,
             courseObject: undefined,
@@ -44,6 +47,7 @@ class Explorer extends Component {
             loaded: false,
         }
     }
+
 
     setCourseObject = (input) => {
         get("/api/sidebarNode", { subjectId: input }).then((courseArray) => {
@@ -107,19 +111,19 @@ class Explorer extends Component {
             isSaved : false,
             isSavedCounter : this.state.isSavedCounter + 1,
             newClass: this.state.courseObject.subjectId,
+            newClassCounter: this.state.newClassCounter+1,
         });
 
     }
 
     handleRemoveClass = () => {
-
         //Triggers VisNetwork to remove a class
-
         this.setState({
+            removeClass: this.state.courseObject.subjectId,
+            removeClassCounter: this.state.removeClassCounter+1,
             isSaved : false,
             isSavedCounter : this.state.isSavedCounter + 1,
         });
-        
     }
 
     handleLoadCollection = (collectionName) => {
@@ -161,7 +165,7 @@ class Explorer extends Component {
         });
     }
 
-    handleSaveCollection = () => {
+    handleSaveCollection = _.debounce(() => {
         // Activates NameCollection to save collection, activates network save
         if(!this.state.currentCollectionName){ //This activates the conditional rendering for name collection.
             console.log("Collection name is undefined.")
@@ -173,13 +177,8 @@ class Explorer extends Component {
         }else{
             this.tellVisNetworkToExport();
         }
+    }, 1000);
 
-        this.setState({
-            isSaved : true,
-            isSavedCounter : this.state.isSavedCounter + 1,
-        });
-    }
-    
     handleUserCollections = () => {
 
         //  Activates display of SideBar with collection options
@@ -208,7 +207,8 @@ class Explorer extends Component {
     handleResetCanvas = () => {
         this.setState({
             canvasToBeReset: this.state.canvasToBeReset + 1,
-            newClass: ''
+            newClass: '',
+            removeClass: '',
         });
 
         this.setState({
@@ -299,8 +299,10 @@ class Explorer extends Component {
                         <Canvas
                             exportNetwork={this.exportNetwork}
                             newClass={this.state.newClass}
+                            newClassCounter={this.state.newClassCounter}
                             getNeighbors={this.getNeighbors}
                             removeClass={this.state.removeClass}
+                            removeClassCounter={this.state.removeClassCounter}
                             canvasToBeReset={this.state.canvasToBeReset}
                             saveCanvasCounter={this.state.saveCanvasCounter}
                             loadCollectionCounter={this.state.loadCollectionCounter}

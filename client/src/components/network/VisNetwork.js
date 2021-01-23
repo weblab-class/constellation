@@ -2,13 +2,10 @@ import { DataSet, Network } from 'vis-network/standalone/umd/vis-network.min';
 import React, { Component, createRef } from "react";
 import { GiBlackHandShield } from 'react-icons/gi';
 
-
-// create a network
-//  let container = document.getElementById("mynetwork");
-
 /* TODO 
-  GROUP for full classes
-  GROUP for suggestions
+  //setAdjacencyCount to new data
+  //fix skeleton edges upon removing class (see doc)
+  //add parameters
 */
 
 //to check if an edge exists, merely check that both endpoints are added
@@ -74,6 +71,7 @@ class VisNetwork extends Component {
 
     //1 for added node, 0 for suggestion
     this.isSuggestionDict = {}; //Suggestion or Fully added class
+    this.adjacencyCount = {};
     this.network = {};
     this.data = {
       nodes: nodes,
@@ -141,7 +139,74 @@ class VisNetwork extends Component {
       return !CLUTTER_COURSES.includes(this.getCourseId(classId));
     });
   }
+  //removes classId from network list
+  //checks if class is in list already
+  //if no --> do nothing (eventually we'll check this at the remove button stage)
+  /*if yes --> 
+    if suggestion --> simply remove it and all egdes attached to it
+    if full node  --> remove the node, all eges attached to it, and decrement its
+  */
 
+//  function removeRandomNode() {
+//   var randomNodeId = nodeIds[Math.floor(Math.random() * nodeIds.length)];
+//   nodes.remove({ id: randomNodeId });
+
+//   var index = nodeIds.indexOf(randomNodeId);
+//   nodeIds.splice(index, 1);
+// }
+
+ decrementAdjacencyStatus = (classId) => {
+   this.adjacencyCount[classId]--;
+ }
+
+ removeAdjacentSuggestions = (adjacentNodes) => {
+  let [edgesToRemove,nodesToRemove] = [[],[]];
+  adjacentNodes.forEach((nodeId) => {
+    this.adjacencyCount[nodeId]--;
+    //if no longer any neighbors and suggestion, remove from graph
+    if(this.adjacencyCount[nodeId] === 0 && this.isSuggestionDict[nodeId]){
+      edgesToRemove = edgesToRemove.concat(this.network.getConnectedEdges(nodeId));
+      this.data.nodes.remove({id: nodeId});
+      nodesToRemove.push(nodeId);
+    }
+  });
+  this.nodeIds = this.nodeIds.filter((nodeId) => {
+    return !nodesToRemove.includes(nodeId);
+  })
+  return edgesToRemove;
+ }
+
+  processRemoval = (classId) => {
+    if(!this.nodeIds.includes(classId) || (this.nodeIds.includes(classId) && this.isSuggestionDict[classId])) return;
+    //else, this node is available AND added
+    //adjacent nodes
+    const adjacentNodes = this.network.getConnectedNodes(classId);
+    //reduce the adjacency value of each neighboring node
+    //remove now-irrelevant suggestions
+    const edgesToRemove = this.removeAdjacentSuggestions(adjacentNodes);
+    this.isSuggestionDict[classId] = true;
+    //if this node has another added neighbor, it is demoted to a suggestion
+    if(this.adjacencyCount[classId] !== 0){
+      this.updateNodeOpacity(classId, SUGGESTED_NODE_OPACITY);
+      const adjacentEdges = this.network.getConnectedEdges(classId);
+      adjacentEdges.forEach((edgeId) => {
+        if(!edgesToRemove.includes(edgeId)){
+          this.data.edges.update([{ id: edgeId, color: {opacity: SUGGESTED_EDGE_OPACITY}}]);
+        }
+      });
+    }else if(this.adjacencyCount[classId] === 0){
+      //completely remove node and all of its edges
+      this.nodeIds.splice(this.nodeIds.indexOf(classId),1);
+      this.data.nodes.remove({id: classId});
+    }
+    //remove edgesIds at end so that it doesn't delay visual network update
+    edgesToRemove.forEach((edgeId) => {
+      this.data.edges.remove({id: edgeId});
+    });
+    this.edgeIds = this.edgeIds.filter((edgeId) => {
+      return !edgesToRemove.includes(edgeId);
+    });
+  }
   //adds class newUpdate to network, adds suggestions to neighbors
   processAddition = async (classId) => {
     if(this.alreadyAddedNode(classId)){
@@ -165,7 +230,10 @@ class VisNetwork extends Component {
     this.setState({
       prevProcessedClass: classId,
     });
-    console.log(this.getCurrentNetworkData());
+    console.log("ADJ DATA");
+    this.nodeIds.forEach((classId) => {
+      console.log(classId + " : " + this.adjacencyCount[classId]);
+    });
   }
 
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
@@ -177,12 +245,15 @@ class VisNetwork extends Component {
     } else if(this.isSuggestionDict[suggestionId]){
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
       this.addEdge(classId, suggestionId, val);
+      ///below case correspods to a prereq/afterreq assymetry
     } else if(!this.isSuggestionDict[suggestionId]){
+      if(!this.edgeIds.includes(this.getEdgeId(classId,suggestionId,val))) this.adjacencyCount[classId]++;
       this.addEdge(classId, suggestionId, val);
       this.updateEdgeOpacity(classId, suggestionId, val);
     } else{
       console.log("none were true!");
     }
+    this.adjacencyCount[suggestionId]++;
   }
 
   //two parameters: nodeLabel=courseID
@@ -192,6 +263,7 @@ class VisNetwork extends Component {
     const courseId = this.getCourseId(classId);
     this.data.nodes.add({ id: classId, label: classId, opacity: opacity, group: courseId}); //add group
     this.nodeIds.push(classId);
+    this.adjacencyCount[classId] = 0;
    }
 
    getCourseId = (classId) => {
@@ -383,8 +455,8 @@ class VisNetwork extends Component {
    parseForEdgeIdData = (edgeArray) => {
       let edgeIds = [];
       edgeArray.forEach((edge) => {
-        edgeIds.push(this.getEdgeId(edge.to,edge.from));
-      })
+        edgeIds.push(edgeId.split(/[<,>,=]/)[0]);
+      });
       return edgeIds;
    }
 
@@ -408,6 +480,10 @@ class VisNetwork extends Component {
       nodeArray.forEach( (elem) => {
         this.isSuggestionDict[elem.id] = (elem.opacity === 1) ? false : true;
       });
+   }
+
+   setAdjacencyCountToNewData = (edgeArray) => {
+      //todo
    }
   
    resetNetwork = () => {
@@ -438,7 +514,6 @@ class VisNetwork extends Component {
    loadNetwork = async () => {
      //handle loadNetwork stuff
       let newNetworkData = await this.props.importNetwork();
-
       const nodeArray = newNetworkData.nodeArray;
       const edgeArray = newNetworkData.edgeArray;
       //create data = {nodes: , edges: }, and edgeId's, and suggestionId's
@@ -447,8 +522,11 @@ class VisNetwork extends Component {
       let newNodeIds = this.parseForNodeIdData(nodeArray);
       let newEdgeIds = this.parseForEdgeIdData(edgeArray);
       //update isSuggestionDict
-      this.setSuggestionDictToNewData(nodeArray);
       this.setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
+      //update isSuggestionDict to reflect new data
+      this.setSuggestionDictToNewData(nodeArray);
+      //update adjacencyCounts to reflect new data
+      this.setAdjacencyCountToNewData(edgeArray); //TO DO
    }
 
   componentDidMount() {
@@ -461,9 +539,9 @@ class VisNetwork extends Component {
 
   componentDidUpdate(prevProps) {
     //if new class isn't previous class, update
-    if(this.props.newClass && this.props.newClass !== prevProps.newClass) this.processAddition(this.props.newClass);
+    if(this.props.newClass && this.props.newClassCounter !== prevProps.newClassCounter) this.processAddition(this.props.newClass);
     //process removing class
-    //if(this.props.removeClass && this.props.removeClass !== prevProps.removeClass) this.processRemoval(this.props.removeClass)
+    if(this.props.removeClass && this.props.removeClassCounter !== prevProps.removeClassCounter) this.processRemoval(this.props.removeClass);
     //if canvasToBeReset isn't previous canvasToBeReset, update
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
     if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
@@ -475,8 +553,6 @@ class VisNetwork extends Component {
           width: this.props.networkWidth,
         }
       })
-      console.log(String(this.props.networkHeight)+'px');
-      console.log(String(this.props.networkWidth)+'px');
       this.network.setOptions({
         height: String(this.props.networkHeight)+'px',
         width: String(this.props.networkWidth)+'px',
