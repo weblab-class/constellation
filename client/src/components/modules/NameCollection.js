@@ -21,9 +21,9 @@ class NameCollection extends Component {
         super(props);
         this.state = {
             inputText: '',
-            getNewCollectionName : false, //boolean that indicates whether or not to render the "get new name" box.
+            getNewCollectionName: false, //boolean that indicates whether or not to render the "get new name" box.
             placeholderText: "Enter collection name.",
-            savedText : "(unsaved)"
+            savedText: "(unsaved)"
         }
     }
 
@@ -33,19 +33,19 @@ class NameCollection extends Component {
         if (event.keyCode === 13) { //checks if Enter key was pressed.
             console.log("The enter key was pressed!");
             this.setState({
-                inputText : event.target.value
+                inputText: event.target.value
             }, () => {
                 this.localHandleNameSubmission(this.state.inputText);
             });
-        } 
+        }
     }
 
     handleChange = (event) => {
 
         this.setState({
-            inputText : event.target.value,
+            inputText: event.target.value,
         });
-        
+
     }
 
     validName = async (inputText) => {
@@ -54,7 +54,7 @@ class NameCollection extends Component {
         const isValidName = await get("/api/collectionNames").then(
             (currentNameObject) => {
                 // User was not found by the backend.
-                if (currentNameObject.length === 0){
+                if (currentNameObject.length === 0) {
                     return true;
                 }
 
@@ -70,13 +70,13 @@ class NameCollection extends Component {
         )
         return isValidName;
     }
-    
+
     localHandleNameSubmission = async (inputText) => {
 
         const isValidName = await this.validName(inputText.trim())
         console.log(isValidName);
 
-        if (!isValidName){
+        if (!isValidName) {
 
             console.log("Not valid name.")
 
@@ -84,7 +84,7 @@ class NameCollection extends Component {
 
             //Reject the name and notify user.
             this.setState({
-                inputText : "",
+                inputText: "",
                 placeholderText: "Please enter unused name.",
             });
         }
@@ -94,54 +94,63 @@ class NameCollection extends Component {
 
             //Stop rendering input box.
             this.setState({
-                getNewCollectionName : false
+                getNewCollectionName: false
             });
 
-             //Tells explorer that collection namem is present and ready for export
-             //TODO: Make this more async if needed?
+            //Tells explorer that collection namem is present and ready for export
+            //TODO: Make this more async if needed?
             this.props.setCollectionName(inputText);
             this.props.tellVisNetworkToExport(); //See function in Explorer.
         }
     }
 
     componentDidUpdate = (prevProps) => {
-        if(prevProps.newCollectionNameCounter !== this.props.newCollectionNameCounter){
+        if (prevProps.newCollectionNameCounter !== this.props.newCollectionNameCounter) {
             this.setState({
                 getNewCollectionName: true,
-                inputText : "",
-                placeholderText : "Enter collection name."
+                inputText: "",
+                placeholderText: "Enter collection name. (Limit 15 characters)"
             });
         }
 
-        if(prevProps.isSavedCounter !== this.props.isSavedCounter){
+        if (prevProps.isSavedCounter !== this.props.isSavedCounter) {
             this.setState({
-                savedText : (this.props.isSaved ? "(saved)" : "(unsaved)")
-            }); 
+                savedText: (this.props.isSaved ? "(saved)" : "(unsaved)")
+            });
         }
     }
 
     render() {
 
-        if(this.state.getNewCollectionName){
+        if (this.state.getNewCollectionName) {
             //TODO: Make the re-prompting text red! 
-            return (<input 
-                            type = "text" 
-                            value = {this.state.inputText} 
-                            onChange = {this.handleChange} 
-                            onKeyDown = {this.handleKeyDown}
-                            placeholder = {this.state.placeholderText}
-                            className="NameCollection-input"
-                            />);
+            return (<input
+                type="text"
+                value={this.state.inputText}
+                onChange={this.handleChange}
+                onKeyDown={this.handleKeyDown}
+                placeholder={this.state.placeholderText}
+                maxlength="15"
+                className="NameCollection-input"
+            />);
         }
-        else{
+        else {
             //If the collection doesn't have a name yet, notify
             // TODO : Add saved changes or not.
-            const currentName = this.props.currentCollectionName ? this.props.currentCollectionName : "Constellation unnamed";
+            const currentName = this.props.currentCollectionName ? this.props.currentCollectionName : "unnamed";
+            const namedClass = this.props.currentCollectionName ? "NameCollection-named" : "NameCollection-unnamed";
             return (
-            <div className="NameCollection-nameVersion">
-                {currentName + " " + this.state.savedText }
+                <>
+                <div className="NameCollection-nameVersion">
+                    <span className={namedClass}>
+                        {currentName + " "}
+                    </span>
+                    <span className="NameCollection-saved">
+                        {this.state.savedText}
+                    </span>
                 </div>
-                );
+                </>
+            );
         }
     }
 }

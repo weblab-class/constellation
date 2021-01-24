@@ -8,9 +8,22 @@
     border: none;
     height: 50%;
     width: 80%;
+    font-size: 0.9vw;
     font-family: Comfortaa, san-serif;
 }
 
 .NameCollection-nameVersion {
+    font-size: 1.1vw;
+}
+
+.NameCollection-unnamed {
+    opacity: 0.5;
+}
+
+.NameCollection-named {
+    font-weight: bold;
+}
+
+.NameCollection-saved {
     font-style: italic;
 }

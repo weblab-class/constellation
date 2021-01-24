@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Canvas from "../modules/Canvas.js";
 import SideBar from "../modules/SideBar.js";
 import CanvasOptions from "../modules/CanvasOptions.js";
-import _ from "lodash";
+import _ from "lodash"; //debounce function
 
 //import NamePopUp from "../modules/NamePopUp.js";
 
