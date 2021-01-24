@@ -2,18 +2,15 @@
     color: rgb(219, 94, 94)
 }
 
+.NameCollection-input {
+    text-align: left;
+    outline: none;
+    border: none;
+    height: 50%;
+    width: 80%;
+    font-family: Comfortaa, san-serif;
+}
+
 .NameCollection-nameVersion {
-    text-align: center;
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 2;
-}
-
-.NameCollection-input-normal{
-
-}
-
-.NameCollection-button{
-
+    font-style: italic;
 }

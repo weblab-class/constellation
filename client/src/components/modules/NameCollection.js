@@ -3,8 +3,8 @@
 //post MVP function: for user input for collection name
 
 import React, { Component } from "react";
-import { get } from "../../utilities.js"
-
+import { get } from "../../utilities.js";
+import "./NameCollection.css";
 /**
  * Pop-up to take in new collection name.
  * 
@@ -131,12 +131,13 @@ class NameCollection extends Component {
                             onChange = {this.handleChange} 
                             onKeyDown = {this.handleKeyDown}
                             placeholder = {this.state.placeholderText}
+                            className="NameCollection-input"
                             />);
         }
         else{
             //If the collection doesn't have a name yet, notify
             // TODO : Add saved changes or not.
-            const currentName = this.props.currentCollectionName ? this.props.currentCollectionName : "Collection unnamed";
+            const currentName = this.props.currentCollectionName ? this.props.currentCollectionName : "Constellation unnamed";
             return (
             <div className="NameCollection-nameVersion">
                 {currentName + " " + this.state.savedText }

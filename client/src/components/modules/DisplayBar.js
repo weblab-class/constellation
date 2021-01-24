@@ -42,12 +42,12 @@ class DisplayBar extends Component {
         //if canvasToBeReset isn't previous canvasToBeReset, update
         if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) {
             this.setState({
-                reset: true
+                reset: true,
             })
         }
         else if(this.props.courseObject !== prevProps.courseObject) {
             this.setState({
-                reset: false
+                reset: false,
             })
         }
     }
@@ -66,6 +66,7 @@ class DisplayBar extends Component {
     render() {
         let toDisplay;
         let addRemoveActive = false;
+        console.log("Display Bar 77, isLoading:", this.state.isLoading);
         if(this.props.isDisplayCollections) {
             toDisplay=
             <CollectionsList 

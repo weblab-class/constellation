@@ -121,15 +121,17 @@ class CanvasOptions extends Component {
                     >
                         reset
                     </button>
-
-                    <NameCollection
-                    currentCollectionName={this.props.currentCollectionName} 
-                    newCollectionNameCounter={this.props.newCollectionNameCounter}
-                    isSaved={this.props.isSaved}
-                    isSavedCounter={this.props.isSavedCounter}
-                    setCollectionName={this.props.setCollectionName}
-                    tellVisNetworkToExport={this.props.tellVisNetworkToExport}
-                    />
+                    <div className="CanvasOptions-verticalLine"></div>
+                    <div className="CanvasOptions-name">
+                        <NameCollection
+                            currentCollectionName={this.props.currentCollectionName}
+                            newCollectionNameCounter={this.props.newCollectionNameCounter}
+                            isSaved={this.props.isSaved}
+                            isSavedCounter={this.props.isSavedCounter}
+                            setCollectionName={this.props.setCollectionName}
+                            tellVisNetworkToExport={this.props.tellVisNetworkToExport}
+                        />
+                    </div>
 
                 </nav>
             </>
