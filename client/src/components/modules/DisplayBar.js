@@ -66,7 +66,6 @@ class DisplayBar extends Component {
     render() {
         let toDisplay;
         let addRemoveActive = false;
-        console.log("Display Bar 77, isLoading:", this.state.isLoading);
         if(this.props.isDisplayCollections) {
             toDisplay=
             <CollectionsList 

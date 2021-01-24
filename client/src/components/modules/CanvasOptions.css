@@ -1,6 +1,6 @@
 .CanvasOptions-navBar {
     position: relative;
-    height: 7vh;
+    height: 6.5vh;
     border-bottom: 1px solid #dad1c4;
     border-right: 1px solid #dad1c4;
     display: flex;
@@ -31,7 +31,9 @@
 
 .CanvasOptions-menuOpen {
     flex-basis: 15%;
+    flex-shrink: 0;
     display: flex;
+    border-radius: 5px;
     border: 2px solid #f38256;
     background-color: #eb9a7b;
     transition: all 1s;
@@ -72,7 +74,6 @@
 
 .CanvasOptions-menuButton {
     font-size: 1vw;
-    margin: auto 10%;
     cursor: pointer;
     background-color: #eb9a7b;
     color: #f8e7e7;
@@ -81,7 +82,7 @@
 }
 
 .CanvasOptions-menuButton:hover {
-    color: #3f74e7;
+    color: var(--sidebar-buttonTextColor);
 }
 
 .CanvasOptions-load {
