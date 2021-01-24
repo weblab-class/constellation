@@ -215,6 +215,7 @@ class VisNetwork extends Component {
     this.edgeIds = this.edgeIds.filter((edgeId) => {
       return !edgesToRemove.includes(edgeId);
     });
+    this.printCurrentNetworkData();
   }
   //adds class newUpdate to network, adds suggestions to neighbors
   processAddition = async (classId) => {
@@ -239,6 +240,7 @@ class VisNetwork extends Component {
     this.setState({
       prevProcessedClass: classId,
     });
+    this.printCurrentNetworkData();
   }
 
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
@@ -377,6 +379,19 @@ class VisNetwork extends Component {
      return currentNetworkData;
    }
 
+   printCurrentNetworkData = () => {
+    console.log("PRINTING CURRENT NETWORK DATA");
+    console.log(this.nodeIds);
+    console.log(this.edgeIds);
+    console.log(this.isSuggestionDict);
+    console.log(this.adjacencyCount);
+    this.printCurrentExportData();
+   }
+
+   printCurrentExportData = () => {
+     console.log(this.getCurrentNetworkData());
+   }
+
   //reconstructs Node data from imported array
    parseForNodeData = (nodeArray) => {
     let nodes = [];
@@ -460,7 +475,7 @@ class VisNetwork extends Component {
    parseForEdgeIdData = (edgeArray) => {
       let edgeIds = [];
       edgeArray.forEach((edgeId) => {
-        edgeIds.push(edgeId.split(/[<,>,=]/)[0]);
+        edgeIds.push(edgeId.split('@')[0]);
       });
       return edgeIds;
    }
@@ -482,20 +497,35 @@ class VisNetwork extends Component {
          this.isSuggestionDict[classId] = true
         });
       //step 2, set all new nodes from newNetworkData according to their opacity (not suggestion if opacity is 1, suggestion otherwise)
-      nodeArray.forEach( (elem) => {
+      nodeArray.forEach((elem) => {
         this.isSuggestionDict[elem.id] = (elem.opacity === 1) ? false : true;
       });
    }
 
-   setAdjacencyCountToNewData = (edgeArray) => {
-      //todo
+   setAdjacencyCountToNewData = () => {
+     //step1, set all keys to zero
+     Object.keys(this.adjacencyCount).forEach((classId) => {
+      this.adjacencyCount[classId] = 0;
+     });
+      //loop throuh all nodeId's
+     this.nodeIds.forEach((nodeId) => {
+       //count number of fully added neighbors
+       this.adjacencyCount[nodeId] = 0;
+       const neighbors = this.network.getConnectedNodes(nodeId);
+       neighbors.forEach((neighborId) => {
+         this.adjacencyCount[nodeId] += (!this.isSuggestionDict[neighborId] ? 1 : 0);
+       });
+     });
    }
   
    resetNetwork = () => {
      let newNodes = new DataSet([{ id: "Click me to get started!", label: "Click me to get started!"},]);
      let newEdges = new DataSet();
      this.nodeIds.forEach((classId) => {
-       if(classId !== 1) this.isSuggestionDict[classId] = true;
+       if(classId !== 1){
+          this.isSuggestionDict[classId] = true;
+          this.adjacencyCount[classId] = 0;
+       }
      });
      //must update state as well so state and network work with same object
 
@@ -507,6 +537,7 @@ class VisNetwork extends Component {
      this.data.edges = newEdges,
      this.nodeIds = [];
      this.edgeIds = [];
+     this.printCurrentNetworkData();
    }
 
    saveNetwork = () => {
@@ -519,6 +550,7 @@ class VisNetwork extends Component {
    loadNetwork = async () => {
      //handle loadNetwork stuff
       let newNetworkData = await this.props.importNetwork();
+      console.log(newNetworkData);
       const nodeArray = newNetworkData.nodeArray;
       const edgeArray = newNetworkData.edgeArray;
       //create data = {nodes: , edges: }, and edgeId's, and suggestionId's
@@ -531,7 +563,9 @@ class VisNetwork extends Component {
       //update isSuggestionDict to reflect new data
       this.setSuggestionDictToNewData(nodeArray);
       //update adjacencyCounts to reflect new data
-      this.setAdjacencyCountToNewData(edgeArray); //TO DO
+      this.setAdjacencyCountToNewData(); //TO DO
+      //test new network
+      this.printCurrentNetworkData();
    }
 
   componentDidMount() {
