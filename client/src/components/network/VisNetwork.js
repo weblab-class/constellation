@@ -141,40 +141,42 @@ class VisNetwork extends Component {
   }
 
   //for 7.05 this reduces the afterreqs from 76 to 49
+  //removes "special versions of GIRs and similar" as well as "permission of instructor" and other non-class "prereqs"
   filterClutterClasses = (classList) => {
     return classList.filter((classId) => {
-      return !CLUTTER_COURSES.includes(this.getCourseId(classId));
+      return (!CLUTTER_COURSES.includes(this.getCourseId(classId))&&classId.length<10);
     });
   }
-  //removes classId from network list
-  //checks if class is in list already
-  //if no --> do nothing (eventually we'll check this at the remove button stage)
-  /*if yes --> 
-    if suggestion --> simply remove it and all egdes attached to it
-    if full node  --> remove the node, all eges attached to it, and decrement its
-  */
-
-//  function removeRandomNode() {
-//   var randomNodeId = nodeIds[Math.floor(Math.random() * nodeIds.length)];
-//   nodes.remove({ id: randomNodeId });
-
-//   var index = nodeIds.indexOf(randomNodeId);
-//   nodeIds.splice(index, 1);
-// }
 
  decrementAdjacencyStatus = (classId) => {
    this.adjacencyCount[classId]--;
  }
 
- removeAdjacentSuggestions = (adjacentNodes) => {
+ findSuggestedEdge = (classId, suggestionId) => {
+    const edgesFromSuggestion = this.network.getConnectedEdges(suggestionId);
+    const edgeToSuggestionId = edgesFromSuggestion.find((edgeId) => {
+      return edgeId.split(/[<,>,=]/).includes(classId);
+    });
+    return edgeToSuggestionId;
+ }
+
+ removeAdjacentSuggestions = (classId, adjacentNodes) => {
   let [edgesToRemove,nodesToRemove] = [[],[]];
   adjacentNodes.forEach((nodeId) => {
     this.adjacencyCount[nodeId]--;
-    //if no longer any neighbors and suggestion, remove from graph
-    if(this.adjacencyCount[nodeId] === 0 && this.isSuggestionDict[nodeId]){
-      edgesToRemove = edgesToRemove.concat(this.network.getConnectedEdges(nodeId));
-      this.data.nodes.remove({id: nodeId});
-      nodesToRemove.push(nodeId);
+    //deal with all neighboring suggestions
+    if(this.isSuggestionDict[nodeId]){
+      //if node no longer has any added neighbors
+      if(this.adjacencyCount[nodeId] === 0){
+        edgesToRemove = edgesToRemove.concat(this.network.getConnectedEdges(nodeId));
+        this.data.nodes.remove({id: nodeId});
+        nodesToRemove.push(nodeId);
+      }else{
+        //suggestion is still relevant, but edge to classId must be deleted
+        const edgeToSuggestionId = this.findSuggestedEdge(classId, nodeId);
+        this.data.edges.remove({id: edgeToSuggestionId});
+        edgesToRemove.push(edgeToSuggestionId);
+      }
     }
   });
   this.nodeIds = this.nodeIds.filter((nodeId) => {
@@ -190,7 +192,7 @@ class VisNetwork extends Component {
     const adjacentNodes = this.network.getConnectedNodes(classId);
     //reduce the adjacency value of each neighboring node
     //remove now-irrelevant suggestions
-    const edgesToRemove = this.removeAdjacentSuggestions(adjacentNodes);
+    const edgesToRemove = this.removeAdjacentSuggestions(classId, adjacentNodes);
     this.isSuggestionDict[classId] = true;
     //if this node has another added neighbor, it is demoted to a suggestion
     if(this.adjacencyCount[classId] !== 0){
