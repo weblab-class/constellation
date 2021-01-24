@@ -53,7 +53,6 @@ class NameCollection extends Component {
         console.log("IN VALID NAME")
         const isValidName = await get("/api/collectionNames").then(
             (currentNameObject) => {
-
                 // User was not found by the backend.
                 if (currentNameObject.length === 0){
                     return true;

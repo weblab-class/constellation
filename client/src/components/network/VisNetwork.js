@@ -141,40 +141,42 @@ class VisNetwork extends Component {
   }
 
   //for 7.05 this reduces the afterreqs from 76 to 49
+  //removes "special versions of GIRs and similar" as well as "permission of instructor" and other non-class "prereqs"
   filterClutterClasses = (classList) => {
     return classList.filter((classId) => {
-      return !CLUTTER_COURSES.includes(this.getCourseId(classId));
+      return (!CLUTTER_COURSES.includes(this.getCourseId(classId))&&classId.length<10);
     });
   }
-  //removes classId from network list
-  //checks if class is in list already
-  //if no --> do nothing (eventually we'll check this at the remove button stage)
-  /*if yes --> 
-    if suggestion --> simply remove it and all egdes attached to it
-    if full node  --> remove the node, all eges attached to it, and decrement its
-  */
-
-//  function removeRandomNode() {
-//   var randomNodeId = nodeIds[Math.floor(Math.random() * nodeIds.length)];
-//   nodes.remove({ id: randomNodeId });
-
-//   var index = nodeIds.indexOf(randomNodeId);
-//   nodeIds.splice(index, 1);
-// }
 
  decrementAdjacencyStatus = (classId) => {
    this.adjacencyCount[classId]--;
  }
 
- removeAdjacentSuggestions = (adjacentNodes) => {
+ findSuggestedEdge = (classId, suggestionId) => {
+    const edgesFromSuggestion = this.network.getConnectedEdges(suggestionId);
+    const edgeToSuggestionId = edgesFromSuggestion.find((edgeId) => {
+      return edgeId.split(/[<,>,=]/).includes(classId);
+    });
+    return edgeToSuggestionId;
+ }
+
+ removeAdjacentSuggestions = (classId, adjacentNodes) => {
   let [edgesToRemove,nodesToRemove] = [[],[]];
   adjacentNodes.forEach((nodeId) => {
     this.adjacencyCount[nodeId]--;
-    //if no longer any neighbors and suggestion, remove from graph
-    if(this.adjacencyCount[nodeId] === 0 && this.isSuggestionDict[nodeId]){
-      edgesToRemove = edgesToRemove.concat(this.network.getConnectedEdges(nodeId));
-      this.data.nodes.remove({id: nodeId});
-      nodesToRemove.push(nodeId);
+    //deal with all neighboring suggestions
+    if(this.isSuggestionDict[nodeId]){
+      //if node no longer has any added neighbors
+      if(this.adjacencyCount[nodeId] === 0){
+        edgesToRemove = edgesToRemove.concat(this.network.getConnectedEdges(nodeId));
+        this.data.nodes.remove({id: nodeId});
+        nodesToRemove.push(nodeId);
+      }else{
+        //suggestion is still relevant, but edge to classId must be deleted
+        const edgeToSuggestionId = this.findSuggestedEdge(classId, nodeId);
+        this.data.edges.remove({id: edgeToSuggestionId});
+        edgesToRemove.push(edgeToSuggestionId);
+      }
     }
   });
   this.nodeIds = this.nodeIds.filter((nodeId) => {
@@ -190,7 +192,7 @@ class VisNetwork extends Component {
     const adjacentNodes = this.network.getConnectedNodes(classId);
     //reduce the adjacency value of each neighboring node
     //remove now-irrelevant suggestions
-    const edgesToRemove = this.removeAdjacentSuggestions(adjacentNodes);
+    const edgesToRemove = this.removeAdjacentSuggestions(classId, adjacentNodes);
     this.isSuggestionDict[classId] = true;
     //if this node has another added neighbor, it is demoted to a suggestion
     if(this.adjacencyCount[classId] !== 0){
@@ -213,6 +215,7 @@ class VisNetwork extends Component {
     this.edgeIds = this.edgeIds.filter((edgeId) => {
       return !edgesToRemove.includes(edgeId);
     });
+    this.printCurrentNetworkData();
   }
   //adds class newUpdate to network, adds suggestions to neighbors
   processAddition = async (classId) => {
@@ -237,6 +240,7 @@ class VisNetwork extends Component {
     this.setState({
       prevProcessedClass: classId,
     });
+    this.printCurrentNetworkData();
   }
 
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
@@ -375,6 +379,19 @@ class VisNetwork extends Component {
      return currentNetworkData;
    }
 
+   printCurrentNetworkData = () => {
+    console.log("PRINTING CURRENT NETWORK DATA");
+    console.log(this.nodeIds);
+    console.log(this.edgeIds);
+    console.log(this.isSuggestionDict);
+    console.log(this.adjacencyCount);
+    this.printCurrentExportData();
+   }
+
+   printCurrentExportData = () => {
+     console.log(this.getCurrentNetworkData());
+   }
+
   //reconstructs Node data from imported array
    parseForNodeData = (nodeArray) => {
     let nodes = [];
@@ -458,7 +475,7 @@ class VisNetwork extends Component {
    parseForEdgeIdData = (edgeArray) => {
       let edgeIds = [];
       edgeArray.forEach((edgeId) => {
-        edgeIds.push(edgeId.split(/[<,>,=]/)[0]);
+        edgeIds.push(edgeId.split('@')[0]);
       });
       return edgeIds;
    }
@@ -480,20 +497,35 @@ class VisNetwork extends Component {
          this.isSuggestionDict[classId] = true
         });
       //step 2, set all new nodes from newNetworkData according to their opacity (not suggestion if opacity is 1, suggestion otherwise)
-      nodeArray.forEach( (elem) => {
+      nodeArray.forEach((elem) => {
         this.isSuggestionDict[elem.id] = (elem.opacity === 1) ? false : true;
       });
    }
 
-   setAdjacencyCountToNewData = (edgeArray) => {
-      //todo
+   setAdjacencyCountToNewData = () => {
+     //step1, set all keys to zero
+     Object.keys(this.adjacencyCount).forEach((classId) => {
+      this.adjacencyCount[classId] = 0;
+     });
+      //loop throuh all nodeId's
+     this.nodeIds.forEach((nodeId) => {
+       //count number of fully added neighbors
+       this.adjacencyCount[nodeId] = 0;
+       const neighbors = this.network.getConnectedNodes(nodeId);
+       neighbors.forEach((neighborId) => {
+         this.adjacencyCount[nodeId] += (!this.isSuggestionDict[neighborId] ? 1 : 0);
+       });
+     });
    }
   
    resetNetwork = () => {
      let newNodes = new DataSet([{ id: "Click me to get started!", label: "Click me to get started!"},]);
      let newEdges = new DataSet();
      this.nodeIds.forEach((classId) => {
-       if(classId !== 1) this.isSuggestionDict[classId] = true;
+       if(classId !== 1){
+          this.isSuggestionDict[classId] = true;
+          this.adjacencyCount[classId] = 0;
+       }
      });
      //must update state as well so state and network work with same object
 
@@ -505,6 +537,7 @@ class VisNetwork extends Component {
      this.data.edges = newEdges,
      this.nodeIds = [];
      this.edgeIds = [];
+     this.printCurrentNetworkData();
    }
 
    saveNetwork = () => {
@@ -517,6 +550,7 @@ class VisNetwork extends Component {
    loadNetwork = async () => {
      //handle loadNetwork stuff
       let newNetworkData = await this.props.importNetwork();
+      console.log(newNetworkData);
       const nodeArray = newNetworkData.nodeArray;
       const edgeArray = newNetworkData.edgeArray;
       //create data = {nodes: , edges: }, and edgeId's, and suggestionId's
@@ -529,7 +563,9 @@ class VisNetwork extends Component {
       //update isSuggestionDict to reflect new data
       this.setSuggestionDictToNewData(nodeArray);
       //update adjacencyCounts to reflect new data
-      this.setAdjacencyCountToNewData(edgeArray); //TO DO
+      this.setAdjacencyCountToNewData(); //TO DO
+      //test new network
+      this.printCurrentNetworkData();
    }
 
   componentDidMount() {
