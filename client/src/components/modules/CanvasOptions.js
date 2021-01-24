@@ -15,6 +15,7 @@ import "./CanvasOptions.css";
  * @param {Function} handleUserCollections passed to UserCollection
  * @param {Boolean} isDisplayCollections passed to SaveCollection 
  * @param {Function} handleLogout passed to dropdown
+
  */
 
 class CanvasOptions extends Component {
