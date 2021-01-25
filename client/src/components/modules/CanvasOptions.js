@@ -63,7 +63,6 @@ class CanvasOptions extends Component {
    */
 
 
-
     render() {
         return (
             <>

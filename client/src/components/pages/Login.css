@@ -1,4 +1,3 @@
-/* Fill me in :) */
 
 .Login-container {
     overflow: hidden;
@@ -30,3 +29,31 @@
     font-size: var(--m);
 }
 
+/*
+* Same styling as About button.
+*/
+
+.Login-toExplorerButton {
+    color: var(--black);
+    border-radius: var(--s) var(--s) var(--s) var(--s);
+    background: var(--canvas-backgroundColor);
+    transition: color 0.1s, background 0.1s;
+
+    position: absolute;
+    top: 0px;
+    left: 110px;
+    width: 90px;
+    margin: 5px;
+    font-family: "Comfortaa";
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+    padding: var(--s) var(--s);
+    outline: none;
+
+    
+}
+
+.Login-toExplorerButton:hover {
+    background-color: #a8dadc;
+}

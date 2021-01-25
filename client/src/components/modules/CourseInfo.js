@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import { get } from "../../utilities";
-
 import "./CourseInfo.css";
 
 /**
