@@ -20,7 +20,7 @@ class CollectionsList extends Component {
     //componentDidMount(){}
     handleButtonClick = (clicked) => {
         this.props.setToLoaded();
-        const buttonName = clicked.target.innerHTML;
+        const buttonName = clicked.target.row;
         this.props.updateCollectionName(buttonName);
     }
 
