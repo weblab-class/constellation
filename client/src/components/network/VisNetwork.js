@@ -99,6 +99,9 @@ class VisNetwork extends Component {
              size: 8,
              borderWidth: 3,
              opacity: 0.3,
+             font: {
+               face: 'comfortaa',
+             }
           },
         },
         // groups: MANUAL_COLORS ? GROUP_COLOR_OPTIONS : null,
@@ -590,7 +593,7 @@ class VisNetwork extends Component {
   render() {
     return (
         <>
-            <div ref={this.appRef} className = "VisNetwork-container" />
+            <div ref={this.appRef} className = "VisNetwork-container" id = "myNetwork" />
         </>
     );
   }
