@@ -5,9 +5,9 @@ body {
 }
 
 .SearchBar-container{
-    margin: 10% auto;
+    margin: 0 auto;
     width: 70%;
-    
+    flex-basis: 12%;
 }
 
 .SearchBar-search {

@@ -77,6 +77,7 @@ class Explorer extends Component {
                     },
                 });
             }
+
         }).catch((err) => {
             console.log("There was an error retrieving a course object for a side bary query. Specific error message:", err.message);
         });
@@ -310,13 +311,11 @@ class Explorer extends Component {
                             saveCanvasCounter={this.state.saveCanvasCounter}
                             loadCollectionCounter={this.state.loadCollectionCounter}
                             setCourseObject={this.setCourseObject}
-                            getLoadCollectionInfo={this.getLoadCollectionInfo}
                             importNetwork = {this.importNetwork}
                         />
                     </div>
                     <div className="Explorer-sideBar">
                         <SideBar
-                            handleSearch={this.handleSearch}
                             setCourseObject={this.setCourseObject}
                             courseObject={this.state.courseObject}
                             collectionObject={this.state.collectionObject}
