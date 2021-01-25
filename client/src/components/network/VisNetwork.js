@@ -537,12 +537,9 @@ class VisNetwork extends Component {
      let newNodes = new DataSet([{ id: "@T.START", label: "Click me to get started!"},]);
      let newEdges = new DataSet();
      this.nodeIds.forEach((classId) => {
-       if(classId !== "@T.START"){
-          this.isSuggestionDict[classId] = true;
-          this.adjacencyCount[classId] = 0;
-       }
+        this.isSuggestionDict[classId] = true;
+        this.adjacencyCount[classId] = 0;
      });
-     this.adjacencyCount["@T.START"] = 0;
      //must update state as well so state and network work with same object
 
      this.network.setData({
