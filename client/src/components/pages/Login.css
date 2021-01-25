@@ -1,7 +1,7 @@
 /* Fill me in :) */
 
 .Login-container {
-    margin: 100;
+    overflow: hidden;
     height: 100vh;
     width: 100vw;
     background-image: url("../images/login_background.png");
@@ -9,7 +9,6 @@
     background-color: #fefdf0;
     background-size: "cover";
     background-repeat: no-repeat;
-    overflow: scroll;
 }
 
 .Login-centerFlex {

@@ -102,7 +102,7 @@ class CanvasOptions extends Component {
                         onClick={this.props.handleNewCollection}
                         disabled={this.props.isDisplayCollections}
                     >
-                        new
+                        create
                     </button>
 
                     <button
