@@ -2,3 +2,6 @@
     align-items: stretch;
     overflow: auto;
 }
+#myNetwork .vis-network:focus{
+    outline: none;
+  }

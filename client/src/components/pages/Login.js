@@ -41,7 +41,7 @@ class Login extends Component {
   render() {
     console.log(this.state.displayMenu);
     return (
-      <>
+      <div className = "Login-container">
         {this.props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
@@ -71,7 +71,7 @@ class Login extends Component {
           </div>
         </div>
         <Menu displayMenu={this.state.displayMenu} />
-      </>
+      </div>
     );
   }
 }

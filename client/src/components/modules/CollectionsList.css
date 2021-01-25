@@ -4,15 +4,17 @@
 }
 
 .CollectionsList-listElement {
-    border-radius: 5px;
     font-size: 20px;
     text-align: left;
+    border-radius: 5px;
     font-family: Comfortaa;
-    padding: 20px;
+    padding: 15px 0 15px 5px;
     transition: 0.5s all;
     background-color: #FBFFF1;
     overflow-wrap: break-word;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
 }
 
 .CollectionsList-noElements {

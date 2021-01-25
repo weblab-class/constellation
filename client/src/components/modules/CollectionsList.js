@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { get } from "../../utilities";
+import { WiStars } from "react-icons/wi";
 
 import "./CollectionsList.css";
  
@@ -19,7 +20,8 @@ class CollectionsList extends Component {
     //componentDidMount(){}
     handleButtonClick = (clicked) => {
         this.props.setToLoaded();
-        const buttonName = clicked.target.innerHTML;
+        console.log(clicked.target);
+        const buttonName = clicked.target.id;
         this.props.updateCollectionName(buttonName);
     }
 
@@ -27,8 +29,8 @@ class CollectionsList extends Component {
         return(
             <>
             <div className="CollectionsList-list">
-                {this.props.collectionsArray.length === 0 ? <p className="CollectionsList-noElements">No Constellations Saved</p> : this.props.collectionsArray.map((row, i) => {
-                    return <button className="CollectionsList-listElement" key={row} onClick={this.handleButtonClick}>{row}</button>
+                {this.props.collectionsArray.length === 0 ? <p className="CollectionsList-noElements">No Constellations Saved</p> : this.props.collectionsArray.map((row) => {
+                    return <button className="CollectionsList-listElement" key={row} id={row} onClick={this.handleButtonClick}><WiStars size={25}/>&nbsp;&nbsp;{row}</button>
                 })}
             </div>
             </>
