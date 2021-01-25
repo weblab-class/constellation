@@ -33,7 +33,7 @@ class SideBar extends Component {
 
     render(){
         return(
-            <div>
+            <>
                 <div className="Sidebar-title"> constellation </div>
                 <SearchBar 
                     setCourseObject={this.props.setCourseObject}
@@ -52,7 +52,7 @@ class SideBar extends Component {
                     setToLoaded={this.props.setToLoaded}
                     loaded={this.props.loaded}
                 />
-            </div>
+            </>
         )
     }
 }
