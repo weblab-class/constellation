@@ -13,9 +13,16 @@ import "./CanvasOptions.css";
  * @param {Function} resetCanvas callback function to clear graph, display bar
  * @param {Function} handleSaveCollection passed to SaveCollection
  * @param {Function} handleUserCollections passed to UserCollection
- * @param {Boolean} isDisplayCollections passed to SaveCollection 
+ * @param {Boolean} isDisplayCollections whether to display collections or class information, used in new, save, and reset
  * @param {Function} handleLogout passed to dropdown
-
+ * @param {String} currentCollectionName passed to NameCollection
+ * @param {Number} newCollectionNameCounter passed to NameCollection, tracks whether need to request user input for name
+ * @param {Number} switchedCollectionCounter passed to NameCollection, tracks if load or new were pressed during a user input
+ * @param {Boolean} isSaved passed to NameCollection, whether unsaved changes made or saved changes loaded
+ * @param {Number} isSavedCounter passed to NameCollection, helps trigger checking of above state
+ * @param {Function} setCollectionName callback function, passed to NameCollection
+ * @param {Function} tellVisNetworkToExport callback function, passed to NameCollection
+ * @param {Function} handleNewCollection used in new button
  */
 
 class CanvasOptions extends Component {
