@@ -57,12 +57,6 @@ class CanvasOptions extends Component {
         this.returnHome();
     }
 
-    //componentDidMount(){}
-
-    /*
-   */
-
-
     render() {
         return (
             <>
