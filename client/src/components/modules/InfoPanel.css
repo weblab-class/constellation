@@ -1,0 +1,35 @@
+.InfoPanel-container {
+    position: absolute;
+    width: 20%;
+    height: 7%;
+    top: 104%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 1vw;
+    background-color: #0077b6;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.InfoPanel-boxClose {
+    visibility: hidden;
+}
+
+.InfoPanel-boxOpen {
+    animation-name: slideUpAndDown;
+    animation-duration: 5s;
+}
+
+@keyframes slideUpAndDown {
+    20% {
+        transform: translate(-50%, -170%);
+    }
+    60% {
+        transform: translate(-50%, -170%);
+    }
+    100% {
+        transform: translate(-50%, -50%);
+    }
+}
