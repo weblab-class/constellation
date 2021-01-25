@@ -36,6 +36,7 @@ class Explorer extends Component {
             removeClassCounter: 0,
             saveCanvasCounter: 0,
             loadCollectionCounter: 0,
+            switchedCollectionCounter : 0,
             courseObject: undefined,
             isDisplayCollections: false,
             newCollectionNameCounter : 0,
@@ -142,6 +143,7 @@ class Explorer extends Component {
             loaded: false,
             isSaved : true,
             isSavedCounter : this.state.isSavedCounter + 1,
+            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
         });
     }
 
@@ -276,6 +278,7 @@ class Explorer extends Component {
             currentCollectionName : null, //This will exit saving/loading on top of the old canvas
             isSaved : false,
             isSavedCounter : this.state.isSavedCounter + 1,
+            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
         });
     }
 
@@ -293,6 +296,7 @@ class Explorer extends Component {
                             isDisplayCollections={this.state.isDisplayCollections}
                             currentCollectionName={this.state.currentCollectionName}
                             newCollectionNameCounter={this.state.newCollectionNameCounter}
+                            switchedCollectionCounter={this.state.switchedCollectionCounter}
                             isSaved={this.state.isSaved}
                             isSavedCounter={this.state.isSavedCounter}
                             setCollectionName={this.setCollectionName}

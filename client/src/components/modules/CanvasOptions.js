@@ -129,6 +129,7 @@ class CanvasOptions extends Component {
                             newCollectionNameCounter={this.props.newCollectionNameCounter}
                             isSaved={this.props.isSaved}
                             isSavedCounter={this.props.isSavedCounter}
+                            switchedCollectionCounter={this.props.switchedCollectionCounter}
                             setCollectionName={this.props.setCollectionName}
                             tellVisNetworkToExport={this.props.tellVisNetworkToExport}
                         />
