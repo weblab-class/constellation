@@ -85,7 +85,7 @@ class NameCollection extends Component {
             //Reject the name and notify user.
             this.setState({
                 inputText: "",
-                placeholderText: "Please enter unused name.",
+                placeholderText: "Name taken already, enter an unused name.",
             });
         }
         else { //Successfully got name
@@ -109,7 +109,7 @@ class NameCollection extends Component {
             this.setState({
                 getNewCollectionName: true,
                 inputText: "",
-                placeholderText: "Enter collection name. (Limit 15 characters)"
+                placeholderText: "Enter constellation name. (Limit 20 chars)"
             });
         }
 
@@ -130,14 +130,14 @@ class NameCollection extends Component {
                 onChange={this.handleChange}
                 onKeyDown={this.handleKeyDown}
                 placeholder={this.state.placeholderText}
-                maxlength="15"
+                maxlength="20"
                 className="NameCollection-input"
             />);
         }
         else {
             //If the collection doesn't have a name yet, notify
             // TODO : Add saved changes or not.
-            const currentName = this.props.currentCollectionName ? this.props.currentCollectionName : "unnamed";
+            const currentName = this.props.currentCollectionName ? this.props.currentCollectionName : "unnamed (click save to name)";
             const namedClass = this.props.currentCollectionName ? "NameCollection-named" : "NameCollection-unnamed";
             return (
                 <>
