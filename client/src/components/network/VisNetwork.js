@@ -50,6 +50,13 @@ const SUMMER_COLORS = {
   "22":"#00C3AF",
 }
 
+const TUTORIAL_LABELS = {
+  '@T.START': 'Click me to start!',
+  '@T.GRAPH': 'How to View',
+  '@T.ADD': 'Adding classes',
+  '@T.REMOVE': 'Removing classes',
+}
+
 /**
  * Graph logic goes here!!
  *
@@ -68,7 +75,7 @@ class VisNetwork extends Component {
 
     // create an array with nodes, and one with edges
     let nodesArray = [{
-       id: "Click me to get started!", 
+       id: "@T.START", 
        label: "Click me to get started!", 
        group: 'myGroup',
         x: 68,
@@ -79,14 +86,18 @@ class VisNetwork extends Component {
     let edges = new DataSet(edgesArray);
 
     //1 for added node, 0 for suggestion
-    this.isSuggestionDict = {}; //Suggestion or Fully added class
-    this.adjacencyCount = {};
+    this.isSuggestionDict = {
+      "@T.START": true,
+    }; //Suggestion or Fully added class
+    this.adjacencyCount = {
+      "@T.START": false,
+    };
     this.network = {};
     this.data = {
       nodes: nodes,
       edges: edges,
     },
-    this.nodeIds = [1],
+    this.nodeIds = ["@T.START"],
     this.edgeIds = [],
     this.appRef = createRef();
     this.state={
@@ -271,7 +282,8 @@ class VisNetwork extends Component {
     if(this.alreadyAddedNode(classId)) return;
     this.isSuggestionDict[classId]=suggestionStatus;
     const courseId = this.getCourseId(classId);
-    this.data.nodes.add({ id: classId, label: classId, opacity: opacity, group: courseId}); //add group
+    const label = (classId.includes('@')) ? TUTORIAL_LABELS[classId] : classId;
+    this.data.nodes.add({ id: classId, label: label, opacity: opacity, group: courseId}); //add group
     this.nodeIds.push(classId);
     this.adjacencyCount[classId] = 0;
    }
@@ -331,7 +343,7 @@ class VisNetwork extends Component {
    }
 
    processNodeClick = (classId) => {
-     this.props.setCourseObject(classId);
+      this.props.setCourseObject(classId);
    }
    
    changeNode1 = () => {
@@ -522,14 +534,15 @@ class VisNetwork extends Component {
    }
   
    resetNetwork = () => {
-     let newNodes = new DataSet([{ id: "Click me to get started!", label: "Click me to get started!"},]);
+     let newNodes = new DataSet([{ id: "@T.START", label: "Click me to get started!"},]);
      let newEdges = new DataSet();
      this.nodeIds.forEach((classId) => {
-       if(classId !== 1){
+       if(classId !== "@T.START"){
           this.isSuggestionDict[classId] = true;
           this.adjacencyCount[classId] = 0;
        }
      });
+     this.adjacencyCount["@T.START"] = 0;
      //must update state as well so state and network work with same object
 
      this.network.setData({
@@ -538,7 +551,7 @@ class VisNetwork extends Component {
      });
      this.data.nodes = newNodes,
      this.data.edges = newEdges,
-     this.nodeIds = [];
+     this.nodeIds = ["@T.START"];
      this.edgeIds = [];
      this.printCurrentNetworkData();
    }

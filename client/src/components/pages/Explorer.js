@@ -19,6 +19,26 @@ import { GiTrumpet } from "react-icons/gi";
  * @param {Function} handleLogout passed to CanvasOptions
  */
 
+ const TUTORIAL_PREREQS = {
+    '@T.START': [],
+    '@T.GRAPH': ['@T.START'],
+    '@T.ADD': ['@T.START'],
+    '@T.REMOVE': ['@T.START'],
+    '@T.SAVELOAD': ['@T.START'],
+    '@T.RESET': ['@T.START'],
+    '@T.NEW': ['@T.START'],
+ }
+
+ const TUTORIAL_AFTERREQS = {
+    '@T.START': ['@T.GRAPH','@T.ADD','@T.REMOVE','@T.SAVELOAD','@T.RESET','@T.NEW'],
+    '@T.GRAPH': [],
+    '@T.ADD': [],
+    '@T.REMOVE': [],
+    '@T.SAVELOAD': [],
+    '@T.RESET': [],
+    '@T.NEW': [],
+ }
+
 class Explorer extends Component {
     constructor(props) {
         super(props);
@@ -50,12 +70,25 @@ class Explorer extends Component {
 
 
     setCourseObject = (input) => {
+        //first check if being set to tutorial
+        console.log("Setting course object to: " + input);
+        if(input.includes('@')){
+            this.setState({
+                courseObject: {
+                    found: true,
+                    tutorial: true,
+                    subjectId: input,
+                }
+            });
+            return;
+        }
         get("/api/sidebarNode", { subjectId: input }).then((courseArray) => {
             if (courseArray.length === 0) {
                 this.setState({
                     courseObject: {
                         found: false,
-                        searchedText: input
+                        tutorial: false,
+                        searchedText: input,
                     }
                 });
             }
@@ -65,6 +98,7 @@ class Explorer extends Component {
                 this.setState({
                     courseObject: {
                         found: true,
+                        tutorial: false,
                         searchedText: input,
                         prerequisites: courseObjectFromAPI.prerequisites,
                         subjectId: courseObjectFromAPI.subjectId,
@@ -86,6 +120,14 @@ class Explorer extends Component {
 
     //returns neighbors for the class and updates state so that network re-renders
     getNeighbors = (inputText) => {
+        if(inputText.includes('@')){
+            const newClassesToAdd = {
+                prereqsToAdd: TUTORIAL_PREREQS[inputText],
+                coreqsToAdd: [],
+                afterreqsToAdd: TUTORIAL_AFTERREQS[inputText],
+            }
+            return newClassesToAdd;
+        }
         return get("/api/graphNode", { subjectId: inputText }).then((graphInfo) => {
             const newClassesToAdd = {
                 prereqsToAdd: graphInfo[0].prerequisites.map(classId => classId.trim()),
