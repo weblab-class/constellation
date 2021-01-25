@@ -86,7 +86,11 @@ router.get("/subjectIds", (req, res) => {
     (allSubjectIds) => {
       res.send(allSubjectIds);
     }
-  )
+  ).catch(
+    (err) => {
+      res.status(500).send({info : err.message});
+    }
+  );
 });
 
 /*
@@ -177,8 +181,6 @@ router.get("/collectionNames", auth.ensureLoggedIn, (req, res) => {
     }).catch(
       (err) => {res.status(500); res.send({info : err.message});}
     );
-
-
 });
 
 /*
@@ -207,10 +209,88 @@ router.get("/loadCollection", auth.ensureLoggedIn, (req, res) => {
         edgeArray: thisGraph.edgeArray,
       });
     }
+  ).catch(
+    (err) => {
+      res.status(500).send({info : err.message});
+    }
   );
 
 });
 
+/* deleteCollection (POST)
+
+  Requires: User to be logged in
+  Arguments:
+    collectionName, the string name of the collection to be deleted.
+  Updates:
+    deletes the specified collection from the collections as well as collection names.
+  If attempting to delete a collection that doesn't exist, a console log will occur
+    and the POST request will return immediately.
+*/
+
+deleteCollectionItself = (req, res) => {
+  
+  //This is used in order to allow async behavior for deleteCollection.
+
+  Collection.deleteOne({
+      "userId": req.user._id, "collectionName": req.body.collectionName
+  }).then(
+    (deletedCollection) => {
+      console.log("Deleted the collection name "+req.body.collectionName);
+    }
+  ).catch(
+    (err) => {
+      res.status(500).send({info : err.message});
+      }
+    );
+}
+
+router.post("/deleteCollection", auth.ensureLoggedIn, (req, res) => {
+
+  // Handle updating the collection names for this user.
+
+  collectionName.findOne({"userId": req.user._id}).then(
+    (userCollectionNames) => {
+      
+      if(!userCollectionNames){
+        const errorStr = "No collections found for user, terminating.";
+        console.log(errorStr);
+        res.status(400).send({info : errorStr});
+        return;
+      }
+
+      // 1/25: Finding elements
+      // https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array
+
+      deleteIndex = userCollectionNames.names.indexOf(req.body.collectionName);
+
+      if (deleteIndex === -1){
+        const errorStr = "This user does not have this collection name saved, terminating."
+        console.log(errorStr);
+        res.status(400).send({info : errorStr});
+        return;
+      }
+
+      //Otherwise, it was a successful request
+
+      // 1/25: Deleting elements with splice
+      // https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array
+      let newCollectionNames = [... userCollectionNames.names]
+      newCollectionNames.splice(deleteIndex, 1)
+
+      userCollectionNames.names = newCollectionNames
+      userCollectionNames.save();
+
+      deleteCollectionItself(req, res);
+
+    }
+  ).catch(
+    (err) => {
+      res.status(500).send({info : err.message});
+    }
+  );
+  
+});
 
 /*
 saveCollection (POST)
@@ -262,7 +342,11 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
   
       }
 
-    });
+    }).catch(
+      (err) => {
+        res.status(500).send({info : err.message});
+      }
+    );
 
   //This will save the collection itself.
 
@@ -293,7 +377,9 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
         thisGraph.save();
       }
     }
-  );
+  ).catch(
+    (err) => {res.status(500).send({info : err.message});}
+  );;
  });
 
 
