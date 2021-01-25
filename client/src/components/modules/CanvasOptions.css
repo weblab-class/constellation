@@ -92,15 +92,17 @@
 
 .CanvasOptions-new {
     flex-basis: var(--spacing);
+    outline: none;
 }
 
 .CanvasOptions-save { 
     flex-basis: var(--spacing);
-
+    outline: none;
 }
 
 .CanvasOptions-reset {
     flex-basis: var(--spacing);
+    outline: none;
 }
 
 .CanvasOptions-button:hover:enabled {

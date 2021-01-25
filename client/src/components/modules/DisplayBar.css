@@ -2,7 +2,7 @@
 
 .DisplayBar-containerOuter {
     width: 85%;
-    border: 2px solid #677DB7;
+    border: 1px solid #677DB7;
     border-radius: 10px;
     margin: 10px auto;
     background-color: var(--displaybar-backgroundColor);
@@ -51,7 +51,7 @@ p {
 
 .DisplayBar-button:disabled {
     background-color: var(--medgrey);
-    opacity: 0.2;
+    opacity: 0.5;
 }
 .DisplayBar-button:hover:enabled {
     cursor: pointer;
@@ -64,4 +64,17 @@ p {
 
 .DisplayBar-notFound {
     color: rgb(255, 100, 100);
+}
+
+
+.DisplayBar-ripple {
+	animation: ripple 1250ms ease-out forwards;
+}
+
+
+
+@keyframes ripple {
+    0%   { filter: brightness(150%); opacity: 0; }
+    50%  { filter: brightness(125%); opacity: 0.5; }
+	100% { filter: brightness(100%); opacity:  1; }
 }
