@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CourseInfo from "./CourseInfo.js";
 import CollectionsList from "./CollectionsList.js";
-import { get } from "../../utilities";
+
 
 import "./DisplayBar.css";
 
@@ -40,6 +40,8 @@ class DisplayBar extends Component {
 
     componentDidUpdate = (prevProps) => {
         //if canvasToBeReset isn't previous canvasToBeReset, update
+
+
         if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) {
             this.setState({
                 reset: true,
@@ -50,6 +52,7 @@ class DisplayBar extends Component {
                 reset: false,
             })
         }
+
     }
     
     updateCollectionName = (name) => {
@@ -66,6 +69,7 @@ class DisplayBar extends Component {
     render() {
         let toDisplay;
         let addRemoveActive = false;
+        let animate = false;
         if(this.props.isDisplayCollections) {
             toDisplay=
             <CollectionsList 
@@ -83,12 +87,14 @@ class DisplayBar extends Component {
             addRemoveActive = true;
             toDisplay=<CourseInfo courseObject={this.props.courseObject}/>;
         }
+        let displayInnerClassName = animate ? "DisplayBar-containerInner DisplayBar-ripple": "DisplayBar-containerInner";
+
         return (
             <> 
                 <div className="DisplayBar-containerOuter">
-                    <div className="DisplayBar-containerInner">
+                    <div className={displayInnerClassName}>
                         {toDisplay}
-                    </div>
+                    </div>                    
                 </div>
                 <div className="DisplayBar-buttonContainer">
                     {this.props.isDisplayCollections ? (
