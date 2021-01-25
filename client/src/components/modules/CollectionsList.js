@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { get } from "../../utilities";
+import { WiStars } from "react-icons/wi";
 
 import "./CollectionsList.css";
  
@@ -28,7 +29,7 @@ class CollectionsList extends Component {
             <>
             <div className="CollectionsList-list">
                 {this.props.collectionsArray.length === 0 ? <p className="CollectionsList-noElements">No Constellations Saved</p> : this.props.collectionsArray.map((row, i) => {
-                    return <button className="CollectionsList-listElement" key={row} onClick={this.handleButtonClick}>{row}</button>
+                    return <button className="CollectionsList-listElement" key={row} onClick={this.handleButtonClick}><WiStars size={25}/>&nbsp;&nbsp;{row}</button>
                 })}
             </div>
             </>

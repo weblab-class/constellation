@@ -1,3 +1,7 @@
 .CourseInfo-title {
     font-size: var(--m);
 }
+
+.CourseInfo-info {
+    font-size: 14px;
+}
