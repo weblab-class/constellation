@@ -83,6 +83,7 @@ class NameCollection extends Component {
             this.setState({
                 inputText: "",
                 placeholderText: "Name taken already, enter an unused name.",
+                //1/25 : https://stackoverflow.com/questions/33864832/how-to-change-placeholder-color-of-specific-input-field
                 placeholderType: "NameCollection-input change",
             });
         }
