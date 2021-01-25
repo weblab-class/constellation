@@ -1,5 +1,11 @@
-.NameCollection-inputRejection{
-    color: rgb(219, 94, 94)
+/*
+* 1/25: Placeholder styling
+* https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
+* https://stackoverflow.com/questions/33864832/how-to-change-placeholder-color-of-specific-input-field
+*/
+
+.change::placeholder {
+    color: rgb(219, 94, 94);
 }
 
 .NameCollection-input {

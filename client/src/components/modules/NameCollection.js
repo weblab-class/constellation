@@ -3,6 +3,7 @@
 //post MVP function: for user input for collection name
 
 import React, { Component } from "react";
+import { listenerCount } from "../../../../server/models/user.js";
 import { get } from "../../utilities.js";
 import "./NameCollection.css";
 /**
@@ -23,6 +24,7 @@ class NameCollection extends Component {
             inputText: '',
             getNewCollectionName: false, //boolean that indicates whether or not to render the "get new name" box.
             placeholderText: "Enter collection name.",
+            placeholderType: "NameCollection-input",
             savedText: "(unsaved)"
         }
     }
@@ -50,7 +52,6 @@ class NameCollection extends Component {
 
     validName = async (inputText) => {
 
-        console.log("IN VALID NAME")
         const isValidName = await get("/api/collectionNames").then(
             (currentNameObject) => {
                 // User was not found by the backend.
@@ -78,19 +79,15 @@ class NameCollection extends Component {
 
         if (!isValidName) {
 
-            console.log("Not valid name.")
-
-            console.log("Bad invalid name branch");
-
             //Reject the name and notify user.
             this.setState({
                 inputText: "",
                 placeholderText: "Name taken already, enter an unused name.",
+                //1/25 : https://stackoverflow.com/questions/33864832/how-to-change-placeholder-color-of-specific-input-field
+                placeholderType: "NameCollection-input change",
             });
         }
         else { //Successfully got name
-
-            console.log("Is valid name")
 
             //Stop rendering input box.
             this.setState({
@@ -109,7 +106,8 @@ class NameCollection extends Component {
             this.setState({
                 getNewCollectionName: true,
                 inputText: "",
-                placeholderText: "Enter constellation name. (Limit 20 chars)"
+                placeholderText: "Enter constellation name. (Limit 20 chars)",
+                placeholderType: "NameCollection-input",
             });
         }
 
@@ -123,15 +121,15 @@ class NameCollection extends Component {
     render() {
 
         if (this.state.getNewCollectionName) {
-            //TODO: Make the re-prompting text red! 
+
             return (<input
                 type="text"
                 value={this.state.inputText}
                 onChange={this.handleChange}
                 onKeyDown={this.handleKeyDown}
                 placeholder={this.state.placeholderText}
-                maxlength="20"
-                className="NameCollection-input"
+                maxLength="20"
+                className={this.state.placeholderType}
             />);
         }
         else {
