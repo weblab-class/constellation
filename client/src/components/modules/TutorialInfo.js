@@ -11,17 +11,29 @@ import "./TutorialInfo.css";
  */
 
 const tutorialName = {
-    "@T.START": "Welcome to Constellation!",
-    '@T.GRAPH': "Graph Information",
-    '@T.ADD': "Adding Classes",
-    '@T.REMOVE': "Removing Classes",
-    '@T.SAVELOAD': "Saving and Loading",
-    '@T.RESET': "Resetting",
-    '@T.NEW': "New File",
+    "&T.START": "Welcome to Constellation!",
+    '&T.GRAPH': "Network Legend",
+    '&T.ADD': "Adding Classes",
+    '&T.REMOVE': "Removing Classes",
+    '&T.FILE': 'About',
+    '&T.SAVE': "Saving",
+    '&T.LOAD': "Loading",
+    '&T.RESET': "Resetting",
+    '&T.NEW': "New File",
+    '&T.ABOUT': 'About',
 }
 
 const tutorialBody = {
-    "@T.START": "Constellation lets you do cool stuff! :D",
+    "&T.START": "Constellation lets you do cool stuff! :D",
+    '&T.GRAPH': "INSERT GRAPH DESCRIPTION",
+    '&T.ADD': "INSERT ADD DESCRIPTION",
+    '&T.REMOVE': "INSERT REMOVE DESCRIPTION",
+    '&T.FILE': 'INSERT FILE INFORMATION HERE',
+    '&T.SAVE': "INSERT SAVE DESCRIPTION",
+    '&T.LOAD': "INSERT LOAD DESCRIPTION",
+    '&T.RESET': "INSERT RESETTING DESCRIPTION",
+    '&T.NEW': "INSERT NEW FILE DESCRIPTION",
+    '&T.ABOUT': 'INSERT ABOUT INFORMATION HERE',
 }
 
 class TutorialInfo extends Component {

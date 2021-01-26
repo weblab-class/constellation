@@ -20,23 +20,29 @@ import { GiTrumpet } from "react-icons/gi";
  */
 
  const TUTORIAL_PREREQS = {
-    '@T.START': [],
-    '@T.GRAPH': ['@T.START'],
-    '@T.ADD': ['@T.START'],
-    '@T.REMOVE': ['@T.START'],
-    '@T.SAVELOAD': ['@T.START'],
-    '@T.RESET': ['@T.START'],
-    '@T.NEW': ['@T.START'],
+    '&T.START': [],
+    '&T.GRAPH': ['&T.START'],
+    '&T.ADD': ['&T.START'],
+    '&T.REMOVE': ['&T.START'],
+    '&T.FILE': ['&T.START'],
+    '&T.SAVE': ['&T.FILE'],
+    '&T.LOAD': ['&T.FILE'],
+    '&T.NEW': ['&T.FILE'],
+    '&T.RESET': ['&T.START'],
+    '&T.ABOUT': ['&T.START'],
  }
 
  const TUTORIAL_AFTERREQS = {
-    '@T.START': ['@T.GRAPH','@T.ADD','@T.REMOVE','@T.SAVELOAD','@T.RESET','@T.NEW'],
-    '@T.GRAPH': [],
-    '@T.ADD': [],
-    '@T.REMOVE': [],
-    '@T.SAVELOAD': [],
-    '@T.RESET': [],
-    '@T.NEW': [],
+    '&T.START': ['&T.GRAPH','&T.ADD','&T.REMOVE','&T.FILE','&T.RESET'],
+    '&T.GRAPH': [],
+    '&T.ADD': [],
+    '&T.REMOVE': [],
+    '&T.FILE': ['&T.SAVE','&T.LOAD', '&T.NEW'],
+    '&T.SAVE': [],
+    '&T.LOAD': [],
+    '&T.RESET': [],
+    '&T.NEW': [],
+    '&T.ABOUT': [],
  }
 
 class Explorer extends Component {
@@ -72,7 +78,7 @@ class Explorer extends Component {
     setCourseObject = (input) => {
         //first check if being set to tutorial
         console.log("Setting course object to: " + input);
-        if(input.includes('@')){
+        if(input.includes('&')){
             this.setState({
                 courseObject: {
                     found: true,
@@ -120,7 +126,7 @@ class Explorer extends Component {
 
     //returns neighbors for the class and updates state so that network re-renders
     getNeighbors = (inputText) => {
-        if(inputText.includes('@')){
+        if(inputText.includes('&')){
             const newClassesToAdd = {
                 prereqsToAdd: TUTORIAL_PREREQS[inputText],
                 coreqsToAdd: [],
