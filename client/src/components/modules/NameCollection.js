@@ -83,7 +83,7 @@ class NameCollection extends Component {
             //Reject the name and notify user.
             this.setState({
                 inputText: "",
-                placeholderText: "Name taken already, enter an unused name.",
+                placeholderText: "Name already taken. Try again",
                 //1/25 : https://stackoverflow.com/questions/33864832/how-to-change-placeholder-color-of-specific-input-field
                 placeholderType: "NameCollection-input change",
             });
@@ -107,7 +107,7 @@ class NameCollection extends Component {
             this.setState({
                 getNewCollectionName: true,
                 inputText: "",
-                placeholderText: "Enter constellation name. (Limit 20 chars)",
+                placeholderText: "Enter constellation name here!",
                 placeholderType: "NameCollection-input",
             });
         }
@@ -137,7 +137,7 @@ class NameCollection extends Component {
                 onChange={this.handleChange}
                 onKeyDown={this.handleKeyDown}
                 placeholder={this.state.placeholderText}
-                maxLength="20"
+                maxLength="30"
                 className={this.state.placeholderType}
             />);
         }

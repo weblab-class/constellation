@@ -5,27 +5,30 @@ import "./InfoPanel.css";
  * Info section for user
  *
  * Proptypes
- * @param {boolean} displayMenu boolean that indicates whether to show menu or not
+ * @param {String} popupMessage message to be displayed in the sliding panel
+ * 
  */
 
 class InfoPanel extends Component {
   constructor(props) {
     super(props);
     // Initialize Default State
-    this.state = {};
+    this.state = {
+
+    };
   }
 
-  componentDidMount() {
-    // remember -- api calls go here!
-  }
+  
+
+
 
   render() {
     console.log("message to infopanel:", this.props.popupMessage);
-    let panelClassName = (this.props.popupMessage !== "popup") ? "InfoPanel-container InfoPanel-boxOpen" : "InfoPanel-container InfoPanel-boxClose";
+    let className = this.props.popupMessage === "popup" ? "InfoPanel-container InfoPanel-panelClose" : "InfoPanel-container InfoPanel-panelOpen";
     return (
-        <div className={panelClassName}> 
-            <div>{this.props.popupMessage}</div>
-        </div>
+      <div className={className}>
+        <div>{this.props.popupMessage}</div>
+      </div>
 
     );
   }
