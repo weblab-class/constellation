@@ -12,6 +12,7 @@ import "./NameCollection.css";
  * Proptypes
  * @param {String} currentCollectionName of the Canvas that is loaded.
  * @param {Number} newCollectionNameCounter triggers componentDidUpdate if requesting a new name is needed.
+ * @param {Number} switchedCollectionCounter triggers exiting of save cycle if load or new collection happened in naming request.
  * @param {Boolean} isSaved whether unsaved changes exist.
  * @param {(String) => ()} setCollectionName callback function for setting Current Collection Name.
  * @param {() => ()} tellVisNetworkToExport callback function to Explorer, which calls Vis
@@ -114,6 +115,14 @@ class NameCollection extends Component {
         if (prevProps.isSavedCounter !== this.props.isSavedCounter) {
             this.setState({
                 savedText: (this.props.isSaved ? "(saved)" : "(unsaved)")
+            });
+        }
+
+        //If a user tries to load a different collection instead of finishing the save progress, stop asking for input.
+
+        if(prevProps.switchedCollectionCounter !== this.props.switchedCollectionCounter) {
+            this.setState({
+                getNewCollectionName: false,
             });
         }
     }

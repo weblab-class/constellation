@@ -50,6 +50,19 @@ const SUMMER_COLORS = {
   "22":"#00C3AF",
 }
 
+const TUTORIAL_LABELS = {
+  '&T.START': 'Click me to start!',
+  '&T.GRAPH': 'How to View',
+  '&T.ADD': 'Adding classes',
+  '&T.REMOVE': 'Removing classes',
+  '&T.FILE': 'Files',
+  '&T.RESET': 'Resetting',
+  '&T.NEW':  'New',
+  '&T.SAVE': "Saving",
+  '&T.LOAD': 'Loading',
+  '&T.ABOUT': 'About',
+}
+
 /**
  * Graph logic goes here!!
  *
@@ -68,7 +81,7 @@ class VisNetwork extends Component {
 
     // create an array with nodes, and one with edges
     let nodesArray = [{
-       id: "Click me to get started!", 
+       id: "&T.START", 
        label: "Click me to get started!", 
        group: 'myGroup',
         x: 68,
@@ -79,14 +92,18 @@ class VisNetwork extends Component {
     let edges = new DataSet(edgesArray);
 
     //1 for added node, 0 for suggestion
-    this.isSuggestionDict = {}; //Suggestion or Fully added class
-    this.adjacencyCount = {};
+    this.isSuggestionDict = {
+      "&T.START": true,
+    }; //Suggestion or Fully added class
+    this.adjacencyCount = {
+      "&T.START": false,
+    };
     this.network = {};
     this.data = {
       nodes: nodes,
       edges: edges,
     },
-    this.nodeIds = [1],
+    this.nodeIds = ["&T.START"],
     this.edgeIds = [],
     this.appRef = createRef();
     this.state={
@@ -228,9 +245,15 @@ class VisNetwork extends Component {
     }
     else this.addNode(classId, false, 1);
     const neighbors = await this.props.getNeighbors(classId);
+    console.log("current class: " + classId);
+    console.log(neighbors);
+    console.log("before filter:");
+    console.log(neighbors.afterreqsToAdd);
     const prereqsToAdd = this.filterClutterClasses(neighbors.prereqsToAdd);
     const coreqsToAdd = this.filterClutterClasses(neighbors.coreqsToAdd);
     const afterreqsToAdd = this.filterClutterClasses(neighbors.afterreqsToAdd);
+    console.log("after filter:");
+    console.log(afterreqsToAdd);
     prereqsToAdd.forEach((suggestionId) => {
       this.processSuggestionAddition(classId, suggestionId, 0);
     });
@@ -249,17 +272,21 @@ class VisNetwork extends Component {
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
   //val: 0 for prereq, 1 for coreq, 2 for after_subject
   processSuggestionAddition = (classId, suggestionId, val) => {
+    console.log("processing: " + classId + " to " + suggestionId);
     if(!this.alreadyAddedNode(suggestionId)){
       this.addNode(suggestionId,true,this.relevanceToCurrentNetwork(suggestionId));
       this.addEdge(classId, suggestionId, val);
+      console.log("moo");
     } else if(this.isSuggestionDict[suggestionId]){
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
       this.addEdge(classId, suggestionId, val);
+      console.log("maa");
       ///below case correspods to a prereq/afterreq assymetry
     } else if(!this.isSuggestionDict[suggestionId]){
       if(!this.edgeIds.includes(this.getEdgeId(classId,suggestionId,val))) this.adjacencyCount[classId]++;
       this.addEdge(classId, suggestionId, val);
       this.updateEdgeOpacity(classId, suggestionId, val);
+      console.log("miii");
     } else{
       console.log("none were true!");
     }
@@ -271,7 +298,8 @@ class VisNetwork extends Component {
     if(this.alreadyAddedNode(classId)) return;
     this.isSuggestionDict[classId]=suggestionStatus;
     const courseId = this.getCourseId(classId);
-    this.data.nodes.add({ id: classId, label: classId, opacity: opacity, group: courseId}); //add group
+    const label = (classId.includes('&')) ? TUTORIAL_LABELS[classId] : classId;
+    this.data.nodes.add({ id: classId, label: label, opacity: opacity, group: courseId}); //add group
     this.nodeIds.push(classId);
     this.adjacencyCount[classId] = 0;
    }
@@ -331,7 +359,7 @@ class VisNetwork extends Component {
    }
 
    processNodeClick = (classId) => {
-     this.props.setCourseObject(classId);
+      this.props.setCourseObject(classId);
    }
    
    changeNode1 = () => {
@@ -399,10 +427,12 @@ class VisNetwork extends Component {
    parseForNodeData = (nodeArray) => {
     let nodes = [];
     nodeArray.forEach((node) => {
-      const courseId = this.getCourseId(node.id);
+      const nodeId = node.id;
+      const courseId = this.getCourseId(nodeId);
+      const label = (nodeId.includes('&')) ? TUTORIAL_LABELS[nodeId] : nodeId;
       nodes.push({
-        id: node.id,
-        label: node.id,
+        id: nodeId,
+        label: label,
         x: node.x,
         y: node.y,
         opacity: node.opacity,
@@ -522,13 +552,11 @@ class VisNetwork extends Component {
    }
   
    resetNetwork = () => {
-     let newNodes = new DataSet([{ id: "Click me to get started!", label: "Click me to get started!"},]);
+     let newNodes = new DataSet([{ id: "&T.START", label: "Click me to get started!"},]);
      let newEdges = new DataSet();
      this.nodeIds.forEach((classId) => {
-       if(classId !== 1){
-          this.isSuggestionDict[classId] = true;
-          this.adjacencyCount[classId] = 0;
-       }
+        this.isSuggestionDict[classId] = true;
+        this.adjacencyCount[classId] = 0;
      });
      //must update state as well so state and network work with same object
 
@@ -538,7 +566,7 @@ class VisNetwork extends Component {
      });
      this.data.nodes = newNodes,
      this.data.edges = newEdges,
-     this.nodeIds = [];
+     this.nodeIds = ["&T.START"];
      this.edgeIds = [];
      this.printCurrentNetworkData();
    }

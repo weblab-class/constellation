@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CourseInfo from "./CourseInfo.js";
 import CollectionsList from "./CollectionsList.js";
+import TutorialInfo from "./TutorialInfo.js";
 
 
 import "./DisplayBar.css";
@@ -84,7 +85,11 @@ class DisplayBar extends Component {
         }
         else {
             addRemoveActive = true;
-            toDisplay=<CourseInfo courseObject={this.props.courseObject}/>;
+            if(this.props.courseObject.tutorial){
+                toDisplay=<TutorialInfo tutorialName={this.props.courseObject.subjectId}/>
+            }else{
+                toDisplay=<CourseInfo courseObject={this.props.courseObject}/>;
+            }
         }
 
         return (

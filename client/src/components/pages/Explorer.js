@@ -10,7 +10,6 @@ import _ from "lodash"; //debounce function
 import "./Explorer.css";
 
 import { get, post } from "../../utilities";
-import { GiTrumpet } from "react-icons/gi";
 
 /**
  * Explorer page. Where all the main features are: canvas, sidebar
@@ -20,6 +19,81 @@ import { GiTrumpet } from "react-icons/gi";
  * @param {Function} handleLogout passed to CanvasOptions
  */
 
+ const TUTORIAL_PREREQS = {
+    '&T.START': [],
+    '&T.GRAPH': ['&T.START'],
+    '&T.ADD': ['&T.START'],
+    '&T.REMOVE': ['&T.START'],
+    '&T.FILE': ['&T.START'],
+    '&T.SAVE': ['&T.FILE'],
+    '&T.LOAD': ['&T.FILE'],
+    '&T.NEW': ['&T.FILE'],
+    '&T.RESET': ['&T.START'],
+    '&T.ABOUT': ['&T.START'],
+ }
+
+ const TUTORIAL_AFTERREQS = {
+    '&T.START': ['&T.GRAPH','&T.ADD','&T.REMOVE','&T.FILE','&T.RESET'],
+    '&T.GRAPH': [],
+    '&T.ADD': [],
+    '&T.REMOVE': [],
+    '&T.FILE': ['&T.SAVE','&T.LOAD', '&T.NEW'],
+    '&T.SAVE': [],
+    '&T.LOAD': [],
+    '&T.RESET': [],
+    '&T.NEW': [],
+    '&T.ABOUT': [],
+ }
+
+
+//manually override the following classes which have obstructive numbers of afterreqs
+const RESTRICT_SUGGESTIONS = ['8.02', '8.022', '18.02', '18.02A', '18.022', '18.03', '18.06']
+
+//GIRS and generic equivalents for referencse
+// '8.01','8.011','8.01L','8.012'
+// '8.02','8.021','8.022'
+// '18.01','18.01A'
+// '18.02', '18.02A'
+
+//replacements
+//TODO - MANUALLY "ADD IN SOME AFTER-CLASSES" (especially for 18.03 and 18.06)
+const RESTRICT_REPLACEMENTS = {
+    '8.02': {
+        prereqsToAdd: ['8.01','8.011','8.01L','8.012','18.01','18.01A'],
+        coreqsToAdd: ['18.02', '18.02A'],
+        afterreqsToAdd: [],
+    }, 
+    '8.022': {
+        prereqsToAdd: ['8.01','8.011','8.01L','8.012','18.01','18.01A'],
+        coreqsToAdd: ['18.02', '18.02A'],
+        afterreqsToAdd: [],
+    }, 
+    '18.02': {
+        prereqsToAdd: ['18.01','18.01A'],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    }, 
+    '18.02A': {
+        prereqsToAdd: ['18.01','18.01A'],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    }, 
+    '18.022': {
+        prereqsToAdd: ['18.01','18.01A'],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    }, 
+    '18.03': {
+        prereqsToAdd: [],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    }, 
+    '18.06': {
+        prereqsToAdd: ['18.02', '18.02A'],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    },
+}
 class Explorer extends Component {
     constructor(props) {
         super(props);
@@ -37,6 +111,7 @@ class Explorer extends Component {
             removeClassCounter: 0,
             saveCanvasCounter: 0,
             loadCollectionCounter: 0,
+            switchedCollectionCounter : 0,
             courseObject: undefined,
             isDisplayCollections: false,
             newCollectionNameCounter: 0,
@@ -52,12 +127,25 @@ class Explorer extends Component {
 
 
     setCourseObject = (input) => {
-        get("/api/sidebarNode", { subjectId: input.toUpperCase() }).then((courseArray) => {
+        //first check if being set to tutorial
+        console.log("Setting course object to: " + input);
+        if(input.includes('&')){
+            this.setState({
+                courseObject: {
+                    found: true,
+                    tutorial: true,
+                    subjectId: input,
+                }
+            });
+            return;
+        }
+        get("/api/sidebarNode", { subjectId: input }).then((courseArray) => {
             if (courseArray.length === 0) {
                 this.setState({
                     courseObject: {
                         found: false,
-                        searchedText: input
+                        tutorial: false,
+                        searchedText: input,
                     }
                 });
             }
@@ -67,6 +155,7 @@ class Explorer extends Component {
                 this.setState({
                     courseObject: {
                         found: true,
+                        tutorial: false,
                         searchedText: input,
                         prerequisites: courseObjectFromAPI.prerequisites,
                         subjectId: courseObjectFromAPI.subjectId,
@@ -88,6 +177,17 @@ class Explorer extends Component {
 
     //returns neighbors for the class and updates state so that network re-renders
     getNeighbors = (inputText) => {
+        if(inputText.includes('&')){
+            const newClassesToAdd = {
+                prereqsToAdd: TUTORIAL_PREREQS[inputText],
+                coreqsToAdd: [],
+                afterreqsToAdd: TUTORIAL_AFTERREQS[inputText],
+            }
+            return newClassesToAdd;
+        }
+        else if(RESTRICT_SUGGESTIONS.includes(inputText)){
+            return RESTRICT_REPLACEMENTS[inputText];
+        }
         return get("/api/graphNode", { subjectId: inputText }).then((graphInfo) => {
             const newClassesToAdd = {
                 prereqsToAdd: graphInfo[0].prerequisites.map(classId => classId.trim()),
@@ -142,8 +242,9 @@ class Explorer extends Component {
             currentCollectionName: collectionName,
             isDisplayCollections: false,
             loaded: false,
-            isSaved: true,
-            isSavedCounter: this.state.isSavedCounter + 1,
+            isSaved : true,
+            isSavedCounter : this.state.isSavedCounter + 1,
+            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
         });
     }
 
@@ -277,9 +378,10 @@ class Explorer extends Component {
 
         this.handleResetCanvas(); //This will clear the canvas itself
         this.setState({
-            currentCollectionName: null, //This will exit saving/loading on top of the old canvas
-            isSaved: false,
-            isSavedCounter: this.state.isSavedCounter + 1,
+            currentCollectionName : null, //This will exit saving/loading on top of the old canvas
+            isSaved : false,
+            isSavedCounter : this.state.isSavedCounter + 1,
+            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
             popupMessage: "New collection created!"
         });
     }
@@ -299,6 +401,7 @@ class Explorer extends Component {
                             isDisplayCollections={this.state.isDisplayCollections}
                             currentCollectionName={this.state.currentCollectionName}
                             newCollectionNameCounter={this.state.newCollectionNameCounter}
+                            switchedCollectionCounter={this.state.switchedCollectionCounter}
                             isSaved={this.state.isSaved}
                             isSavedCounter={this.state.isSavedCounter}
                             setCollectionName={this.setCollectionName}
