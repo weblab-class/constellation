@@ -53,8 +53,8 @@ const SUMMER_COLORS = {
 const TUTORIAL_LABELS = {
   '&T.START': 'Click me to start!',
   '&T.GRAPH': 'How to View',
-  '&T.ADD': 'Adding classes',
-  '&T.REMOVE': 'Removing classes',
+  '&T.ADD': 'Adding',
+  '&T.REMOVE': 'Removing',
   '&T.FILE': 'Files',
   '&T.RESET': 'Resetting',
   '&T.NEW':  'New',

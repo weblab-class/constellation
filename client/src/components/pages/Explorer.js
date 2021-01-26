@@ -33,7 +33,7 @@ import { get, post } from "../../utilities";
  }
 
  const TUTORIAL_AFTERREQS = {
-    '&T.START': ['&T.GRAPH','&T.ADD','&T.REMOVE','&T.FILE','&T.RESET'],
+    '&T.START': ['&T.GRAPH','&T.ADD','&T.REMOVE','&T.FILE','&T.RESET','&T.ABOUT'],
     '&T.GRAPH': [],
     '&T.ADD': [],
     '&T.REMOVE': [],
