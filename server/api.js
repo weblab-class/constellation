@@ -17,6 +17,7 @@ const graphInfo = require("./models/graphInfo.js");
 const sidebarInfo = require("./models/sidebarInfo.js");
 const collectionName = require("./models/collectionName.js");
 const Collection = require("./models/collection.js");
+const subjectIds = require("./models/subjectIds.js");
 
 // import authentication library
 const auth = require("./auth");
@@ -48,7 +49,7 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-// GET REQUESTS : GRAPH INFORMATION
+// GET REQUESTS : CLASS INFORMATION (public information)
 
 const goodGraphInfoArguments = (req, res) => {
 
@@ -61,7 +62,7 @@ const goodGraphInfoArguments = (req, res) => {
     return false;
     }
   if(!(typeof req.query.subjectId === "string")){
-    errorStr = "subjectId argument is not a String.";
+    const errorStr = "subjectId argument is not a String.";
     console.log(errorStr);
     res.status(400).send( {errorMessage : errorStr} );
     return false;
@@ -69,7 +70,42 @@ const goodGraphInfoArguments = (req, res) => {
   return true;
 }
 
+/*
+subjectIds (GET)
+
+  Arguments: None,
+  Returns:
+    an Object with attribute
+      subjectId, an Array of Strings,
+        which list all of the decimal class names.
+*/
+
+router.get("/subjectIds", (req, res) => {
+
+  subjectIds.findOne({}).then(
+    (allSubjectIds) => {
+      res.send(allSubjectIds);
+    }
+  )
+});
+
+/*
+graphNode (GET)
+
+  Arguments: subjectId, a String, the decimal representation of the class name
+  Returns:
+    a graphNode-style object, with the following information:
+      subjectId : String, the decimal representation name
+      prerequisites: Array, listing subjectIds
+      corequisites: Array, listing subjectIds
+      relatedSubjects: Array, listing subjectIds
+      girAttribute: String, present if the class if a GIR
+      afterSubjects: Array, listing subjectIds
+    
+*/
+
 router.get("/graphNode", (req, res) => {
+
   if(!goodGraphInfoArguments(req, res)){
     return;
   }
@@ -81,6 +117,27 @@ router.get("/graphNode", (req, res) => {
         (err) => {res.status(500).send({info : err.message});}
       );
 });
+
+/*
+sidebarNode (GET)
+
+  Arguments: subjectId, a String, the decimal representation of the class name
+  Returns:
+    a sidebarNode-style object, with the following information:
+        subjectId : String,
+        title : String,
+        description : String,
+        offeredFall : Boolean,
+        offeredSpring : Boolean,
+        offeredIAP : Boolean,
+        girAttribute : String,
+        instructors : Array,
+        totalUnits: Number,
+        level : String,
+        prerequisites: String,
+        corequisites: String,
+    
+*/
 
 router.get("/sidebarNode", (req, res) => {
   if(!goodGraphInfoArguments(req, res)){
@@ -94,24 +151,25 @@ router.get("/sidebarNode", (req, res) => {
     );
 });
 
+// COLLECTION REQUESTS : user-specific
+
+/*
+collectionNames (GET)
+
+  Requires: User to be logged in
+  Arguments: None
+  Returns: a List of the CollectionNames,
+    empty if the User has no collections yet.
+
+*/
+
 router.get("/collectionNames", auth.ensureLoggedIn, (req, res) => {
 
-  collectionName.find({"userId": req.user}).then(
+  collectionName.find({"userId": req.user._id}).then(
     (userCollectionNames) => {
-
-    console.log("user collection names is ");
-    console.log(userCollectionNames);
 
     if (userCollectionNames.length === 0){
       res.send([]); return;
-    }
-
-    //Check for authorized user.
-
-    if(req.user._id !== userCollectionNames[0].userId){
-      const errorMessage = "Attempted to request information that does not belong to this user.";
-      console.log(errorMessage);
-      res.status(403); res.send({message : errorMessage});
     }
     
     res.send(userCollectionNames);
@@ -123,13 +181,26 @@ router.get("/collectionNames", auth.ensureLoggedIn, (req, res) => {
 
 });
 
+/*
+loadCollection (GET)
+
+  Requires: User to be logged in
+  Arguments:
+    collectionName, the string name of the collection to be requested.
+  Returns:
+    a collection-type object:
+      userId : String,
+      collectionName : String,
+      nodeArray : Array, to be used in VisNetwork
+      edgeArray : Array, to be used in VisNetwork
+*/
+
 router.get("/loadCollection", auth.ensureLoggedIn, (req, res) => {
 
   Collection.findOne({
     "userId": req.user._id, "collectionName": req.query.collectionName
   }).then(
     (thisGraph) => {
-      console.log(thisGraph.edgeArray)
 
       res.send({
         nodeArray: thisGraph.nodeArray,
@@ -140,26 +211,37 @@ router.get("/loadCollection", auth.ensureLoggedIn, (req, res) => {
 
 });
 
+
+/*
+saveCollection (POST)
+
+  Requires: User to be logged in
+  Arguments:
+    collectionName, the string name of the collection to be requested.
+  Saves:
+      a collection-type object:
+        userId : String,
+        collectionName : String,
+        nodeArray : Array, to be used in VisNetwork
+        edgeArray : Array, to be used in VisNetwork
+      will overwrite previous collection contents.
+  Updates:
+    if the collection was not previously loaded from database,
+      adds the current collectionName to the list of collectionNames for the user
+*/
+
 router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
-
-  // If POST request is attempted and user is not logged in,
-  //    reject the POST request.
-
-  if (!req.user){
-    console.log("Post request was attempted with non-logged in user. Terminating request.")
-    return;
-  }
   
   // this will save the name of the collection
   
-  collectionName.findOne({"userId": req.user}).then(
+  collectionName.findOne({"userId": req.user._id}).then(
     (userCollectionNames) => {
 
       //If user does not yet have saved collections
       if(!userCollectionNames){
 
         const newCollection = new collectionName({
-          userId : req.user,
+          userId : req.user._id,
           names : [req.body.collectionName]
         });
         
@@ -188,14 +270,14 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
   //  or save a new Graph.
 
   Collection.findOne({
-    "userId": req.user, "collectionName": req.body.collectionName
+    "userId": req.user._id, "collectionName": req.body.collectionName
   }).then(
     (thisGraph) => {
       if(thisGraph === null){
         //if the collection doesn't already exist
         
         const graph = new Collection({
-          userId : req.user,
+          userId : req.user._id,
           collectionName : req.body.collectionName,
           nodeArray : req.body.nodeArray,
           edgeArray : req.body.edgeArray,
@@ -213,48 +295,6 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
     }
   );
  });
-
-
-// POST REQUESTS : TAG INFORMATION
-
-router.post("/dontUseSaveTags", (req, res) => {
-
-  // DON'T USE THIS FUNCTION, IT WILL BE REMOVED LATER.
-  // Please don't remove it either! I may use some of it for later type checking.
-
-  if(typeof req.body.tag_name === "undefined" || typeof req.body.nodes_active === "undefined"){
-    const errorString = "Did not specify either tag_name or nodes_active as parameters in empty query -- did you use the wrong parameter names?"
-    console.log(errorString);
-    res.status(400).send( {errorMessage : errorString} );
-    return;
-  }
-  if(!(typeof req.body.tag_name === "string")){
-    const errorStr = "tag_name is not a string."
-    console.log(errorStr);
-    res.status(400).send( {errorMessage : errorStr} );
-    return;
-  }
-  // 1/15: How to use filter: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-  if(!(typeof req.body.nodes_active === "Array"
-          && req.body.nodes_active.filter(
-            class_name => typeof class_name !== "string").length === 0)){
-    const errorStr = "nodes_active is not an Array of strings.";
-    console.log(errorStr);
-    res.status(400).send( {errorMessage : errorStr} );
-    return;
-  }
-
-  const newTag = new Tags({
-    user_ID : req.user,
-    tag_name : req.body.tag_name,
-    nodes_active : req.body.nodes_active
-  });
-
-  newTag.save().then((savedTags) => {res.send(savedTags)}).catch(
-    (err) => {res.send(err);}
-  );
-
-});
 
 
 // anything else falls to this "not found" case

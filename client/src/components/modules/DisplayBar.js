@@ -46,12 +46,12 @@ class DisplayBar extends Component {
         if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) {
             this.setState({
                 reset: true,
-            })
+            });
         }
         else if(this.props.courseObject !== prevProps.courseObject) {
             this.setState({
                 reset: false,
-            })
+            });
         }
 
     }
@@ -70,7 +70,6 @@ class DisplayBar extends Component {
     render() {
         let toDisplay;
         let addRemoveActive = false;
-        let animate = false;
         if(this.props.isDisplayCollections) {
             toDisplay=
             <CollectionsList 
@@ -92,12 +91,11 @@ class DisplayBar extends Component {
                 toDisplay=<CourseInfo courseObject={this.props.courseObject}/>;
             }
         }
-        let displayInnerClassName = animate ? "DisplayBar-containerInner DisplayBar-ripple": "DisplayBar-containerInner";
 
         return (
             <> 
                 <div className="DisplayBar-containerOuter">
-                    <div className={displayInnerClassName}>
+                    <div className="DisplayBar-containerInner DisplayBar-ripple">
                         {toDisplay}
                     </div>                    
                 </div>

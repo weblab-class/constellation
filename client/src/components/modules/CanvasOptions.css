@@ -1,8 +1,7 @@
 .CanvasOptions-navBar {
     position: relative;
     height: 6.5vh;
-    border-bottom: 1px solid #dad1c4;
-    border-right: 1px solid #dad1c4;
+    border-bottom: 2px solid #dad1c4;
     display: flex;
     flex-direction: row;
 }
@@ -108,7 +107,7 @@
 .CanvasOptions-button:hover:enabled {
     background-color:rgba(20, 17, 17, 0.3);
     color: #dde9a3;
-    font-size: 18px;
+    font-size: 1.1vw;
     transition: background-color 0.5s ease-in;
     cursor: pointer;
 }

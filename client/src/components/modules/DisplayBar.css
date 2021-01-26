@@ -7,7 +7,7 @@
     margin: 10px auto;
     background-color: var(--displaybar-backgroundColor);
     opacity: 80%;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .DisplayBar-containerInner {
@@ -53,6 +53,7 @@ p {
     background-color: var(--medgrey);
     opacity: 0.5;
 }
+
 .DisplayBar-button:hover:enabled {
     cursor: pointer;
     box-shadow: 0 5px 5px rgba(97, 123, 133, 0.4);
@@ -68,10 +69,15 @@ p {
 
 
 .DisplayBar-ripple {
-	animation: ripple 1250ms ease-out forwards;
+    animation: fade 1250ms ease-out forwards, ripple 1250ms ease-out forwards;
 }
 
+@keyframes fade {
+    0%   { filter: brightness(100%); opacity: 1; }
+    50%  { filter: brightness(125%); opacity: 0.5; }    
+    100% { filter: brightness(150%); opacity: 0; }
 
+}
 
 @keyframes ripple {
     0%   { filter: brightness(150%); opacity: 0; }
