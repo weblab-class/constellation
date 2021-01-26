@@ -6,7 +6,7 @@
     border: var(--medgrey) 1px solid;
     border-radius: var(--m);
     transition: all 0.5s;
-    background-color: aliceblue;
+    background-color: #fefdf0; /*aliceblue*/
     opacity : 0.75;
 }
 
@@ -18,12 +18,12 @@
     transform: translate3d(300px, 0, 0);
 }
 
-.Menu-box:hover {
+/* .Menu-box:hover {
     color: var(--black);
     background-color: #ffcdb2;
     transition: background 0.1s;
 
-}
+} */
 
 .Menu-about {
     padding: 10px;
