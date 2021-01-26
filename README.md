@@ -11,7 +11,7 @@ Constellation is an interactive, dynamic course explorer. Visualize the wealth o
 
 Constellation was built by Ezra Erives, Benjamin Wu, and Nicole Wong (MIT ‘24) as part of weblab’s web development competition.
 
-Constellation was made possible by several libraries, including Autocomplete.js and Vis.js, and the Fireroad API, as well as the support and feedback of the weblab staff.
+Constellation was made possible by several libraries, including React-autosuggest.js and Vis.js, and the Fireroad API, as well as the support and feedback of the weblab staff.
 
 ## features
 
@@ -37,7 +37,7 @@ Constellation supports:
 
 Constellation uses or requires the following:
   - Fireroad API (for course data)
-  - Autocomplete.js
+  - React-autosuggest.js
   - Vis.js
 
 Constellation also uses:
