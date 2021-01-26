@@ -45,6 +45,55 @@ import { get, post } from "../../utilities";
     '&T.ABOUT': [],
  }
 
+
+//manually override the following classes which have obstructive numbers of afterreqs
+const RESTRICT_SUGGESTIONS = ['8.02', '8.022', '18.02', '18.02A', '18.022', '18.03', '18.06']
+
+//GIRS and generic equivalents for referencse
+// '8.01','8.011','8.01L','8.012'
+// '8.02','8.021','8.022'
+// '18.01','18.01A'
+// '18.02', '18.02A'
+
+//replacements
+//TODO - MANUALLY "ADD IN SOME AFTER-CLASSES" (especially for 18.03 and 18.06)
+const RESTRICT_REPLACEMENTS = {
+    '8.02': {
+        prereqsToAdd: ['8.01','8.011','8.01L','8.012','18.01','18.01A'],
+        coreqsToAdd: ['18.02', '18.02A'],
+        afterreqsToAdd: [],
+    }, 
+    '8.022': {
+        prereqsToAdd: ['8.01','8.011','8.01L','8.012','18.01','18.01A'],
+        coreqsToAdd: ['18.02', '18.02A'],
+        afterreqsToAdd: [],
+    }, 
+    '18.02': {
+        prereqsToAdd: ['18.01','18.01A'],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    }, 
+    '18.02A': {
+        prereqsToAdd: ['18.01','18.01A'],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    }, 
+    '18.022': {
+        prereqsToAdd: ['18.01','18.01A'],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    }, 
+    '18.03': {
+        prereqsToAdd: [],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    }, 
+    '18.06': {
+        prereqsToAdd: ['18.02', '18.02A'],
+        coreqsToAdd: [],
+        afterreqsToAdd: [],
+    },
+}
 class Explorer extends Component {
     constructor(props) {
         super(props);
@@ -135,6 +184,9 @@ class Explorer extends Component {
                 afterreqsToAdd: TUTORIAL_AFTERREQS[inputText],
             }
             return newClassesToAdd;
+        }
+        else if(RESTRICT_SUGGESTIONS.includes(inputText)){
+            return RESTRICT_REPLACEMENTS[inputText];
         }
         return get("/api/graphNode", { subjectId: inputText }).then((graphInfo) => {
             const newClassesToAdd = {
