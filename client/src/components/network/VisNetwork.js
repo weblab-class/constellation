@@ -181,6 +181,7 @@ class VisNetwork extends Component {
     return edgeToSuggestionId;
  }
 
+ //TODO --> make sure START cannot be removed via removing adjacent node
  removeAdjacentSuggestions = (classId, adjacentNodes) => {
   let [edgesToRemove,nodesToRemove] = [[],[]];
   adjacentNodes.forEach((nodeId) => {
@@ -190,8 +191,10 @@ class VisNetwork extends Component {
       //if node no longer has any added neighbors
       if(this.adjacencyCount[nodeId] === 0){
         edgesToRemove = edgesToRemove.concat(this.network.getConnectedEdges(nodeId));
-        this.data.nodes.remove({id: nodeId});
-        nodesToRemove.push(nodeId);
+        if(nodeId !== '&T.START'){
+          this.data.nodes.remove({id: nodeId});
+          nodesToRemove.push(nodeId);
+        }
       }else{
         //suggestion is still relevant, but edge to classId must be deleted
         const edgeToSuggestionId = this.findSuggestedEdge(classId, nodeId);
