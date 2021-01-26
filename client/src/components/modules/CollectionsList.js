@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { get } from "../../utilities";
 import { WiStars } from "react-icons/wi";
 
 import "./CollectionsList.css";

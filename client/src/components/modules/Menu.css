@@ -6,6 +6,8 @@
     border: var(--medgrey) 1px solid;
     border-radius: var(--m);
     transition: all 0.5s;
+    background-color: aliceblue;
+    opacity : 0.75;
 }
 
 .Menu-visible {
