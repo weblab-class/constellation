@@ -218,20 +218,6 @@ router.get("/loadCollection", auth.ensureLoggedIn, (req, res) => {
 });
 
 
-/* renameCollection (POST)
-
-  Requires: User to be logged in
-  Arguments:
-    oldCollectionName, the string name of the collection to be renamed
-    newCollectionName, the string name used for renaming
-  Updates:
-    the collectionNames for this user with the new collection by inserting a new element
-    the collectionName for the relevant collection.
-    If attempting to rename a collection that doesn't exist, a console log will occur
-      and the POST request will return immediately.
-*/
-
-
 checkHasCollections = (userCollectionNames, res) => {
 
   if(!userCollectionNames){
@@ -280,6 +266,19 @@ renameSingleCollection = (req, res) => {
     }
   );
 }
+
+/* renameCollection (POST)
+
+  Requires: User to be logged in
+  Arguments:
+    oldCollectionName, the string name of the collection to be renamed
+    newCollectionName, the string name used for renaming
+  Updates:
+    the collectionNames for this user with the new collection by inserting a new element
+    the collectionName for the relevant collection.
+    If attempting to rename a collection that doesn't exist, a console log will occur
+      and the POST request will return immediately.
+*/
 
 router.post("/renameCollection", auth.ensureLoggedIn, (req, res) => {
 
