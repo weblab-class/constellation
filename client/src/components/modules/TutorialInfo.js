@@ -29,7 +29,7 @@ const TUTORIAL_HEADERS = {
     '&T.ADD': "Adding Classes",
     '&T.REMOVE': "Removing Classes",
     '&T.SEARCH': "Using the Search Bar",
-    '&T.FILE': 'About',
+    '&T.FILE': 'File Handling',
     '&T.SAVE': "Saving",
     '&T.LOAD': "Loading",
     '&T.RESET': "Resetting",
