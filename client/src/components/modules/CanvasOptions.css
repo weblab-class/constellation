@@ -124,7 +124,7 @@
 .CanvasOptions-verticalLine {
     width: 1px;
     border-left: thick solid black;
-    margin-right: 1vw;
+    margin-right: 2vw;
     height: 100%;
 
 }
