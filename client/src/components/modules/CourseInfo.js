@@ -10,7 +10,7 @@ import "./CourseInfo.css";
  *
  */
 
-class DisplayBar extends Component {
+class CourseInfo extends Component {
     constructor(props) {
         super(props);
     }
@@ -55,4 +55,4 @@ class DisplayBar extends Component {
     }
 }
 
-export default DisplayBar;
+export default CourseInfo;

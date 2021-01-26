@@ -6,25 +6,28 @@ body {
 
 .SearchBar-container{
     margin: 0 auto;
-    width: 70%;
+    width: 80%;
     flex-basis: 12%;
+    display: flex;
+    max-height: 12vh;
+    justify-content: center;
 }
 
-.SearchBar-search {
-    margin: 0 auto;
-    display: flex;
-}
 
 .SearchBar-input {
-    text-align: center;
+    padding-left: 8px;
     font-size: 12px;
+    width: 92%;
+    height: 3.4vh;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
     font-family: 'Montserrat', sans-serif;
-    border-radius: 5px 5px 5px 5px;
     border: 2px solid #4a4e69;
     background-color: var(--searchbar-backgroundColor);
     color: var(--sidebar-buttonTextColor);
     outline: none;
-    flex-grow: 3;
 }
 
 .SearchBar-input:disabled {
@@ -34,14 +37,67 @@ body {
 .SearchBar-button {
     background-color: var(--sidebar-buttonColor);
     border: 2px solid #4a4e69;
-    border-radius: 5px 5px 5px 5px;
     cursor: pointer;
     outline: none;
-    flex-grow: 1;
+    height: 4vh;
+    flex-grow: 2;
+}
+
+.SearchBar-button:hover {
+    background-color: rgba(0,0,0,0.2);
 }
 
 .SearchBar-button:active {
     filter: brightness(150%);
 }
 
-  
+.react-autosuggest__container {
+    height: 4vh;
+    max-height: inherit;
+    flex-basis: 80%;
+}
+
+.react-autosuggest__container--open {
+    height: 4vh;
+    max-height: inherit;
+    flex-basis: 80%;
+}
+
+.react-autosuggest__suggestions-container {
+    position: relative;
+    overflow-y: auto;
+    background-color: #f8fdff;
+    z-index: 1;
+}
+
+.react-autosuggest__suggestions-container--open {
+    position: relative;
+    overflow-y: auto;
+    max-height: 500%;    
+    background-color: #f8fdff;
+    z-index: 1;
+}
+
+.react-autosuggest__suggestions-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+    padding: 10px 20px;
+}
+
+.react-autosuggest__suggestion:hover {
+    background-color: rgba(0,0,0,0.4);
+    color: var(--white);
+}
+
+.react-autosuggest__suggestion:not(:first-child) {
+    border-top: 1px solid #ddd;
+}
+
+.highlight {
+    color: #82b3c7;
+    font-weight: bold;
+}
