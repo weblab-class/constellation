@@ -22,12 +22,14 @@ get("/api/subjectIds").then((subjectIdObject) => {
 
 // Teach Autosuggest how to calculate suggestions for any given input value.
 const getSuggestions = value => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
+    const inputValue = value.toLowerCase();
+    const regex = new RegExp("\\b" + inputValue);
+    console.log("inputValue: ", inputValue);
+    const inputLength = inputValue.trim().length;
 
-    return inputLength === 0 ? [] : subjectIdArray.filter(subject =>
-        subject.toLowerCase().slice(0, inputLength) === inputValue
-    );
+    return inputLength === 0 ? [] : subjectIdArray.filter(subject => {
+        return subject.toLowerCase().match(regex);
+    }).slice(0, 20);
 };
 
 const getSuggestionValue = suggestion => {
@@ -42,7 +44,7 @@ function renderSuggestion(suggestion, { query }) {
     const matches = match(suggestion, query);
     const parts = parse(suggestion, matches);
     return (
-        <span>
+        <span className="SearchBar-suggestionText">
             {
                 parts.map((part, index) => {
                     const className = part.highlight ? 'highlight' : null;
