@@ -217,16 +217,102 @@ router.get("/loadCollection", auth.ensureLoggedIn, (req, res) => {
 
 });
 
-/* deleteCollection (POST)
+
+/* renameCollection (POST)
 
   Requires: User to be logged in
   Arguments:
-    collectionName, the string name of the collection to be deleted.
+    oldCollectionName, the string name of the collection to be renamed
+    newCollectionName, the string name used for renaming
   Updates:
-    deletes the specified collection from the collections as well as collection names.
-  If attempting to delete a collection that doesn't exist, a console log will occur
-    and the POST request will return immediately.
+    the collectionNames for this user with the new collection by inserting a new element
+    the collectionName for the relevant collection.
+    If attempting to rename a collection that doesn't exist, a console log will occur
+      and the POST request will return immediately.
 */
+
+
+checkHasCollections = (userCollectionNames, res) => {
+
+  if(!userCollectionNames){
+    const errorStr = "No collections found for user, terminating.";
+    console.log(errorStr);
+    res.status(400).send({info : errorStr});
+    return false;
+  }
+  return true;
+}
+
+indexOfName = (collectionList, collectionName, res) => {
+
+  // 1/25: Finding elements
+  // https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array
+
+  foundIndex = collectionList.indexOf(collectionName);
+
+  if (foundIndex === -1){
+
+    const errorStr = "This user does not have this collection name saved, terminating."
+    console.log(errorStr);
+    res.status(400).send({info : errorStr});
+    return null;
+
+  }
+
+  return foundIndex;
+
+}
+
+renameSingleCollection = (req, res) => {
+
+  Collection.findOne({
+    "userId": req.user._id, "collectionName": req.body.oldCollectionName
+  }).then(
+    (thisGraph) => {
+      thisGraph.collectionName = req.body.newCollectionName;
+      console.log(thisGraph.nodeArray);
+      console.log(thisGraph)
+      thisGraph.save();
+    }
+  ).catch(
+    (err) => {
+      res.status(500).send({info : err.message});
+    }
+  );
+}
+
+router.post("/renameCollection", auth.ensureLoggedIn, (req, res) => {
+
+  collectionName.findOne({"userId": req.user._id}).then(
+    (userCollectionNames) => {
+
+      if(!checkHasCollections(userCollectionNames, res)){
+        return;
+      }
+      const renameIndex = indexOfName(userCollectionNames.names, req.body.oldCollectionName, res)
+      if(renameIndex === null){
+        return;
+      }
+      
+      //Otherwise, it was a successful request
+
+      // 1/25: Deleting elements with splice
+      // https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array
+      let newCollectionNames = [... userCollectionNames.names]
+      newCollectionNames[renameIndex] = req.body.newCollectionName
+
+      userCollectionNames.names = newCollectionNames
+      userCollectionNames.save();
+
+      renameSingleCollection(req, res);
+    }
+  ).catch(
+    (err) => {
+      res.status(500).send({info : err.message});
+    }
+  );
+
+});
 
 deleteCollectionItself = (req, res) => {
   
@@ -245,6 +331,17 @@ deleteCollectionItself = (req, res) => {
     );
 }
 
+/* deleteCollection (POST)
+
+  Requires: User to be logged in
+  Arguments:
+    collectionName, the string name of the collection to be deleted.
+  Updates:
+    deletes the specified collection from the collections as well as collection names.
+  If attempting to delete a collection that doesn't exist, a console log will occur
+    and the POST request will return immediately.
+*/
+
 router.post("/deleteCollection", auth.ensureLoggedIn, (req, res) => {
 
   // Handle updating the collection names for this user.
@@ -252,22 +349,15 @@ router.post("/deleteCollection", auth.ensureLoggedIn, (req, res) => {
   collectionName.findOne({"userId": req.user._id}).then(
     (userCollectionNames) => {
       
-      if(!userCollectionNames){
-        const errorStr = "No collections found for user, terminating.";
-        console.log(errorStr);
-        res.status(400).send({info : errorStr});
+      if(!checkHasCollections(userCollectionNames, res)){
         return;
       }
 
       // 1/25: Finding elements
       // https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array
 
-      deleteIndex = userCollectionNames.names.indexOf(req.body.collectionName);
-
-      if (deleteIndex === -1){
-        const errorStr = "This user does not have this collection name saved, terminating."
-        console.log(errorStr);
-        res.status(400).send({info : errorStr});
+      const deleteIndex = indexOfName(userCollectionNames.names, req.body.collectionName, res);
+      if(deleteIndex === null){
         return;
       }
 
