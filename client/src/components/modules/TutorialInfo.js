@@ -53,8 +53,11 @@ class TutorialInfo extends Component {
             case '&T.START': {
                 console.log("blah blah");
                 toDisplay = (
-                    <p> Constellation allows you to explore the MIT course catalog in a manner reflecting that which it truly is - a huge directed graph! 
-                        This short tutorial will guide you through the basics of using Constellation. To start, click the <b>Add</b> button below! </p>
+                    <div>
+                        <p> Constellation allows you to explore the MIT course catalog in a manner reflecting that which it truly is - a huge directed graph! 
+                        This short tutorial will guide you through the basics of using Constellation.</p>
+                        <p> To start, click the <b>Add</b> button below! </p>
+                    </div>
                 );
                 break;
             };
