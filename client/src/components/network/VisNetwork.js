@@ -84,7 +84,7 @@ class VisNetwork extends Component {
     let nodesArray = [{
        id: "&T.START", 
        label: "Click me to get started!", 
-       group: 'myGroup',
+       group: '&T',
         x: 0,
         y: 0,
       },]; //generate the help node for new users
@@ -181,6 +181,7 @@ class VisNetwork extends Component {
     return edgeToSuggestionId;
  }
 
+ //TODO --> make sure START cannot be removed via removing adjacent node
  removeAdjacentSuggestions = (classId, adjacentNodes) => {
   let [edgesToRemove,nodesToRemove] = [[],[]];
   adjacentNodes.forEach((nodeId) => {
@@ -190,8 +191,10 @@ class VisNetwork extends Component {
       //if node no longer has any added neighbors
       if(this.adjacencyCount[nodeId] === 0){
         edgesToRemove = edgesToRemove.concat(this.network.getConnectedEdges(nodeId));
-        this.data.nodes.remove({id: nodeId});
-        nodesToRemove.push(nodeId);
+        if(nodeId !== '&T.START'){
+          this.data.nodes.remove({id: nodeId});
+          nodesToRemove.push(nodeId);
+        }
       }else{
         //suggestion is still relevant, but edge to classId must be deleted
         const edgeToSuggestionId = this.findSuggestedEdge(classId, nodeId);
@@ -225,9 +228,14 @@ class VisNetwork extends Component {
         }
       });
     }else if(this.adjacencyCount[classId] === 0){
-      //completely remove node and all of its edges
-      this.nodeIds.splice(this.nodeIds.indexOf(classId),1);
-      this.data.nodes.remove({id: classId});
+      //if node is tutorial start node, simply make it translucent
+      //otherwise, remove it completely
+      if(classId === '&T.START'){
+        this.updateNodeOpacity(classId, SUGGESTED_NODE_OPACITY);
+      }else{
+        this.nodeIds.splice(this.nodeIds.indexOf(classId),1);
+        this.data.nodes.remove({id: classId});
+      }
     }
     //remove edgesIds at end so that it doesn't delay visual network update
     edgesToRemove.forEach((edgeId) => {
@@ -553,7 +561,7 @@ class VisNetwork extends Component {
    }
   
    resetNetwork = () => {
-     let newNodes = new DataSet([{ id: "&T.START", label: "Click me to get started!"},]);
+     let newNodes = new DataSet([{ id: "&T.START", label: "Click me to get started!",group: '&T',},]);
      let newEdges = new DataSet();
      this.nodeIds.forEach((classId) => {
         this.isSuggestionDict[classId] = true;
