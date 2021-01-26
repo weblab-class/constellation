@@ -69,14 +69,7 @@ p {
 
 
 .DisplayBar-ripple {
-    animation: fade 1250ms ease-out forwards, ripple 1250ms ease-out forwards;
-}
-
-@keyframes fade {
-    0%   { filter: brightness(100%); opacity: 1; }
-    50%  { filter: brightness(125%); opacity: 0.5; }    
-    100% { filter: brightness(150%); opacity: 0; }
-
+    animation: ripple 1250ms ease-out forwards;
 }
 
 @keyframes ripple {

@@ -4,6 +4,7 @@
     height: 7%;
     top: 104%;
     left: 50%;
+    text-align: center;
     transform: translate(-50%, -50%);
     border-radius: var(--s);
     background-color: var(--sidebar-backgroundColor);
@@ -11,15 +12,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 20px;
 }
 
-.InfoPanel-boxClose {
+.InfoPanel-panelClose {
     visibility: hidden;
 }
 
-.InfoPanel-boxOpen {
+.InfoPanel-panelOpen {
+    top: 104%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     animation-name: slideUpAndDown;
-    animation-duration: 5s;
+    animation-duration: 1.5s;
 }
 
 @keyframes slideUpAndDown {
