@@ -128,6 +128,12 @@ class Explorer extends Component {
 
     setCourseObject = (input) => {
         //first check if being set to tutorial
+        const orig_input = input;
+        input = input.split(' ')[0];
+        if(input.length > 0 && input[input.length-1] === ":") {
+            input = input.slice(0, input.length-1);
+        }
+
         console.log("Setting course object to: " + input);
         if(input.includes('&')){
             this.setState({
@@ -145,7 +151,7 @@ class Explorer extends Component {
                     courseObject: {
                         found: false,
                         tutorial: false,
-                        searchedText: input,
+                        searchedText: orig_input,
                     }
                 });
             }
