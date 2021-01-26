@@ -19,7 +19,7 @@ import { get, post } from "../../utilities";
  * @param {Function} handleLogout passed to CanvasOptions
  */
 
- const TUTORIAL_PREREQS = {
+const TUTORIAL_PREREQS = {
     '&T.START': [],
     '&T.BASICS': ['&T.START'],
     '&T.ADD': ['&T.BASICS'],
@@ -31,7 +31,8 @@ import { get, post } from "../../utilities";
     '&T.NEW': ['&T.FILE'],
     '&T.RESET': ['&T.BASICS'],
     '&T.ABOUT': ['&T.START'],
- }
+}
+
 
  const TUTORIAL_AFTERREQS = {
     '&T.START': ['&T.BASICS','&T.FILE','&T.ABOUT'],
@@ -45,7 +46,7 @@ import { get, post } from "../../utilities";
     '&T.RESET': [],
     '&T.NEW': [],
     '&T.ABOUT': [],
- }
+}
 
 
 //manually override the following classes which have obstructive numbers of afterreqs
@@ -61,41 +62,44 @@ const RESTRICT_SUGGESTIONS = ['8.02', '8.022', '18.02', '18.02A', '18.022', '18.
 //TODO - MANUALLY "ADD IN SOME AFTER-CLASSES" (especially for 18.03 and 18.06)
 const RESTRICT_REPLACEMENTS = {
     '8.02': {
-        prereqsToAdd: ['8.01','8.011','8.01L','8.012','18.01','18.01A'],
+        prereqsToAdd: ['8.01', '8.011', '8.01L', '8.012', '18.01', '18.01A'],
         coreqsToAdd: ['18.02', '18.02A'],
         afterreqsToAdd: [],
-    }, 
+    },
     '8.022': {
-        prereqsToAdd: ['8.01','8.011','8.01L','8.012','18.01','18.01A'],
+        prereqsToAdd: ['8.01', '8.011', '8.01L', '8.012', '18.01', '18.01A'],
         coreqsToAdd: ['18.02', '18.02A'],
         afterreqsToAdd: [],
-    }, 
+    },
     '18.02': {
-        prereqsToAdd: ['18.01','18.01A'],
+        prereqsToAdd: ['18.01', '18.01A'],
         coreqsToAdd: [],
         afterreqsToAdd: [],
-    }, 
+    },
     '18.02A': {
-        prereqsToAdd: ['18.01','18.01A'],
+        prereqsToAdd: ['18.01', '18.01A'],
         coreqsToAdd: [],
         afterreqsToAdd: [],
-    }, 
+    },
     '18.022': {
-        prereqsToAdd: ['18.01','18.01A'],
+        prereqsToAdd: ['18.01', '18.01A'],
         coreqsToAdd: [],
         afterreqsToAdd: [],
-    }, 
+    },
     '18.03': {
         prereqsToAdd: [],
         coreqsToAdd: [],
         afterreqsToAdd: [],
-    }, 
+    },
     '18.06': {
         prereqsToAdd: ['18.02', '18.02A'],
         coreqsToAdd: [],
         afterreqsToAdd: [],
     },
 }
+
+let timer = 0;
+
 class Explorer extends Component {
     constructor(props) {
         super(props);
@@ -113,7 +117,7 @@ class Explorer extends Component {
             removeClassCounter: 0,
             saveCanvasCounter: 0,
             loadCollectionCounter: 0,
-            switchedCollectionCounter : 0,
+            switchedCollectionCounter: 0,
             courseObject: undefined,
             isDisplayCollections: false,
             newCollectionNameCounter: 0,
@@ -127,17 +131,31 @@ class Explorer extends Component {
         }
     }
 
+    setToInactivePopup = () => {
+        console.log("timer:", timer);
+        if (timer !== 0) {
+            clearTimeout(timer);
+            timer = 0;
+        }
+
+        timer = setTimeout(() => {
+            timer = 0;
+            this.setState({
+                popupMessage: "popup"
+            })
+        }, 1500);
+    };
 
     setCourseObject = (input) => {
         //first check if being set to tutorial
         const orig_input = input;
         input = input.split(' ')[0];
-        if(input.length > 0 && input[input.length-1] === ":") {
-            input = input.slice(0, input.length-1);
+        if (input.length > 0 && input[input.length - 1] === ":") {
+            input = input.slice(0, input.length - 1);
         }
 
         console.log("Setting course object to: " + input);
-        if(input.includes('&')){
+        if (input.includes('&')) {
             this.setState({
                 courseObject: {
                     found: true,
@@ -185,7 +203,7 @@ class Explorer extends Component {
 
     //returns neighbors for the class and updates state so that network re-renders
     getNeighbors = (inputText) => {
-        if(inputText.includes('&')){
+        if (inputText.includes('&')) {
             const newClassesToAdd = {
                 prereqsToAdd: TUTORIAL_PREREQS[inputText],
                 coreqsToAdd: [],
@@ -193,7 +211,7 @@ class Explorer extends Component {
             }
             return newClassesToAdd;
         }
-        else if(RESTRICT_SUGGESTIONS.includes(inputText)){
+        else if (RESTRICT_SUGGESTIONS.includes(inputText)) {
             return RESTRICT_REPLACEMENTS[inputText];
         }
         return get("/api/graphNode", { subjectId: inputText }).then((graphInfo) => {
@@ -250,23 +268,24 @@ class Explorer extends Component {
             currentCollectionName: collectionName,
             isDisplayCollections: false,
             loaded: false,
-            isSaved : true,
-            isSavedCounter : this.state.isSavedCounter + 1,
-            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
+            isSaved: true,
+            isSavedCounter: this.state.isSavedCounter + 1,
+            switchedCollectionCounter: this.state.switchedCollectionCounter + 1,
         });
     }
 
     setToNoCollections = () => {
         this.setState({
             isDisplayCollections: false,
-            popupMessage: "popup",
-        });
+            popupMessage: "exiting..."
+        }, this.setToInactivePopup);
     }
 
     setCollectionName = (newName) => {
         this.setState({
-            currentCollectionName: newName
-        })
+            currentCollectionName: newName,
+            popupMessage: "collection saved..."
+        }, this.setToInactivePopup);
     }
 
     //also passed as prop to name collections
@@ -292,6 +311,9 @@ class Explorer extends Component {
             });
         } else {
             this.tellVisNetworkToExport();
+            this.setState({
+                popupMessage: "constellation saved..."
+            }, this.setToInactivePopup);
         }
     }, 1000);
 
@@ -303,11 +325,6 @@ class Explorer extends Component {
         // 1/16: setState is async
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
 
-        this.setState({
-            isDisplayCollections: true,
-            popupMessage: "Constellations loaded!"
-            //collectionsArray: ["asdf", "sdfa", "dfas", "fasd", "asdfasdfasdf", "asdfasdffdsa", "asdfafdsasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"],
-        });
 
         get("/api/collectionNames").then((collectionsArrayFromAPI) => {
             console.log(collectionsArrayFromAPI);
@@ -318,6 +335,12 @@ class Explorer extends Component {
             console.log("There was an error retrieving collections for the user. Specific error message:", err.message);
         });
 
+        this.setState({
+            isDisplayCollections: true,
+            popupMessage: "constellations loaded..."
+            //collectionsArray: ["asdf", "sdfa", "dfas", "fasd", "asdfasdfasdf", "asdfasdffdsa", "asdfafdsasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"],
+        }, this.setToInactivePopup);
+
     }
 
 
@@ -326,12 +349,10 @@ class Explorer extends Component {
             canvasToBeReset: this.state.canvasToBeReset + 1,
             newClass: '',
             removeClass: '',
-        });
-
-        this.setState({
+            popupMessage: "cleared current canvas!",
             isSaved: false,
             isSavedCounter: this.state.isSavedCounter + 1,
-        });
+        }, this.setToInactivePopup);
     }
 
     exportNetwork = (graphObject) => {
@@ -386,12 +407,12 @@ class Explorer extends Component {
 
         this.handleResetCanvas(); //This will clear the canvas itself
         this.setState({
-            currentCollectionName : null, //This will exit saving/loading on top of the old canvas
-            isSaved : false,
-            isSavedCounter : this.state.isSavedCounter + 1,
-            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
-            popupMessage: "New collection created!"
-        });
+            currentCollectionName: null, //This will exit saving/loading on top of the old canvas
+            isSaved: false,
+            isSavedCounter: this.state.isSavedCounter + 1,
+            switchedCollectionCounter: this.state.switchedCollectionCounter + 1,
+            popupMessage: "new constellation created!"
+        }, this.setToInactivePopup);
     }
 
     // componentDidMount() {}
@@ -448,8 +469,8 @@ class Explorer extends Component {
                         />
                     </div>
                 </div>
-                <InfoPanel 
-                    popupMessage = {this.state.popupMessage}
+                <InfoPanel
+                    popupMessage={this.state.popupMessage}
                 />
             </div>
         )
