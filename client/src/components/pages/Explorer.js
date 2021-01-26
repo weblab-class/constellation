@@ -21,22 +21,24 @@ import { get, post } from "../../utilities";
 
  const TUTORIAL_PREREQS = {
     '&T.START': [],
-    '&T.GRAPH': ['&T.START'],
-    '&T.ADD': ['&T.START'],
-    '&T.REMOVE': ['&T.START'],
+    '&T.BASICS': ['&T.START'],
+    '&T.ADD': ['&T.BASICS'],
+    '&T.REMOVE': ['&T.BASICS'],
+    '&T.SEARCH': ['&T.BASICS'],
     '&T.FILE': ['&T.START'],
     '&T.SAVE': ['&T.FILE'],
     '&T.LOAD': ['&T.FILE'],
     '&T.NEW': ['&T.FILE'],
-    '&T.RESET': ['&T.START'],
+    '&T.RESET': ['&T.BASICS'],
     '&T.ABOUT': ['&T.START'],
  }
 
  const TUTORIAL_AFTERREQS = {
-    '&T.START': ['&T.GRAPH','&T.ADD','&T.REMOVE','&T.FILE','&T.RESET','&T.ABOUT'],
-    '&T.GRAPH': [],
+    '&T.START': ['&T.BASICS','&T.FILE','&T.ABOUT'],
+    '&T.BASICS': ['&T.ADD','&T.REMOVE','&T.SEARCH','&T.RESET'],
     '&T.ADD': [],
     '&T.REMOVE': [],
+    '&T.SEARCH': [],
     '&T.FILE': ['&T.SAVE','&T.LOAD', '&T.NEW'],
     '&T.SAVE': [],
     '&T.LOAD': [],
