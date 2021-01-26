@@ -551,13 +551,38 @@ class VisNetwork extends Component {
       return edgeIds;
    }
 
+  //  let newNodes = new DataSet([{ id: "&T.START", label: "Click me to get started!",group: '&T'},]);
+  //  let newEdges = new DataSet();
+  //  this.nodeView = new DataView(newNodes, {filter: this.nodesFilter});
+  //  this.edgeView = new DataView(newEdges, {filter: this.edgesFilter});
+  //  this.nodeIds.forEach((classId) => {
+  //     this.isSuggestionDict[classId] = true;
+  //     this.adjacencyCount[classId] = 0;
+  //  });
+  //  //must update state as well so state and network work with same object
+  //  this.network.setData({
+  //    nodes: this.nodeView,
+  //    edges: this.edgeView,
+  //  });
+  //  this.data.nodes = newNodes;
+  //  this.data.edges = newEdges;
+  //  this.nodes = newNodes,
+  //  this.edges = newEdges,
+  //  this.nodeIds = ["&T.START"];
+  //  this.edgeIds = [];
+
+  //TODO - have it also update load settings (so that loading a network loads the saved settings as well)
    setNetworkToNewData =  async (newNodes, newEdges, newNodeIds, newEdgeIds) => {
-     this.network.setData({
-       nodes: newNodes,
-       edges: newEdges,
+      this.nodeView = new DataView(newNodes, {filter: this.nodesFilter});
+      this.edgeView = new DataView(newEdges, {filter: this.edgesFilter});
+      this.network.setData({
+       nodes: this.nodeView,
+       edges: this.edgeView,
      });
-     this.data.nodes = newNodes;
-     this.data.edges = newEdges;
+     this.data.nodes = this.nodeView;
+     this.data.edges = this.edgeView;
+     this.nodes = newNodes;
+     this.edges = newEdges;
      this.nodeIds = newNodeIds;
      this.edgeIds = newEdgeIds;
    }
@@ -603,8 +628,8 @@ class VisNetwork extends Component {
        nodes: this.nodeView,
        edges: this.edgeView,
      });
-     this.data.nodes = newNodes;
-     this.data.edges = newEdges;
+     this.data.nodes = this.nodeView;
+     this.data.edges = this.edgeView;
      this.nodes = newNodes,
      this.edges = newEdges,
      this.nodeIds = ["&T.START"];
@@ -657,7 +682,7 @@ class VisNetwork extends Component {
     }
   };
 
-  determineEdgeRelevance = (endpoints) => {
+  getEdgeRelevance = (endpoints) => {
       //BELOW LINE FOR TESTING PURPOSES
       if(!this.filter) return true;
       //check if suggestion is off and either is suggestion
@@ -669,10 +694,10 @@ class VisNetwork extends Component {
         return this.filterValues[courseFrom] && this.filterValues[courseTo];
       }
   }
-  //edgefilter
+  //return value = nodeFilter(endpoint #1) AND nodeFilter(endpoint #2)
   edgesFilter = (edge) => {
     const endpoints = edge.id.split(/[<,>,=]/);
-    return this.determineEdgeRelevance(endpoints);
+    return this.getEdgeRelevance(endpoints);
   };
 
   deployFilter = () => {
