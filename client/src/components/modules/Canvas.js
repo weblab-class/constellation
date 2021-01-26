@@ -21,20 +21,6 @@ class Canvas extends Component {
         }
     }
 
-    updateWindowProps = () => {
-        this.setState({
-            width: this.divRef.current.clientWidth,
-            height: this.divRef.current.clientHeight,
-        });
-    }
-
-    componentDidMount = () => {
-        this.setState({
-            width: this.divRef.current.clientWidth,
-            height: this.divRef.current.clientHeight,
-        });
-        window.addEventListener('resize', this.updateWindowProps);
-    }
 
     render(){
         return(
@@ -54,8 +40,6 @@ class Canvas extends Component {
                         removeClass = {this.props.removeClass}
                         removeClassCounter = {this.props.removeClassCounter}
                         importNetwork= {this.props.importNetwork}
-                        networkHeight = {this.state.height}
-                        networkWidth = {this.state.width}
                     />
             </div>
         )

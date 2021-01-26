@@ -85,8 +85,8 @@ class VisNetwork extends Component {
        id: "&T.START", 
        label: "Click me to get started!", 
        group: 'myGroup',
-        x: 68,
-        y: 15,
+        x: 0,
+        y: 0,
       },]; //generate the help node for new users
     let nodes = new DataSet(nodesArray);
     let edgesArray = [];
@@ -600,12 +600,25 @@ class VisNetwork extends Component {
       this.printCurrentNetworkData();
    }
 
+   focusOnStart = () => {
+     this.network.focus('&T.START',{  
+      scale: 0.65,
+      offset: {x:0, y:0},
+      locked: false,
+      animation: { // -------------------> can be a boolean too!
+       duration: Number,
+       easingFunction: 'easeInQuint',
+     }});
+   }
+
   componentDidMount() {
     this.network = new Network(this.appRef.current, this.data, this.state.options);
     this.network.on("selectNode", (params) => {
       const nodeId = params.nodes[0];
+      console.log(this.network.getPositions(nodeId));
       this.processNodeClick(nodeId);
     });
+    setTimeout(this.focusOnStart, 500);
   }
 
   componentDidUpdate(prevProps) {
