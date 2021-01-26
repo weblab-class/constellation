@@ -31,7 +31,7 @@ body {
 }
 
 .SearchBar-input:disabled {
-    filter: brightness(25%);
+    filter: brightness(75%);
 }
 
 .SearchBar-button {
@@ -86,6 +86,7 @@ body {
 
 .react-autosuggest__suggestion {
     padding: 10px 20px;
+    text-overflow: ellipsis;
 }
 
 .react-autosuggest__suggestion:hover {
