@@ -14,7 +14,7 @@
 .CanvasOptions-navBar button {
     margin: 1px;
     font-family: Comfortaa, sans-serif;   
-    border-radius: 5px;
+    border-radius: var(--s);
     font-size: 1vw;
     text-align: center;
     align-content: center;
@@ -32,7 +32,7 @@
     flex-basis: 15%;
     flex-shrink: 0;
     display: flex;
-    border-radius: 5px;
+    border-radius: var(--s);
     border: 2px solid #f38256;
     background-color: #eb9a7b;
     transition: all 1s;

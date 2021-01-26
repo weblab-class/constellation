@@ -6,7 +6,7 @@
 .CollectionsList-listElement {
     font-size: 20px;
     text-align: left;
-    border-radius: 5px;
+    border-radius: var(--s);
     font-family: Comfortaa;
     padding: 15px 0 15px 5px;
     transition: 0.5s all;

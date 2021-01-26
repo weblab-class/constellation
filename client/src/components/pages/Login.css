@@ -35,7 +35,7 @@
 
 .Login-toExplorerButton {
     color: var(--black);
-    border-radius: var(--s) var(--s) var(--s) var(--s);
+    border-radius: var(--s);
     background: var(--canvas-backgroundColor);
     transition: color 0.1s, background 0.1s;
 
