@@ -20,16 +20,21 @@ get("/api/subjectIds").then((subjectIdObject) => {
     console.log("there was an error retrieving array of subject IDs. specific error message:", err.message);
 });
 
+//code taken from https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
 // Teach Autosuggest how to calculate suggestions for any given input value.
 const getSuggestions = value => {
     const inputValue = value.toLowerCase();
-    const regex = new RegExp("\\b" + inputValue);
+    const regex = new RegExp("\\b" + escapeRegExp(inputValue));
     console.log("inputValue: ", inputValue);
     const inputLength = inputValue.trim().length;
 
     return inputLength === 0 ? [] : subjectIdArray.filter(subject => {
         return subject.toLowerCase().match(regex);
-    }).slice(0, 20);
+    }).slice(0, 200);
 };
 
 const getSuggestionValue = suggestion => {
@@ -113,7 +118,7 @@ class SearchBar extends Component {
         const inputProps = {
             type: "text",
             className: "SearchBar-input",
-            placeholder: this.props.isDisplayCollections ? "" : "search for a course number!",
+            placeholder: this.props.isDisplayCollections ? "" : "search a course by number/name!",
             value: this.state.inputText,
             onChange: this.onChange,
             onKeyDown: this.handleKeyDown,
