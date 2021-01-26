@@ -87,7 +87,6 @@ class CanvasOptions extends Component {
                             {this.state.showDropdown ? <ImCross size="1.2vw" /> : <GiHamburgerMenu size="1.2vw" />}
                         </button>
                     </div>
-
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-load"
