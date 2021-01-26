@@ -3,6 +3,8 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 import About from "../modules/About.js";
 import Menu from "../modules/Menu.js";
 
+import { navigate } from "@reach/router";
+
 import "../../utilities.css";
 import "./Login.css";
 //TODO: REPLACE WITH YOUR OWN CLIENT_ID
@@ -37,26 +39,40 @@ class Login extends Component {
     });
   }
 
+  returnToExplorer = () => {
+    navigate("/explorer");
+  }
+
 
   render() {
     console.log(this.state.displayMenu);
     return (
-      <div className = "Login-container">
-        {this.props.userId ? (
-          <GoogleLogout
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Logout"
-            onLogoutSuccess={this.props.handleLogout}
-            onFailure={(err) => console.log(err)}
-          />
-        ) : (
-            <GoogleLogin
+        <div className = "Login-container">
+          {this.props.userId ? (
+              <GoogleLogout
               clientId={GOOGLE_CLIENT_ID}
-              buttonText="Login"
-              onSuccess={this.props.handleLogin}
+              buttonText="Logout"
+              onLogoutSuccess={this.props.handleLogout}
               onFailure={(err) => console.log(err)}
-            />
-          )}
+              />
+          ) : (
+              <GoogleLogin
+                clientId={GOOGLE_CLIENT_ID}
+                buttonText="Login"
+                onSuccess={this.props.handleLogin}
+                onFailure={(err) => console.log(err)}
+              />
+            )}
+
+          {this.props.userId ? (
+            <button
+              className="Login-toExplorerButton"
+              onClick={this.returnToExplorer}
+            >
+              Explorer
+            </button>
+          ) : (null)
+          }
 
         <About toggleMenu={this.toggleMenu} />
         <div className="Login-centerFlex">
@@ -70,6 +86,7 @@ class Login extends Component {
             a visually driven course explorer
           </div>
         </div>
+        
         <Menu displayMenu={this.state.displayMenu} />
       </div>
     );

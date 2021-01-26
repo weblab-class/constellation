@@ -10,7 +10,6 @@ import _ from "lodash"; //debounce function
 import "./Explorer.css";
 
 import { get, post } from "../../utilities";
-import { GiTrumpet } from "react-icons/gi";
 
 /**
  * Explorer page. Where all the main features are: canvas, sidebar
@@ -63,6 +62,7 @@ class Explorer extends Component {
             removeClassCounter: 0,
             saveCanvasCounter: 0,
             loadCollectionCounter: 0,
+            switchedCollectionCounter : 0,
             courseObject: undefined,
             isDisplayCollections: false,
             newCollectionNameCounter: 0,
@@ -190,8 +190,9 @@ class Explorer extends Component {
             currentCollectionName: collectionName,
             isDisplayCollections: false,
             loaded: false,
-            isSaved: true,
-            isSavedCounter: this.state.isSavedCounter + 1,
+            isSaved : true,
+            isSavedCounter : this.state.isSavedCounter + 1,
+            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
         });
     }
 
@@ -325,9 +326,10 @@ class Explorer extends Component {
 
         this.handleResetCanvas(); //This will clear the canvas itself
         this.setState({
-            currentCollectionName: null, //This will exit saving/loading on top of the old canvas
-            isSaved: false,
-            isSavedCounter: this.state.isSavedCounter + 1,
+            currentCollectionName : null, //This will exit saving/loading on top of the old canvas
+            isSaved : false,
+            isSavedCounter : this.state.isSavedCounter + 1,
+            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
             popupMessage: "New collection created!"
         });
     }
@@ -347,6 +349,7 @@ class Explorer extends Component {
                             isDisplayCollections={this.state.isDisplayCollections}
                             currentCollectionName={this.state.currentCollectionName}
                             newCollectionNameCounter={this.state.newCollectionNameCounter}
+                            switchedCollectionCounter={this.state.switchedCollectionCounter}
                             isSaved={this.state.isSaved}
                             isSavedCounter={this.state.isSavedCounter}
                             setCollectionName={this.setCollectionName}
