@@ -113,7 +113,7 @@ class SearchBar extends Component {
         const inputProps = {
             type: "text",
             className: "SearchBar-input",
-            placeholder: this.props.isDisplayCollections ? "" : "search for a course number!",
+            placeholder: this.props.isDisplayCollections ? "" : "search for a course number or topic!",
             value: this.state.inputText,
             onChange: this.onChange,
             onKeyDown: this.handleKeyDown,
