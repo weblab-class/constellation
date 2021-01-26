@@ -19,6 +19,7 @@ class CourseInfo extends Component {
 
     render() {
         let term = [];
+        const prereqString = this.props.courseObject.prerequisites;
         const YEAR = 2020;
         if(this.props.courseObject.offeredFall) {
             term.push("Fall " + YEAR);
@@ -45,7 +46,7 @@ class CourseInfo extends Component {
                     <p><u>Terms offered</u>: <span className="CourseInfo-info">{term.length !== 0 ? term.join(', ') : `Not offered in the ${YEAR}-${YEAR+1} school year`}</span> </p>
                 </div>
                 <div className="CourseInfo-prerequisites">
-                    <p><u>Prereqs</u>: <span className="CourseInfo-info">{this.props.courseObject.prerequisites ? this.props.courseObject.prerequisites.toString() : "None"}</span></p>
+                    <p><u>Prereqs</u>: <span className="CourseInfo-info">{prereqString ? prereqString.replaceAll('/', ' or ').replaceAll(',', ' and') : "None"}</span></p>
                 </div>
                 <div className="CourseInfo-description">
                     <p><u>Description</u>: <span className="CourseInfo-info">{this.props.courseObject.description || "None"}</span></p>
