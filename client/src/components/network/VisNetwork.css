@@ -1,6 +1,6 @@
 .VisNetwork-container{
     align-items: stretch;
-    overflow: auto;
+    overflow: auto; /*prevest vis from overflowing into navbar*/
 }
 #myNetwork .vis-network:focus{
     outline: none;
