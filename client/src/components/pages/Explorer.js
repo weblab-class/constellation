@@ -52,7 +52,7 @@ class Explorer extends Component {
 
 
     setCourseObject = (input) => {
-        get("/api/sidebarNode", { subjectId: input }).then((courseArray) => {
+        get("/api/sidebarNode", { subjectId: input.toUpperCase() }).then((courseArray) => {
             if (courseArray.length === 0) {
                 this.setState({
                     courseObject: {
