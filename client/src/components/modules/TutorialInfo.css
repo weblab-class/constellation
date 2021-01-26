@@ -1,0 +1,11 @@
+.TutorialInfo-img{
+    display: block;
+    margin: auto;
+    width: 95%;
+    padding: 10px;
+}
+
+.TutorialInfo-header{
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
