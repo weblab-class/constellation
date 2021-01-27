@@ -177,6 +177,12 @@ class VisNetwork extends Component {
                face: 'comfortaa',
              }
           },
+          groups: {
+            one:{
+              color: "#00C3AF",
+              borderWidth: 3,
+            },
+          },
         },
         // groups: MANUAL_COLORS ? GROUP_COLOR_OPTIONS : null,
     };
@@ -729,8 +735,12 @@ class VisNetwork extends Component {
     return this.getEdgeRelevance(endpoints);
   };
 
-  togglelFilter = (filterId) => {
+  toggleFilter = (filterId) => {
     //updated status of filterId filter
+    console.log("toggled: " + filterId);
+    // this.filterValues[filterId]=!this.filterValues[filterId];
+    // this.nodeView.refresh();
+    // this.edgeView.refresh();
   }
 
   deployFilter = () => {
