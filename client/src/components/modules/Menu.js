@@ -24,12 +24,11 @@ class Menu extends Component {
     return (
     <>
         <div className={classAddOn}>
-        <div className="Menu-about"><p className="u-bold">What can you do with Constellation?</p> 
-        <p>Constellation allows you to dive into the wealth of classes at MIT in a visual and dynamic manner. </p></div> 
-        <div className="Menu-getStarted"><p className="u-bold">Get Started</p>
-        <p>Constellation builds a network for classes that you select. 
-            It also gives you the option to expand your network to include pre-requisites and related classes. 
-            Get started by logging in!</p>
+
+        <div className="Menu-about"><p className="u-bold">What does constellation do?</p> 
+        <p>Constellation empowers you to dive into the wealth of classes at MIT through a dynamic and interactive experience.</p></div> 
+        <div className="Menu-getStarted"><p className="u-bold">Get Started</p> 
+        <p>Intuitively craft, save, and load a directed network of related classes and their requirements, class by class. Get started by logging in!</p>
         </div>
         </div>
     </>

@@ -1,52 +1,47 @@
-# Project Skeleton
+# constellation
+## a visually driven course explorer
 
-## What we provide
+https://constellation-webteam.herokuapp.com/
 
-- Google Auth (Skeleton.js & auth.js)
-  - Disclaimer: Auth isn't being taught until the second week.
-- Socket Infrastructure (client-socket.js & server-socket.js)
-  - Disclaimer: Socket isn't being taught until the second week.
-- User Model (auth.js & user.js)
+## about
 
-## What you need to change
+Constellation is an interactive course explorer, allowing users to visualize the wealth of classes at MIT, and their interdependencies, in a visually-appealing and intuitive manner.
 
-- Change the font in utilities.css
-- Change the Frontend CLIENT_ID for Google Auth (Skeleton.js) (we'll talk about it at the end of week 2)
-- Change the Server CLIENT_ID for Google Auth (auth.js) (we'll talk about it at the end of week 2)
-- Change the Database SRV for Atlas (server.js)
-- Change the Database Name for MongoDB (server.js)
-- Add a favicon to your website at the path client/dist/favicon.ico
-- Update website title in client/dist/index.html
-- Update this README file ;)
-- Update the package.json file with your app name :) (line 2)
+## acknowledgments
 
-## Socket stuff
-Note: we'll be getting to this in lecture in week 2, so don't worry if you don't know it yet
+Constellation was built by Ezra Erives, Benjamin Wu, and Nicole Wong (MIT ‘24) as part of the web.lab web programming and development competition.
 
-- If you're not using realtime updating or don't need server->client communication, you can remove socket entirely! (server-socket.js, client-socket.js, and anything that imports them)
-- If you are using socket, consider what you want to do with the FIXME in server-socket.js
+Constellation was made possible by several libraries, including React-autosuggest.js, vis.js, and the FireRoad API, as well as the support and feedback of the web.lab staff.
+
+## features
+
+Constellation allows users to construct directed networks visualizing course dependencies (read: prerequisites, corequisites, etc) and connections present in the MIT course catalog. Information provided includes:
+
+- Suggested classes, including:
+  - Prerequisites
+  - Corequisites
+  - Subjects that follow a prerequisite or corequisite
+  - Related classes
+- Class relationships, indicated through directed edges, including: 
+  - Arrows to indicate prerequisite information
+  - Diamonds to indicate corequisite information
+
+Constellation supports:
+
+- Adding and removing classes
+- Saving, loading, resetting and creating new networks
+- Dynamic filtering for class attributes such as course and suggestion status
+
+## libraries
+
+Constellation uses or requires the following:
+  - FireRoad API (for course data)
+  - React-autosuggest.js
+  - vis.js
+
+Constellation also uses:
+- *Frontend*: Javascript, React, CSS
+- *Backend*: Javascript, Mongoose, MongoDB, Python notebook (for data processing)
 
 
-## How to integrate into your own project
 
-On GitHub download this repository as a zip file, then extract the files into your own repository.
-Warning: make sure you copy the hidden files too: .babelrc, .gitignore, .npmrc, and .prettierrc
-
-## don't touch
-
-the following files students do not need to edit. feel free to read them if you would like.
-
-```
-client/src/index.js
-client/src/utilities.js
-client/src/client-socket.js
-server/validator.js
-server/server-socket.js
-.babelrc
-.npmrc
-.prettierrc
-package-lock.json
-webpack.config.js
-```
-
-## Good luck on your project :)
