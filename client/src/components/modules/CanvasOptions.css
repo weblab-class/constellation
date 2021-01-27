@@ -29,7 +29,7 @@
 }
 
 .CanvasOptions-menuOpen {
-    flex-basis: 22%;
+    flex-basis: 15%;
     flex-shrink: 0;
     display: flex;
     border-radius: var(--s);
@@ -85,6 +85,11 @@
 }
 
 .CanvasOptions-load {
+    flex-basis: var(--spacing);
+
+}
+
+.CanvasOptions-filters {
     flex-basis: var(--spacing);
 
 }
