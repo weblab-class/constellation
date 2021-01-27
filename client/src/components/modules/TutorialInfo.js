@@ -77,6 +77,7 @@ class TutorialInfo extends Component {
                         <img src={addImg} className = "TutorialInfo-img"/>
                         <p>Translucent <b>suggested classes</b> branch off of each class. These classes are not yet added, but include prerequisites, corequisites, and related classes, or are themselves a pre- or corequisite to the central class.</p>
                         <p>Nodes are connected with <b>edges</b>. Arrows indicate prerequisites, while diamonds convey corequisites.</p>
+                        <p>The network's canvas supports zooming in and out as well as other interactive features such as dragging. Clicking nodes will bring up information in the display bar. </p>
                         <p>
                             Continue by clicking the <b>Add</b> button below.
                         </p>
@@ -192,7 +193,7 @@ class TutorialInfo extends Component {
                         <img src={filterImgOne} className = "TutorialInfo-img"/>
                         <p> To filter out Course 18, click the hamburger menu in the upper left corner, and click the <b>filter</b> button. Filter settings will pop up in the display bar. </p>
                         <img src={filterImgTwo} className = "TutorialInfo-img"/>
-                        <p> Uncheck the button labeled <b>Show Course 18 (Mathematics)</b>. Your network should then update to look something like the below. </p>
+                        <p> Uncheck the button labeled <b>Show Course 18 (Mathematics)</b>. Your network should then update to look something like the one shown below. </p>
                         <img src={filterImgThree} className = "TutorialInfo-img"/>
                         <p> Suppose we now further wish to see only the classes we've added. To do so, navigate again to the filter settings, as shown below.</p>
                         <img src={filterImgFive} className = "TutorialInfo-img"/>
