@@ -15,6 +15,7 @@ import filterImgTwo from '../images/Tutorial-filterTwo.png';
 import filterImgThree from '../images/Tutorial-filterThree.png';
 import filterImgFour from '../images/Tutorial-filterFour.png';
 import filterImgFive from '../images/Tutorial-filterFive.png';
+import structureImg from '../images/Tutorial-structure.png';
 
 import removeBefore from '../images/Tutorial-removeBefore.png';
 import removeAfter from '../images/Tutorial-removeAfter.png';
@@ -60,9 +61,10 @@ class TutorialInfo extends Component {
                 //console.log("blah blah");
                 toDisplay = (
                     <div>
-                        <p> Constellation unlocks the wealth of MIT’s web of knowledge through visualizing what it truly is — a huge directed graph!</p>
-                        <p>This short tutorial will introduce you to Constellation’s features.</p>
-                        <p>Start by clicking <b>Add</b> below! </p>
+                        <p> Constellation is an interactive course explorer, allowing users to visualize the wealth of classes at MIT, and their interdependencies, in a visually appealing and intuitive manner. </p>
+                        <p>This short tutorial will introduce you to Constellation’s features. The full structure of this tutorial is shown below. Try features out as you read about them, and revisit the tutorial when needed. </p> 
+                        <img src={structureImg} className = "TutorialInfo-img"/>
+                        <p>Start by clicking <b>Add</b> below! Have fun :D </p>
                     </div>
                 );
                 break;
@@ -147,7 +149,7 @@ class TutorialInfo extends Component {
                 toDisplay = (
                     <div>
                         <p> To save your file, press the <b>Save</b> button in the navigation bar.</p>
-                        <p>If your current network was saved previously, the current contents will be updated. Otherwise, you will be prompted to enter a name.</p>
+                        <p>If your current network was saved previously, the current contents will be updated. Otherwise, you will be prompted to enter a name. Saving a file will also save its filter settings so that reloading a file will cause its filter settings at the time of save to be reloaded as well. </p>
                     </div>
                 )
                 break;
@@ -155,7 +157,7 @@ class TutorialInfo extends Component {
             case '&T.LOAD': {
                 toDisplay = (
                     <div>
-                        <p> To load past networks, press the <b>Load</b> button in the navigation bar. A list of your previously saved networks will appear in the sidebar. Load a graph’s contents by pressing <b>Load</b>. </p>
+                        <p> To load past networks, press the <b>Load</b> button in the navigation bar. A list of your previously saved networks will appear in the sidebar. Load a network's contents by pressing <b>Load</b>. When you load a file, it will load its filter settings as well. </p>
                         <p>Be sure to save your current file's contents before loading!</p>
                     </div>
                 )
@@ -191,7 +193,7 @@ class TutorialInfo extends Component {
                     <div>
                         <p> Constellation allows you to filter your current network by toggling whether or not certain courses, or suggestions, are visible in your network. Let's walk through an example. Suppose you're a Course 6 major, and don't want any Course 18 classes (the green nodes below) popping up in your network, which looks like the one shown below. </p>
                         <img src={filterImgOne} className = "TutorialInfo-img"/>
-                        <p> To filter out Course 18, click the hamburger menu in the upper left corner, and click the <b>filter</b> button. Filter settings will pop up in the display bar. </p>
+                        <p> To filter out Course 18, click the <b>filter</b> button in the navigation bar. Filter settings will pop up in the display bar. </p>
                         <img src={filterImgTwo} className = "TutorialInfo-img"/>
                         <p> Uncheck the button labeled <b>Show Course 18 (Mathematics)</b>. Your network should then update to look something like the one shown below. </p>
                         <img src={filterImgThree} className = "TutorialInfo-img"/>
