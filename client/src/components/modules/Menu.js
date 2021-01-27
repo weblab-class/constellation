@@ -24,6 +24,7 @@ class Menu extends Component {
     return (
     <>
         <div className={classAddOn}>
+
         <div className="Menu-about"><p className="u-bold">What does constellation do?</p> 
         <p>Constellation empowers you to dive into the wealth of classes at MIT through a dynamic and interactive experience.</p></div> 
         <div className="Menu-getStarted"><p className="u-bold">Get Started</p> 

@@ -9,6 +9,7 @@
   font-size: 16px;
   padding: var(--s) var(--s);
   outline: none;
+  cursor: pointer;
 }
 
 .About-button {
@@ -19,5 +20,5 @@
 }
 
 .About-button:hover {
-  background-color: #a8dadc;
+  background-color: #ccebec;
 }
