@@ -10,6 +10,11 @@ import addImgFive from '../images/Tutorial-addingFive.png';
 import addImgSix from '../images/Tutorial-addingSix.png';
 import searchImgName from '../images/Tutorial_dropdownName.png';
 import searchImgPhrase from '../images/Tutorial_dropdownPhrase.png';
+import filterImgOne from '../images/Tutorial-filterOne.png';
+import filterImgTwo from '../images/Tutorial-filterTwo.png';
+import filterImgThree from '../images/Tutorial-filterThree.png';
+import filterImgFour from '../images/Tutorial-filterFour.png';
+import filterImgFive from '../images/Tutorial-filterFive.png';
 
 import removeBefore from '../images/Tutorial-removeBefore.png';
 import removeAfter from '../images/Tutorial-removeAfter.png';
@@ -35,6 +40,7 @@ const TUTORIAL_HEADERS = {
     '&T.RESET': "Resetting",
     '&T.NEW': "New File",
     '&T.ABOUT': 'About',
+    '&T.FILTER': 'Filtering',
 }
 
 class TutorialInfo extends Component {
@@ -178,6 +184,23 @@ class TutorialInfo extends Component {
                     </div>
                 )
                 break;
+            }
+            case '&T.FILTER': {
+                toDisplay = (
+                    <div>
+                        <p> Constellation allows you to filter your current network by toggling whether or not certain courses, or suggestions, are visible in your network. Let's walk through an example. Suppose you're a Course 6 major, and don't want any Course 18 classes (the green nodes below) popping up in your network, which looks like the one shown below. </p>
+                        <img src={filterImgOne} className = "TutorialInfo-img"/>
+                        <p> To filter out Course 18, click the hamburger menu in the upper left corner, and click the <b>filter</b> button. Filter settings will pop up in the display bar. </p>
+                        <img src={filterImgTwo} className = "TutorialInfo-img"/>
+                        <p> Uncheck the button labeled <b>Show Course 18 (Mathematics)</b>. Your network should then update to look something like the below. </p>
+                        <img src={filterImgThree} className = "TutorialInfo-img"/>
+                        <p> Suppose we now further wish to see only the classes we've added. To do so, navigate again to the filter settings, as shown below.</p>
+                        <img src={filterImgFive} className = "TutorialInfo-img"/>
+                        <p> After unchecking <b> Show Suggested Nodes </b>, your network should look something like the one below. </p>
+                        <img src={filterImgFour} className = "TutorialInfo-img"/>
+                        <p> Filtering does not affect the underlying data set. When you save a network, the filter settings will also be saved. If an added node does not appear, be sure to check that you are not filtering out that course! This will cause the node to appear to have not been added, when really you have just rendered it invisible. </p>
+                    </div>
+                )
             }
         };
         

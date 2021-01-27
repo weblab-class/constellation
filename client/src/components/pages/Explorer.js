@@ -31,11 +31,12 @@ import { get, post } from "../../utilities";
     '&T.NEW': ['&T.FILE'],
     '&T.RESET': ['&T.BASICS'],
     '&T.ABOUT': ['&T.START'],
+    '&T.FILTER': ['&T.BASICS'],
  }
 
  const TUTORIAL_AFTERREQS = {
     '&T.START': ['&T.BASICS','&T.FILE','&T.ABOUT'],
-    '&T.BASICS': ['&T.ADD','&T.REMOVE','&T.SEARCH','&T.RESET'],
+    '&T.BASICS': ['&T.ADD','&T.REMOVE','&T.SEARCH','&T.RESET','&T.FILTER'],
     '&T.ADD': [],
     '&T.REMOVE': [],
     '&T.SEARCH': [],
@@ -45,11 +46,12 @@ import { get, post } from "../../utilities";
     '&T.RESET': [],
     '&T.NEW': [],
     '&T.ABOUT': [],
+    '&T.FILTER': [],
  }
 
 
 //manually override the following classes which have obstructive numbers of afterreqs
-const RESTRICT_SUGGESTIONS = ['8.02', '8.022', '18.02', '18.02A', '18.022', '18.03', '18.06']
+const RESTRICT_SUGGESTIONS = []; //currently empty, problem resolved via dynamic filtering capability
 
 //GIRS and generic equivalents for referencse
 // '8.01','8.011','8.01L','8.012'
