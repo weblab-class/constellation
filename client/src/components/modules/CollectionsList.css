@@ -4,11 +4,11 @@
 }
 
 .CollectionsList-listElement {
-    font-size: 20px;
+    font-size: 25px;
     text-align: left;
     border-radius: var(--s);
     font-family: Comfortaa;
-    padding: 15px 0 15px 5px;
+    padding: 30px 0 30px 5px;
     transition: 0.5s all;
     background-color: #FBFFF1;
     overflow-wrap: break-word;

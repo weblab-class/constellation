@@ -122,7 +122,7 @@ class SearchBar extends Component {
             value: this.state.inputText,
             onChange: this.onChange,
             onKeyDown: this.handleKeyDown,
-            disabled: this.props.isDisplayCollections,
+            disabled: this.props.isDisplayCollections || this.props.optionsAreDisplayed,
         };
 
         return (
@@ -139,7 +139,7 @@ class SearchBar extends Component {
                 <button
                     type="submit"
                     className="SearchBar-button"
-                    disabled={this.props.isDisplayCollections}
+                    disabled={this.props.isDisplayCollections||this.props.optionsAreDisplayed}
                     onClick={this.glassClick}
                 >
                     <GoTelescope size="3vh" />

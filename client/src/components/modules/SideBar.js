@@ -38,6 +38,7 @@ class SideBar extends Component {
                 <SearchBar 
                     setCourseObject={this.props.setCourseObject}
                     isDisplayCollections={this.props.isDisplayCollections}
+                    optionsAreDisplayed={this.props.optionsAreDisplayed}
                 />
                 <DisplayBar 
                     courseObject={this.props.courseObject} 
@@ -51,6 +52,8 @@ class SideBar extends Component {
                     setToNoCollections={this.props.setToNoCollections}
                     setToLoaded={this.props.setToLoaded}
                     loaded={this.props.loaded}
+                    optionsAreDisplayed={this.props.optionsAreDisplayed}
+                    toggleFilterValue = {this.props.toggleFilterValue}
                 />
             </>
         )
