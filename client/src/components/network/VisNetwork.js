@@ -492,7 +492,7 @@ class VisNetwork extends Component {
    getFilterData = () => {
      const filterArray = [];
      FILTER_LIST.forEach((attribute) => {
-       const filterSetting = this.filterValues[attribute] ? 1 : 0;
+       const filterSetting = this.filterValues[attribute];
        filterArray.push(filterSetting);
      });
      return filterArray;
@@ -523,6 +523,8 @@ class VisNetwork extends Component {
     console.log(this.adjacencyCount);
     console.log("PRITING EXPORT DATA");
     this.printCurrentExportData();
+    console.log("FILTER_LIST");
+    console.log(FILTER_LIST);
    }
 
    printCurrentExportData = () => {
@@ -622,6 +624,7 @@ class VisNetwork extends Component {
 
   //TODO - have it also update load settings (so that loading a network loads the saved settings as well)
    setNetworkToNewData =  async (newNodes, newEdges, newNodeIds, newEdgeIds) => {
+     this.filter=true;
       this.nodeView = new DataView(newNodes, {filter: this.nodesFilter});
       this.edgeView = new DataView(newEdges, {filter: this.edgesFilter});
       this.network.setData({
@@ -697,10 +700,12 @@ class VisNetwork extends Component {
    loadNetwork = async () => {
      //handle loadNetwork stuff
       let newNetworkData = await this.props.importNetwork();
-      console.log(newNetworkData);
       const nodeArray = newNetworkData.nodeArray;
       const edgeArray = newNetworkData.edgeArray;
-      const filterObject = newNetworkData.filterObject; //this is already an object, as its been processed in explorer
+      const newFilterValues = newNetworkData.filterObject;
+      Object.keys(newFilterValues).forEach((key) => {
+        this.filterValues[key] = newFilterValues[key];
+      });
       //create data = {nodes: , edges: }, and edgeId's, and suggestionId's
       let newNodes = this.parseForNodeData(nodeArray);
       let newEdges = this.parseForEdgeData(edgeArray);
@@ -709,15 +714,14 @@ class VisNetwork extends Component {
       //update isSuggestionDict
       this.setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
 
-      //update filter status
-      this.filterValues = filterObject;
-      this.nodeView.refresh();
-      this.edgeView.refresh();
-
       //update isSuggestionDict to reflect new data
       this.setSuggestionDictToNewData(nodeArray);
       //update adjacencyCounts to reflect new data
       this.setAdjacencyCountToNewData(); //TO DO
+
+      //refresh filter with added information
+      this.nodeView.refresh();
+      this.edgeView.refresh();
 
       //test new network
       // this.printCurrentNetworkData();
@@ -736,6 +740,7 @@ class VisNetwork extends Component {
     }
     const courseId = this.getCourseId(nodeId);
     if(!this.filterValues[courseId]) return false;
+
     return true;
   };
 
