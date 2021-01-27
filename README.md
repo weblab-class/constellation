@@ -5,7 +5,7 @@ https://constellation-webteam.herokuapp.com/
 
 ## about
 
-Constellation is an interactive, dynamic course explorer. Visualize the wealth of classes at MIT and explore suggestions by adding classes one-by-one to a directed graph network.
+Constellation is an interactive course explorer, allowing users to visualize the wealth of classes at MIT, and their interdependencies, in a visually-appealing and intuitive manner.
 
 ## acknowledgments
 
@@ -15,14 +15,14 @@ Constellation was made possible by several libraries, including React-autosugges
 
 ## features
 
-Constellation allows users to construct directed graphs network visualizing course dependencies (read: prerequisites, corequisites, etc) and connections present in the MIT course catalog. Information provided includes:
+Constellation allows users to construct directed networks visualizing course dependencies (read: prerequisites, corequisites, etc) and connections present in the MIT course catalog. Information provided includes:
 
 - Suggested classes, including:
   - Prerequisites
   - Corequisites
   - Subjects that follow a prerequisite or corequisite
   - Related classes
-- Class relationships, indicated through directed edges including: 
+- Class relationships, indicated through directed edges, including: 
   - Arrows to indicate prerequisite information
   - Diamonds to indicate corequisite information
 
@@ -30,7 +30,7 @@ Constellation supports:
 
 - Adding and removing classes
 - Saving, loading, resetting and creating new networks
-- Filtering networks by course and other attributes
+- Dynamic filtering for class attributes such as course and suggestion status
 
 ## libraries
 
