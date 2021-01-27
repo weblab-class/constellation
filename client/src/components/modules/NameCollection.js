@@ -34,7 +34,7 @@ class NameCollection extends Component {
 
         // 1/22: https://stackoverflow.com/questions/43384039/how-to-get-input-textfield-values-when-enter-key-is-pressed-in-react-js
         if (event.keyCode === 13) { //checks if Enter key was pressed.
-            console.log("The enter key was pressed!");
+            //console.log("The enter key was pressed!");
             this.setState({
                 inputText: event.target.value
             }, () => {
@@ -76,7 +76,7 @@ class NameCollection extends Component {
     localHandleNameSubmission = async (inputText) => {
 
         const isValidName = await this.validName(inputText.trim())
-        console.log(isValidName);
+       // console.log(isValidName);
 
         if (!isValidName) {
 

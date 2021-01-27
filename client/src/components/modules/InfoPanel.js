@@ -19,7 +19,7 @@ class InfoPanel extends Component {
   }
 
   render() {
-    console.log("message to infopanel:", this.props.popupMessage);
+    //console.log("message to infopanel:", this.props.popupMessage);
     let className = this.props.popupMessage === "popup" ? "InfoPanel-container InfoPanel-panelClose" : "InfoPanel-container InfoPanel-panelOpen";
     return (
       <div className={className}>
