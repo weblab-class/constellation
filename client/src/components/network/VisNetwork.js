@@ -79,6 +79,7 @@ const TUTORIAL_LABELS = {
   '&T.SAVE': "Saving",
   '&T.LOAD': 'Loading',
   '&T.ABOUT': 'About',
+  '&T.FILTER': 'Filtering',
 }
 
 class VisNetwork extends Component {
