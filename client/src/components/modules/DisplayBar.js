@@ -62,7 +62,7 @@ class DisplayBar extends Component {
     }
 
     handleLoadButtonClick = () => {
-        console.log("collectionName, DisplayBar 62: ", this.state.collectionName);
+        //console.log("collectionName, DisplayBar 62: ", this.state.collectionName);
         this.props.handleLoadCollection(this.state.collectionName);
     }
 
@@ -104,7 +104,7 @@ class DisplayBar extends Component {
                 className="DisplayBar-button"
                 onClick={this.handleCancel}
             >
-                Exit Options
+                Exit Filters
             </button>
         }
         else if (this.props.isDisplayCollections) {

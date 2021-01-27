@@ -47,11 +47,11 @@ class TutorialInfo extends Component {
     render() {
         const tutorialId = this.props.tutorialName;
         const tutorialHeader = TUTORIAL_HEADERS[tutorialId];
-        console.log("tutorial id is:" + tutorialId);
+        //console.log("tutorial id is:" + tutorialId);
         let toDisplay;
         switch(tutorialId){
             case '&T.START': {
-                console.log("blah blah");
+                //console.log("blah blah");
                 toDisplay = (
                     <div>
                         <p> Constellation unlocks the wealth of MIT’s web of knowledge through visualizing what it truly is — a huge directed graph!</p>

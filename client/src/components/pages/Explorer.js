@@ -183,7 +183,7 @@ class Explorer extends Component {
     }
 
     setToInactivePopup = () => {
-        console.log("timer:", timer);
+        //console.log("timer:", timer);
         if (timer !== 0) {
             clearTimeout(timer);
             timer = 0;
@@ -206,7 +206,7 @@ class Explorer extends Component {
             input = input.slice(0, input.length-1);
         }
 
-        console.log("Setting course object to: " + input);
+        //console.log("Setting course object to: " + input);
         if(input.includes('&')){
             this.setState({
                 courseObject: {
@@ -229,7 +229,7 @@ class Explorer extends Component {
             }
             else {
                 const courseObjectFromAPI = courseArray[0];
-                console.log(courseObjectFromAPI);
+                //console.log(courseObjectFromAPI);
                 this.setState({
                     courseObject: {
                         found: true,
@@ -248,7 +248,7 @@ class Explorer extends Component {
             }
 
         }).catch((err) => {
-            console.log("There was an error retrieving a course object for a side bary query. Specific error message:", err.message);
+            //console.log("There was an error retrieving a course object for a side bary query. Specific error message:", err.message);
         });
     }
 
@@ -272,10 +272,10 @@ class Explorer extends Component {
                 coreqsToAdd: graphInfo[0].corequisites.map(classId => classId.trim()),
                 afterreqsToAdd: graphInfo[0].afterSubjects.map(classId => classId.trim()),
             };
-            console.log(newClassesToAdd);
+            //console.log(newClassesToAdd);
             return newClassesToAdd;
         }).catch((err) => {
-            console.log("There was an error retrieving classes.");
+            //console.log("There was an error retrieving classes.");
             const newClassesToAdd = {
                 prereqsToAdd: [],
                 coreqsToAdd: [],
@@ -312,7 +312,7 @@ class Explorer extends Component {
         //Triggers VisNetwork loading of a collection
 
         if (!collectionName) {
-            console.log("current collection name is undefined");
+            //console.log("current collection name is undefined");
             return;
         }
         this.setState({
@@ -347,7 +347,7 @@ class Explorer extends Component {
             isSaved: true,
         }, () => {
             this.setState({ isSavedCounter: this.state.isSavedCounter + 1 });
-            console.log("Told saved counter to increment in explorer");
+            //console.log("Told saved counter to increment in explorer");
         });
 
     }
@@ -355,7 +355,7 @@ class Explorer extends Component {
     handleSaveCollection = _.debounce(() => {
         // Activates NameCollection to save collection, activates network save
         if (!this.state.currentCollectionName) { //This activates the conditional rendering for name collection.
-            console.log("Collection name is undefined.")
+            //console.log("Collection name is undefined.")
             this.setState({
                 newCollectionNameCounter: this.state.newCollectionNameCounter + 1, //passed as a prop to name collection
                 //Note that the tellVisNetworkToExport is called within Name Collection,
@@ -376,7 +376,7 @@ class Explorer extends Component {
 
         
         get("/api/collectionNames").then((collectionsArrayFromAPI) => {
-            console.log(collectionsArrayFromAPI);
+            //console.log(collectionsArrayFromAPI);
             if (collectionsArrayFromAPI.length > 0) {
                 this.setState({ collectionsArray: collectionsArrayFromAPI[0].names });
             }
@@ -411,10 +411,10 @@ class Explorer extends Component {
         //handleSaveCollection should guarantee that valid name will be set,
         //  before this function (or even Vis saving) is ever prompted.
 
-        console.log("Posting the current name : " + this.state.currentCollectionName);
-        console.log("UPLOADING NETWORK TO MONGO");
-        console.log("NETWORK BEING SAVED: ");
-        console.log(graphObject);
+        //console.log("Posting the current name : " + this.state.currentCollectionName);
+        //console.log("UPLOADING NETWORK TO MONGO");
+        //console.log("NETWORK BEING SAVED: ");
+        //console.log(graphObject);
         post("/api/saveCollection", {
 
             collectionName: this.state.currentCollectionName,
@@ -501,7 +501,7 @@ class Explorer extends Component {
                 collectionName: this.state.currentCollectionName
             });
             if (!networkObject) {
-                console.log("Network object is null or undefined! No network was retrieved.")
+                //console.log("Network object is null or undefined! No network was retrieved.")
             }
             const filterArray = networkObject.filterObject;
             const filterObject = this.arrayToObject(filterArray);
@@ -535,11 +535,12 @@ class Explorer extends Component {
 
     displayOptions = () => {
         this.setState({
-            optionsAreDisplayed: true
-        });
+            optionsAreDisplayed: true,
+            popupMessage: "filter loaded..."
+        },this.setToInactivePopup);
     }
 
-    toggleFilterValue = _.debounce((filterId) => {
+    toggleFilterValue = (filterId) => {
         let newFilterObject = {};
         Object.keys(this.state.filterObject).forEach((key) => {
             newFilterObject[key] = (key === filterId) ? (!this.state.filterObject[key]) : this.state.filterObject[key];
@@ -549,9 +550,9 @@ class Explorer extends Component {
             isSavedCounter: this.state.isSavedCounter + 1,
             filterToToggle: filterId,
             filterCounter: this.state.filterCounter+1,
-            filterObject: newFilterObject,
+            filterObject: newFilterObject,   
         });
-    }, 500);
+    };
 
     // componentDidMount() {}
 
