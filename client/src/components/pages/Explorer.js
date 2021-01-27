@@ -128,6 +128,32 @@ class Explorer extends Component {
             collectionsArray: [], //array of collection names for the user
             loaded: false,
             popupMessage: "popup",
+            filterObject: {
+                'suggestion': 1, //whether or not to view suggestions
+                '&T':1, //tutorial
+                "1":1,
+                "2":1,
+                "3":1, 
+                "4":1,
+                "5":1,
+                "6":1,
+                "7":1,
+                "8":1,
+                "9":1,
+                "10":1,
+                "11":1,
+                "12":1,
+                "14":1,
+                "15":1,
+                "15":1,
+                "16":1,
+                "17":1,
+                "18":1,
+                "20":1,
+                "21":1,
+                "22":1,
+                "24":1,
+            }
         }
     }
 
@@ -362,12 +388,16 @@ class Explorer extends Component {
         //  before this function (or even Vis saving) is ever prompted.
 
         console.log("Posting the current name : " + this.state.currentCollectionName);
+        console.log("UPLOADING NETWORK TO MONGO");
+        console.log("NETWORK BEING SAVED: ");
+        console.log(graphObject);
         post("/api/saveCollection", {
 
             collectionName: this.state.currentCollectionName,
             nodeArray: graphObject.nodes,
             edgeArray: graphObject.edges,
             filterObject: graphObject.filterObject,
+
         }).catch((err) => {
             console.log("There was an error loading a collection for the user. Specific error message:", err.message);
         });
@@ -384,6 +414,38 @@ class Explorer extends Component {
         });
     }
 
+
+    //converts filter array from mongoDB to filter object of the form easily usable by visNetwork and Options
+    arrayToObject = (filterArray) => {
+        const filterObject = {
+            'suggestion': filterArray[0], //whether or not to view suggestions
+            '&T':filterArray[1], //tutorial
+            "1":filterArray[2],
+            "2":filterArray[3],
+            "3":filterArray[4], 
+            "4":filterArray[5],
+            "5":filterArray[6],
+            "6":filterArray[7],
+            "7":filterArray[8],
+            "8":filterArray[9],
+            "9":filterArray[10],
+            "10":filterArray[11],
+            "11":filterArray[12],
+            "12":filterArray[13],
+            "14":filterArray[14],
+            "15":filterArray[15],
+            "15":filterArray[16],
+            "16":filterArray[17],
+            "17":filterArray[18],
+            "18":filterArray[19],
+            "20":filterArray[20],
+            "21":filterArray[21],
+            "22":filterArray[22],
+            "24":filterArray[23],
+        }
+        return filterObject;
+    }
+
     importNetwork = async () => {
         //uses this.state.collectionName
         //returns network object so that Vis can use it
@@ -395,7 +457,14 @@ class Explorer extends Component {
             if (!networkObject) {
                 console.log("Network object is null or undefined! No network was retrieved.")
             }
-            return networkObject;
+            const filterArray = networkObject.filterObject;
+            const filterObject = this.arrayToObject(filterArray);
+            const refinedNetworkObject = {
+                nodeArray: networkObject.nodeArray,
+                edgeArray: networkObject.edgeArray,
+                filterObject: filterObject,
+            }
+            return refinedNetworkObject;
 
         } catch (err) {
             console.log("There was an error loading a collection for the user. Specific error message:", err.message);

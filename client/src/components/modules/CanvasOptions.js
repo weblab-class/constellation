@@ -13,7 +13,7 @@ import "./CanvasOptions.css";
  * @param {Function} resetCanvas callback function to clear graph, display bar
  * @param {Function} handleSaveCollection passed to SaveCollection
  * @param {Function} handleUserCollections passed to UserCollection
- * @param {Boolean} isDisplayCollections whether to display collections or class information, used in new, save, and reset
+ * @param {Boolean} isDisplayCollections passed to SaveCollection 
  * @param {Function} handleLogout passed to dropdown
  * @param {String} currentCollectionName passed to NameCollection
  * @param {Number} newCollectionNameCounter passed to NameCollection, tracks whether need to request user input for name
@@ -57,6 +57,13 @@ class CanvasOptions extends Component {
         this.returnHome();
     }
 
+    //componentDidMount(){}
+
+    /*
+   */
+
+
+
     render() {
         return (
             <>
@@ -87,6 +94,7 @@ class CanvasOptions extends Component {
                             {this.state.showDropdown ? <ImCross size="1.2vw" /> : <GiHamburgerMenu size="1.2vw" />}
                         </button>
                     </div>
+
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-load"
@@ -121,18 +129,15 @@ class CanvasOptions extends Component {
                     >
                         reset
                     </button>
-                    <div className="CanvasOptions-verticalLine"></div>
-                    <div className="CanvasOptions-name">
-                        <NameCollection
-                            currentCollectionName={this.props.currentCollectionName}
-                            newCollectionNameCounter={this.props.newCollectionNameCounter}
-                            isSaved={this.props.isSaved}
-                            isSavedCounter={this.props.isSavedCounter}
-                            switchedCollectionCounter={this.props.switchedCollectionCounter}
-                            setCollectionName={this.props.setCollectionName}
-                            tellVisNetworkToExport={this.props.tellVisNetworkToExport}
-                        />
-                    </div>
+
+                    <NameCollection
+                        currentCollectionName={this.props.currentCollectionName} 
+                        newCollectionNameCounter={this.props.newCollectionNameCounter}
+                        isSaved={this.props.isSaved}
+                        isSavedCounter={this.props.isSavedCounter}
+                        setCollectionName={this.props.setCollectionName}
+                        tellVisNetworkToExport={this.props.tellVisNetworkToExport}
+                    />
 
                 </nav>
             </>
