@@ -485,6 +485,9 @@ class Explorer extends Component {
             "MS":filterArray[40],
             "NS":filterArray[41],
             "SCM":filterArray[42],
+            "SP":filterArray[43],
+            "STS":filterArray[44],
+            "SGS":filterArray[45],
         }
         return filterObject;
     }

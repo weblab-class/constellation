@@ -789,5 +789,3 @@ class VisNetwork extends Component {
 }
 
 export default VisNetwork;
-
-//24, STS, WGS, SP
