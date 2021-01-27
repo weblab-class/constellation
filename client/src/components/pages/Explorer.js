@@ -161,6 +161,7 @@ class Explorer extends Component {
                 "21M":1,
                 "21W":1,
                 "22":1,
+                "24":1,
                 "AS":1,
                 "CC":1,
                 "CMS":1,
@@ -175,6 +176,8 @@ class Explorer extends Component {
                 "NS":1,
                 "SCM":1,
                 "SP":1,
+                "STS":1,
+                "WGS":1,
               }
         }
     }
