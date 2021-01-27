@@ -33,7 +33,6 @@ class Login extends Component {
   }
 
   toggleMenu = () => {
-    console.log("clicky");
     this.setState({
       displayMenu: !this.state.displayMenu,
     });
@@ -47,13 +46,14 @@ class Login extends Component {
   render() {
     console.log(this.state.displayMenu);
     return (
-        <div className = "Login-container">
+        <div className="Login-container" onClick={this.toggleMenu}>
           {this.props.userId ? (
               <GoogleLogout
               clientId={GOOGLE_CLIENT_ID}
               buttonText="Logout"
               onLogoutSuccess={this.props.handleLogout}
               onFailure={(err) => console.log(err)}
+
               />
           ) : (
               <GoogleLogin

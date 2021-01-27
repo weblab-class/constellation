@@ -19,34 +19,31 @@ import { get, post } from "../../utilities";
  * @param {Function} handleLogout passed to CanvasOptions
  */
 
-const TUTORIAL_PREREQS = {
+ const TUTORIAL_PREREQS = {
     '&T.START': [],
-    '&T.BASICS': ['&T.START'],
-    '&T.ADD': ['&T.BASICS'],
-    '&T.REMOVE': ['&T.BASICS'],
-    '&T.SEARCH': ['&T.BASICS'],
+    '&T.GRAPH': ['&T.START'],
+    '&T.ADD': ['&T.START'],
+    '&T.REMOVE': ['&T.START'],
     '&T.FILE': ['&T.START'],
     '&T.SAVE': ['&T.FILE'],
     '&T.LOAD': ['&T.FILE'],
     '&T.NEW': ['&T.FILE'],
-    '&T.RESET': ['&T.BASICS'],
+    '&T.RESET': ['&T.START'],
     '&T.ABOUT': ['&T.START'],
-}
-
+ }
 
  const TUTORIAL_AFTERREQS = {
-    '&T.START': ['&T.BASICS','&T.FILE','&T.ABOUT'],
-    '&T.BASICS': ['&T.ADD','&T.REMOVE','&T.SEARCH','&T.RESET'],
+    '&T.START': ['&T.GRAPH','&T.ADD','&T.REMOVE','&T.FILE','&T.RESET'],
+    '&T.GRAPH': [],
     '&T.ADD': [],
     '&T.REMOVE': [],
-    '&T.SEARCH': [],
     '&T.FILE': ['&T.SAVE','&T.LOAD', '&T.NEW'],
     '&T.SAVE': [],
     '&T.LOAD': [],
     '&T.RESET': [],
     '&T.NEW': [],
     '&T.ABOUT': [],
-}
+ }
 
 
 //manually override the following classes which have obstructive numbers of afterreqs
@@ -62,30 +59,30 @@ const RESTRICT_SUGGESTIONS = ['8.02', '8.022', '18.02', '18.02A', '18.022', '18.
 //TODO - MANUALLY "ADD IN SOME AFTER-CLASSES" (especially for 18.03 and 18.06)
 const RESTRICT_REPLACEMENTS = {
     '8.02': {
-        prereqsToAdd: ['8.01', '8.011', '8.01L', '8.012', '18.01', '18.01A'],
+        prereqsToAdd: ['8.01','8.011','8.01L','8.012','18.01','18.01A'],
         coreqsToAdd: ['18.02', '18.02A'],
         afterreqsToAdd: [],
-    },
+    }, 
     '8.022': {
-        prereqsToAdd: ['8.01', '8.011', '8.01L', '8.012', '18.01', '18.01A'],
+        prereqsToAdd: ['8.01','8.011','8.01L','8.012','18.01','18.01A'],
         coreqsToAdd: ['18.02', '18.02A'],
         afterreqsToAdd: [],
-    },
+    }, 
     '18.02': {
-        prereqsToAdd: ['18.01', '18.01A'],
+        prereqsToAdd: ['18.01','18.01A'],
         coreqsToAdd: [],
         afterreqsToAdd: [],
-    },
+    }, 
     '18.02A': {
-        prereqsToAdd: ['18.01', '18.01A'],
+        prereqsToAdd: ['18.01','18.01A'],
         coreqsToAdd: [],
         afterreqsToAdd: [],
-    },
+    }, 
     '18.022': {
-        prereqsToAdd: ['18.01', '18.01A'],
+        prereqsToAdd: ['18.01','18.01A'],
         coreqsToAdd: [],
         afterreqsToAdd: [],
-    },
+    }, 
     '18.03': {
         prereqsToAdd: [],
         coreqsToAdd: [],
@@ -99,6 +96,8 @@ const RESTRICT_REPLACEMENTS = {
 }
 
 let timer = 0;
+
+
 
 class Explorer extends Component {
     constructor(props) {
@@ -117,7 +116,7 @@ class Explorer extends Component {
             removeClassCounter: 0,
             saveCanvasCounter: 0,
             loadCollectionCounter: 0,
-            switchedCollectionCounter: 0,
+            switchedCollectionCounter : 0,
             courseObject: undefined,
             isDisplayCollections: false,
             newCollectionNameCounter: 0,
@@ -128,6 +127,7 @@ class Explorer extends Component {
             collectionsArray: [], //array of collection names for the user
             loaded: false,
             popupMessage: "popup",
+
             filterObject: {
                 'suggestion': 1, //whether or not to view suggestions
                 '&T':1, //tutorial
@@ -182,7 +182,7 @@ class Explorer extends Component {
             clearTimeout(timer);
             timer = 0;
         }
-
+    
         timer = setTimeout(() => {
             timer = 0;
             this.setState({
@@ -191,16 +191,17 @@ class Explorer extends Component {
         }, 1500);
     };
 
+
     setCourseObject = (input) => {
         //first check if being set to tutorial
         const orig_input = input;
         input = input.split(' ')[0];
-        if (input.length > 0 && input[input.length - 1] === ":") {
-            input = input.slice(0, input.length - 1);
+        if(input.length > 0 && input[input.length-1] === ":") {
+            input = input.slice(0, input.length-1);
         }
 
         console.log("Setting course object to: " + input);
-        if (input.includes('&')) {
+        if(input.includes('&')){
             this.setState({
                 courseObject: {
                     found: true,
@@ -248,7 +249,7 @@ class Explorer extends Component {
 
     //returns neighbors for the class and updates state so that network re-renders
     getNeighbors = (inputText) => {
-        if (inputText.includes('&')) {
+        if(inputText.includes('&')){
             const newClassesToAdd = {
                 prereqsToAdd: TUTORIAL_PREREQS[inputText],
                 coreqsToAdd: [],
@@ -256,7 +257,7 @@ class Explorer extends Component {
             }
             return newClassesToAdd;
         }
-        else if (RESTRICT_SUGGESTIONS.includes(inputText)) {
+        else if(RESTRICT_SUGGESTIONS.includes(inputText)){
             return RESTRICT_REPLACEMENTS[inputText];
         }
         return get("/api/graphNode", { subjectId: inputText }).then((graphInfo) => {
@@ -313,24 +314,24 @@ class Explorer extends Component {
             currentCollectionName: collectionName,
             isDisplayCollections: false,
             loaded: false,
-            isSaved: true,
-            isSavedCounter: this.state.isSavedCounter + 1,
-            switchedCollectionCounter: this.state.switchedCollectionCounter + 1,
+            isSaved : true,
+            isSavedCounter : this.state.isSavedCounter + 1,
+            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
         });
     }
 
     setToNoCollections = () => {
         this.setState({
             isDisplayCollections: false,
-            popupMessage: "exiting..."
+            optionsAreDisplayed: false,
+            popupMessage: "exiting...",
         }, this.setToInactivePopup);
     }
 
     setCollectionName = (newName) => {
         this.setState({
-            currentCollectionName: newName,
-            popupMessage: "collection saved..."
-        }, this.setToInactivePopup);
+            currentCollectionName: newName
+        })
     }
 
     //also passed as prop to name collections
@@ -356,9 +357,6 @@ class Explorer extends Component {
             });
         } else {
             this.tellVisNetworkToExport();
-            this.setState({
-                popupMessage: "constellation saved..."
-            }, this.setToInactivePopup);
         }
     }, 1000);
 
@@ -370,7 +368,7 @@ class Explorer extends Component {
         // 1/16: setState is async
         // https://stackoverflow.com/questions/36085726/why-is-setstate-in-reactjs-async-instead-of-sync
 
-
+        
         get("/api/collectionNames").then((collectionsArrayFromAPI) => {
             console.log(collectionsArrayFromAPI);
             if (collectionsArrayFromAPI.length > 0) {
@@ -386,6 +384,7 @@ class Explorer extends Component {
             //collectionsArray: ["asdf", "sdfa", "dfas", "fasd", "asdfasdfasdf", "asdfasdffdsa", "asdfafdsasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"],
         }, this.setToInactivePopup);
 
+
     }
 
 
@@ -394,9 +393,9 @@ class Explorer extends Component {
             canvasToBeReset: this.state.canvasToBeReset + 1,
             newClass: '',
             removeClass: '',
-            popupMessage: "cleared current canvas!",
             isSaved: false,
             isSavedCounter: this.state.isSavedCounter + 1,
+            popupMessage: 'current canvas cleared!'
         }, this.setToInactivePopup);
     }
 
@@ -514,14 +513,23 @@ class Explorer extends Component {
 
         this.handleResetCanvas(); //This will clear the canvas itself
         this.setState({
-            currentCollectionName: null, //This will exit saving/loading on top of the old canvas
-            isSaved: false,
-            isSavedCounter: this.state.isSavedCounter + 1,
-            switchedCollectionCounter: this.state.switchedCollectionCounter + 1,
-            popupMessage: "new constellation created!"
+            currentCollectionName : null, //This will exit saving/loading on top of the old canvas
+            isSaved : false,
+            isSavedCounter : this.state.isSavedCounter + 1,
+            switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
+            popupMessage: "New collection created!"
         }, this.setToInactivePopup);
     }
 
+    displayOptions = () => {
+        this.setState({
+            optionsAreDisplayed: true
+        });
+    }
+
+    toggleFilterValue = (filterId) => {
+
+    }
     // componentDidMount() {}
 
     //BELOW: Change the NamePopUp to be a real popup
@@ -544,6 +552,8 @@ class Explorer extends Component {
                             tellVisNetworkToExport={this.tellVisNetworkToExport}
                             handleLogout={this.props.handleLogout}
                             handleNewCollection={this.handleNewCollection}
+                            displayOptions={this.displayOptions}
+                            optionsAreDisplayed={this.state.optionsAreDisplayed}
                         />
                         <Canvas
                             exportNetwork={this.exportNetwork}
@@ -573,11 +583,14 @@ class Explorer extends Component {
                             collectionsArray={this.state.collectionsArray}
                             setToLoaded={this.setToLoaded}
                             loaded={this.state.loaded}
+                            optionsAreDisplayed={this.state.optionsAreDisplayed}
+                            toggleFilterValue = {this.toggleFilterValue}
+                            filterObject = {this.state.filterObject}
                         />
                     </div>
                 </div>
-                <InfoPanel
-                    popupMessage={this.state.popupMessage}
+                <InfoPanel 
+                    popupMessage = {this.state.popupMessage}
                 />
             </div>
         )

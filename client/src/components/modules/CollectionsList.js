@@ -29,7 +29,7 @@ class CollectionsList extends Component {
             <>
             <div className="CollectionsList-list">
                 {this.props.collectionsArray.length === 0 ? <p className="CollectionsList-noElements">No Constellations Saved</p> : this.props.collectionsArray.map((row) => {
-                    return <button className="CollectionsList-listElement" key={row} id={row} onClick={this.handleButtonClick}><WiStars size={25}/>&nbsp;&nbsp;{row}</button>
+                    return <button className="CollectionsList-listElement" key={row} id={row} onClick={this.handleButtonClick}><WiStars size={35}/>&nbsp;&nbsp;{row}</button>
                 })}
             </div>
             </>

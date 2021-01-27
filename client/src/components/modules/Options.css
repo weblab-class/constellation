@@ -1,0 +1,25 @@
+.Options-title {
+    text-align: center;
+}
+
+.Options-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9vw;
+    overflow-y: auto;
+}
+
+.Options-line {
+    border: 0;
+    border-bottom: 1px dashed #ccc;
+}
+
+.Options-label {
+    display: inline-block;
+    font-family: Comfortaa;
+    overflow-wrap: break-word;
+    cursor: pointer;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}

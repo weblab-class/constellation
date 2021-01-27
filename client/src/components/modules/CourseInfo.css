@@ -3,5 +3,5 @@
 }
 
 .CourseInfo-info {
-    font-size: 14px;
+    font-size: var(--m);
 }
