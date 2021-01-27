@@ -5,7 +5,7 @@ https://constellation-webteam.herokuapp.com/
 
 ## about
 
-Constellation is an interactive course explorer, allowing users to visualize the wealth of classes at MIT, and their interdependencies, in a visually-appealing and intuitive manner.
+Constellation is an interactive course explorer, allowing users to visualize the wealth of classes at MIT, and their interdependencies, in a visually appealing and intuitive manner.
 
 ## acknowledgments
 
