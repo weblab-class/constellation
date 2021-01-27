@@ -309,7 +309,7 @@ class VisNetwork extends Component {
     this.edgeIds = this.edgeIds.filter((edgeId) => {
       return !edgesToRemove.includes(edgeId);
     });
-    this.printCurrentNetworkData();
+    // this.printCurrentNetworkData();
   }
   //adds class newUpdate to network, adds suggestions to neighbors
   processAddition = async (classId) => {
@@ -340,7 +340,7 @@ class VisNetwork extends Component {
     this.setState({
       prevProcessedClass: classId,
     });
-    this.printCurrentNetworkData();
+    // this.printCurrentNetworkData();
   }
 
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
@@ -444,8 +444,10 @@ class VisNetwork extends Component {
    //prepares current node data for export
    getNodeData = () => {
     let nodeData = [];
+    let nodesWithPositions = [];
     const nodePositions = this.network.getPositions();
     Object.keys(nodePositions).forEach((classId) => {
+      nodesWithPositions.push(classId);
       nodeData.push({
         x: nodePositions[classId].x,
         y: nodePositions[classId].y,
@@ -453,6 +455,17 @@ class VisNetwork extends Component {
         opacity: this.isSuggestionDict[classId] ? SUGGESTED_NODE_OPACITY : 1,
       });
      });
+    const nodeIdList=this.nodes.getIds();
+    nodeIdList.forEach((nodeId) => {
+      if(!nodesWithPositions.includes(nodeId)){
+        nodeData.push({
+          x: 0,
+          y: 0,
+          id: nodeId,
+          opacity: this.isSuggestionDict[nodeId] ? SUGGESTED_NODE_OPACITY : 1,
+        });
+      }
+    });
     return nodeData;
    }
 
@@ -497,9 +510,13 @@ class VisNetwork extends Component {
 
    printCurrentNetworkData = () => {
     console.log("PRINTING CURRENT NETWORK DATA");
+    console.log("nodeIds:");
     console.log(this.nodeIds);
+    console.log("edgeIds:");
     console.log(this.edgeIds);
+    console.log("suggestionDict:")
     console.log(this.isSuggestionDict);
+    console.log("adjacencyCount:")
     console.log(this.adjacencyCount);
     console.log("PRITING EXPORT DATA");
     this.printCurrentExportData();
@@ -664,7 +681,7 @@ class VisNetwork extends Component {
      this.edges = newEdges,
      this.nodeIds = ["&T.START"];
      this.edgeIds = [];
-     this.printCurrentNetworkData();
+    //  this.printCurrentNetworkData();
    }
 
    saveNetwork = () => {
@@ -700,7 +717,7 @@ class VisNetwork extends Component {
       this.setAdjacencyCountToNewData(); //TO DO
 
       //test new network
-      this.printCurrentNetworkData();
+      // this.printCurrentNetworkData();
    }
 
    //data view stuff belom
@@ -735,6 +752,11 @@ class VisNetwork extends Component {
     const endpoints = edge.id.split(/[<,>,=]/);
     return this.getEdgeRelevance(endpoints);
   };
+
+  printDataViewIds = () => {
+    const currentIds = this.nodes.getIds();
+    console.log(currentIds);
+  }
 
   toggleFilter = (filterId) => {
     //updated status of filterId filter
@@ -795,6 +817,8 @@ class VisNetwork extends Component {
     return (
         <>
             <div ref={this.appRef} className = "VisNetwork-container" id = "myNetwork" />
+            <button onClick = {this.printCurrentNetworkData}>PRINT CURRENT NETWORK DATA</button>
+            <button onClick = {this.printDataViewIds}> PRINT CURRENT IDS</button>
         </>
     );
   }
