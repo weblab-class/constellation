@@ -322,15 +322,9 @@ class VisNetwork extends Component {
     }
     else this.addNode(classId, false, 1);
     const neighbors = await this.props.getNeighbors(classId);
-    console.log("current class: " + classId);
-    console.log(neighbors);
-    console.log("before filter:");
-    console.log(neighbors.afterreqsToAdd);
     const prereqsToAdd = this.filterClutterClasses(neighbors.prereqsToAdd);
     const coreqsToAdd = this.filterClutterClasses(neighbors.coreqsToAdd);
     const afterreqsToAdd = this.filterClutterClasses(neighbors.afterreqsToAdd);
-    console.log("after filter:");
-    console.log(afterreqsToAdd);
     prereqsToAdd.forEach((suggestionId) => {
       this.processSuggestionAddition(classId, suggestionId, 0);
     });
@@ -343,7 +337,6 @@ class VisNetwork extends Component {
     this.setState({
       prevProcessedClass: classId,
     });
-    // this.printCurrentNetworkData();
   }
 
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
@@ -692,9 +685,7 @@ class VisNetwork extends Component {
 
    saveNetwork = () => {
     //handle saveNetwork stuff
-    console.log("vis is aware that it needs to save network");
     const currentNetworkData = this.getCurrentNetworkData();
-    console.log("this is the data vis found", currentNetworkData);
     //bundle network into object, and send to explorer via export network
     this.props.exportNetwork(currentNetworkData);
    }
@@ -771,7 +762,6 @@ class VisNetwork extends Component {
   toggleFilter = (filterId) => {
     //updated status of filterId filter
     this.filter=true;
-    console.log("updating filter  value: " + filterId);
     this.filterValues[filterId]=!this.filterValues[filterId];
     this.nodeView.refresh();
     this.edgeView.refresh();
@@ -805,7 +795,6 @@ class VisNetwork extends Component {
     this.network = new Network(this.appRef.current, this.data, this.state.options);
     this.network.on("selectNode", (params) => {
       const nodeId = params.nodes[0];
-      console.log(this.network.getPositions(nodeId));
       this.processNodeClick(nodeId);
     });
     setTimeout(this.focusOnStart, 500);
@@ -827,8 +816,6 @@ class VisNetwork extends Component {
     return (
         <>
             <div ref={this.appRef} className = "VisNetwork-container" id = "myNetwork" />
-            <button onClick = {this.printCurrentNetworkData}>PRINT CURRENT NETWORK DATA</button>
-            <button onClick = {this.printDataViewIds}> PRINT CURRENT IDS</button>
         </>
     );
   }

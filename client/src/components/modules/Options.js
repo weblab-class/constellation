@@ -66,7 +66,7 @@ const COURSE_NAMES = [
 const MESSAGES = [];
 
 MESSAGES.push("Show Suggested Nodes");
-MESSAGES.push("Show tutorial");
+MESSAGES.push("Show Tutorial");
 for(let i=2; i<FILTER_LIST.length; i++) {
     const addon = isNumeric(FILTER_LIST[i]) ? 'Course' : '';
     MESSAGES.push(`Show ${addon} ${FILTER_LIST[i]} (${COURSE_NAMES[i-2]})`);
