@@ -89,7 +89,7 @@ const RESTRICT_REPLACEMENTS = {
     '18.03': {
         prereqsToAdd: [],
         coreqsToAdd: [],
-        afterreqsToAdd: [],
+        afterreqsToAdd: ['5.73'],
     },
     '18.06': {
         prereqsToAdd: ['18.02', '18.02A'],
