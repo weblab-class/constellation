@@ -88,7 +88,7 @@ class CanvasOptions extends Component {
                             className="CanvasOptions-menuButton"
                             onClick={this.props.displayOptions}
                         >
-                            options
+                            filters
                         </button>
                     </div>
                     <div className={this.state.showDropdown ? "CanvasOptions-menuOpen" : "CanvasOptions-menuClosed"}>
@@ -124,7 +124,7 @@ class CanvasOptions extends Component {
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-save"
                         onClick={this.props.handleSaveCollection}
-                        disabled={this.props.isDisplayCollections||this.props.optionsAreDisplayed}
+                        disabled={this.props.isDisplayCollections}
                     >
                         save
                     </button>
@@ -150,7 +150,7 @@ class CanvasOptions extends Component {
                             tellVisNetworkToExport={this.props.tellVisNetworkToExport}
                         />
                     </div>
-                    
+
                 </nav>
             </>
         );

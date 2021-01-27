@@ -17,7 +17,7 @@ let subjectIdArray;
 get("/api/subjectIds").then((subjectIdObject) => {
     subjectIdArray = subjectIdObject.subjectId;
 }).catch((err) => {
-    console.log("there was an error retrieving array of subject IDs. specific error message:", err.message);
+    //console.log("there was an error retrieving array of subject IDs. specific error message:", err.message);
 });
 
 //code taken from https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
@@ -29,7 +29,7 @@ function escapeRegExp(string) {
 const getSuggestions = value => {
     const inputValue = value.toLowerCase();
     const regex = new RegExp("\\b" + escapeRegExp(inputValue));
-    console.log("inputValue: ", inputValue);
+    //console.log("inputValue: ", inputValue);
     const inputLength = inputValue.trim().length;
 
     return inputLength === 0 ? [] : subjectIdArray.filter(subject => {
@@ -38,7 +38,7 @@ const getSuggestions = value => {
 };
 
 const getSuggestionValue = suggestion => {
-    console.log("suggestion value:", suggestion);
+    //console.log("suggestion value:", suggestion);
     return suggestion;
 }
 
@@ -73,7 +73,7 @@ class SearchBar extends Component {
 
 
     glassClick = () => {
-        console.log("SearchBar 24: The glass was clicked!");
+        //console.log("SearchBar 24: The glass was clicked!");
         this.props.setCourseObject(this.state.inputText);
         this.setState({
             inputText: '',
@@ -90,7 +90,7 @@ class SearchBar extends Component {
     }
 
     onChange = (event, { newValue, method }) => {
-        console.log("onChange newValue:", newValue);
+        //console.log("onChange newValue:", newValue);
         this.setState({
             inputText: newValue,
         });
@@ -99,7 +99,7 @@ class SearchBar extends Component {
     // Autosuggest will call this function every time you need to update suggestions.
     // You already implemented this logic above, so just use it.
     onSuggestionsFetchRequested = ({ value }) => {
-        console.log(value);
+        //console.log(value);
         this.setState({
             suggestions: getSuggestions(value)
         })

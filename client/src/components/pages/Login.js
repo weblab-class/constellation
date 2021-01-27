@@ -44,7 +44,7 @@ class Login extends Component {
 
 
   render() {
-    console.log(this.state.displayMenu);
+    //console.log(this.state.displayMenu);
     return (
         <div className="Login-container">
           {this.props.userId ? (
