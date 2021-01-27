@@ -39,6 +39,8 @@ const SUGGESTED_NODE_OPACITY = 0.2;
 const CLUTTER_COURSES = ['ES', 'CC', "HST"];
 
 const COURSE_LIST = ["1","2","3","4","5","6","7","8","9","10","11","12","14","15",,"16","17","18","20","21","22"];
+const FILTER_LIST = ['suggestion','&T','1','2','3','4','5','6','7','8','9','10','11','12','14','15','16','17','18','20','21','22','24']; //filter keys
+const INVERSE_FILTER_LIST = []; //inverse filter keys
 
 const SUMMER_COLORS = {
   "1" :"#53CFDA",
@@ -117,8 +119,8 @@ class VisNetwork extends Component {
     this.edgeIds = [],
     this.appRef = createRef();
     this.filterValues = {
-      suggestion: true, //whether or not to view suggestions
-      '&T': true, //tutorial
+      'suggestion': true, //whether or not to view suggestions
+      '&T':true, //tutorial
       "1":true,
       "2":true,
       "3":true, 
@@ -140,6 +142,7 @@ class VisNetwork extends Component {
       "20":true,
       "21":true,
       "22":true,
+      "24":true,
     }
     this.state={
         prevProcessedClass:'',
@@ -442,15 +445,24 @@ class VisNetwork extends Component {
     return edgeData;
    }
 
+   getFilterData = () => {
+     const filterArray = [];
+     FILTER_LIST.forEach((attribute) => {
+       const filterSetting = this.filterValues[attribute] ? 1 : 0;
+       filterArray.push(filterSetting);
+     });
+     return filterArray;
+   }
+
    //returns array that will be stored in database 
    getCurrentNetworkData = () => {
      const currentNodeData = this.getNodeData();
      const currentEdgeData = this.getEdgeData();
-     const currentFilterObject = this.filterValues;
+     const currentFilterArray = this.getFilterData();
      const currentNetworkData = {
        nodes: currentNodeData,
        edges: currentEdgeData,
-       filterObject: currentFilterObject,
+       filterObject: currentFilterArray,
      }
      return currentNetworkData;
    }
@@ -461,6 +473,7 @@ class VisNetwork extends Component {
     console.log(this.edgeIds);
     console.log(this.isSuggestionDict);
     console.log(this.adjacencyCount);
+    console.log("PRITING EXPORT DATA");
     this.printCurrentExportData();
    }
 
@@ -558,25 +571,6 @@ class VisNetwork extends Component {
       return edgeIds;
    }
 
-  //  let newNodes = new DataSet([{ id: "&T.START", label: "Click me to get started!",group: '&T'},]);
-  //  let newEdges = new DataSet();
-  //  this.nodeView = new DataView(newNodes, {filter: this.nodesFilter});
-  //  this.edgeView = new DataView(newEdges, {filter: this.edgesFilter});
-  //  this.nodeIds.forEach((classId) => {
-  //     this.isSuggestionDict[classId] = true;
-  //     this.adjacencyCount[classId] = 0;
-  //  });
-  //  //must update state as well so state and network work with same object
-  //  this.network.setData({
-  //    nodes: this.nodeView,
-  //    edges: this.edgeView,
-  //  });
-  //  this.data.nodes = newNodes;
-  //  this.data.edges = newEdges;
-  //  this.nodes = newNodes,
-  //  this.edges = newEdges,
-  //  this.nodeIds = ["&T.START"];
-  //  this.edgeIds = [];
 
   //TODO - have it also update load settings (so that loading a network loads the saved settings as well)
    setNetworkToNewData =  async (newNodes, newEdges, newNodeIds, newEdgeIds) => {
@@ -621,6 +615,7 @@ class VisNetwork extends Component {
      });
    }
   
+   //does NOT clear filtered settings
    resetNetwork = () => {
      let newNodes = new DataSet([{ id: "&T.START", label: "Click me to get started!",group: '&T'},]);
      let newEdges = new DataSet();
@@ -657,7 +652,7 @@ class VisNetwork extends Component {
       console.log(newNetworkData);
       const nodeArray = newNetworkData.nodeArray;
       const edgeArray = newNetworkData.edgeArray;
-      const filterObject = newNetworkData.filterObject;
+      const filterObject = newNetworkData.filterObject; //this is already an object, as its been processed in explorer
       //create data = {nodes: , edges: }, and edgeId's, and suggestionId's
       let newNodes = this.parseForNodeData(nodeArray);
       let newEdges = this.parseForEdgeData(edgeArray);
