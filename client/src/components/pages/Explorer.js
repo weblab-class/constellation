@@ -366,8 +366,8 @@ class Explorer extends Component {
 
             collectionName: this.state.currentCollectionName,
             nodeArray: graphObject.nodes,
-            edgeArray: graphObject.edges
-
+            edgeArray: graphObject.edges,
+            filterObject: graphObject.filterObject,
         }).catch((err) => {
             console.log("There was an error loading a collection for the user. Specific error message:", err.message);
         });

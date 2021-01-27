@@ -446,9 +446,11 @@ class VisNetwork extends Component {
    getCurrentNetworkData = () => {
      const currentNodeData = this.getNodeData();
      const currentEdgeData = this.getEdgeData();
+     const currentFilterObject = this.filterValues;
      const currentNetworkData = {
        nodes: currentNodeData,
        edges: currentEdgeData,
+       filterObject: currentFilterObject,
      }
      return currentNetworkData;
    }
@@ -655,6 +657,7 @@ class VisNetwork extends Component {
       console.log(newNetworkData);
       const nodeArray = newNetworkData.nodeArray;
       const edgeArray = newNetworkData.edgeArray;
+      const filterObject = newNetworkData.filterObject;
       //create data = {nodes: , edges: }, and edgeId's, and suggestionId's
       let newNodes = this.parseForNodeData(nodeArray);
       let newEdges = this.parseForEdgeData(edgeArray);
@@ -662,10 +665,17 @@ class VisNetwork extends Component {
       let newEdgeIds = this.parseForEdgeIdData(edgeArray);
       //update isSuggestionDict
       this.setNetworkToNewData(newNodes, newEdges, newNodeIds, newEdgeIds);
+
+      //update filter status
+      this.filterValues = filterObject;
+      this.nodeView.refresh();
+      this.edgeView.refresh();
+
       //update isSuggestionDict to reflect new data
       this.setSuggestionDictToNewData(nodeArray);
       //update adjacencyCounts to reflect new data
       this.setAdjacencyCountToNewData(); //TO DO
+
       //test new network
       this.printCurrentNetworkData();
    }
