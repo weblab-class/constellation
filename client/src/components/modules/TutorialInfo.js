@@ -216,3 +216,5 @@ class TutorialInfo extends Component {
 }
 
 export default TutorialInfo;
+
+//this is a comment so that git detects that I renamed a file
