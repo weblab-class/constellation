@@ -1,3 +1,4 @@
+const { faObjectGroup } = require("@fortawesome/free-solid-svg-icons");
 const mongoose = require("mongoose");
 
 const collectionSchema = new mongoose.Schema({
@@ -5,7 +6,8 @@ const collectionSchema = new mongoose.Schema({
     userId : String,
     collectionName : String,
     nodeArray : Array,
-    edgeArray : Array
+    edgeArray : Array,
+    filterObject : Mixed,
 
     },
     {"collection": "collections"}
