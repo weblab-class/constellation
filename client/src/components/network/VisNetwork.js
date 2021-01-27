@@ -4,11 +4,23 @@ import { GiBlackHandShield } from 'react-icons/gi';
 
 import "./VisNetwork.css";
 
-/* TODO 
-  //setAdjacencyCount to new data
-  //fix skeleton edges upon removing class (see doc)
-  //add parameters
-*/
+/**
+ * Graph logic goes here!!
+ *
+ * Proptypes
+ * @param {} getNeighbors returns neighbors to a particular node (prereqs/coreqs/afterreqs) to a clas
+ * @param {} setCourseObject used to process node click, sets course object to clicked node
+ * @param {number} canvasToBeReset counter; incrementing triggers canvas reset
+ * @param {number} saveCanvasCounter increment triggers saving current network contents
+ * @param {number} loadCollectionCounter increment triggers loading
+ * @param {function} exportNetwork export Network during save
+ * @param {string} newClass new class to be added
+ * @param {number} newClassCounter increment triggers current newClass to be added
+ * @param {string} removeClass class to be removed
+ * @param {number} removeClassCounter increment triggers current removeClass to be removed
+ * @param {function} importNetwork used for visNetwork to retrieve network data from database during load
+ */
+
 
 //to check if an edge exists, merely check that both endpoints are added
 
@@ -65,14 +77,6 @@ const TUTORIAL_LABELS = {
   '&T.LOAD': 'Loading',
   '&T.ABOUT': 'About',
 }
-
-/**
- * Graph logic goes here!!
- *
- * Proptypes
- * @param {paramtype} paramname paramdescription
- * @param {Boolean} renderNetwork true if network is to be rendered
- */
 
 class VisNetwork extends Component {
 
