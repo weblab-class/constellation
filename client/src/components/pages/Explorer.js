@@ -536,14 +536,16 @@ class Explorer extends Component {
         });
     }
 
-    toggleFilterValue = (filterId) => {
+    toggleFilterValue = _.debounce((filterId) => {
+        console.log("type of filterId", typeof(filterId));
         this.setState({
             isSaved: false,
             isSavedCounter: this.state.isSavedCounter + 1,
             filterToToggle: filterId,
             filterCounter: this.state.filterCounter+1,
         });
-    }
+    }, 500);
+    
     // componentDidMount() {}
 
     //BELOW: Change the NamePopUp to be a real popup
