@@ -129,7 +129,8 @@ class Explorer extends Component {
             collectionsArray: [], //array of collection names for the user
             loaded: false,
             popupMessage: "popup",
-
+            filterToToggle: '',
+            filterCounter: 0,
             filterObject: {
                 'suggestion': 1, //whether or not to view suggestions
                 '&T':1, //tutorial
@@ -530,7 +531,12 @@ class Explorer extends Component {
     }
 
     toggleFilterValue = (filterId) => {
-
+        this.setState({
+            isSaved: false,
+            isSavedCounter: this.state.isSavedCounter + 1,
+            filterToToggle: filterId,
+            filterCounter: this.state.filterCounter+1,
+        });
     }
     // componentDidMount() {}
 
@@ -564,6 +570,8 @@ class Explorer extends Component {
                             getNeighbors={this.getNeighbors}
                             removeClass={this.state.removeClass}
                             removeClassCounter={this.state.removeClassCounter}
+                            filterToToggle={this.state.filterToToggle}
+                            filterCounter={this.state.filterCounter}
                             canvasToBeReset={this.state.canvasToBeReset}
                             saveCanvasCounter={this.state.saveCanvasCounter}
                             loadCollectionCounter={this.state.loadCollectionCounter}

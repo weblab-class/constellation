@@ -13,6 +13,8 @@ import "./Canvas.css";
  * @param {function} getNeighbors gets neighbors to a node (prereqs/coreqs/afterreqs to a class)
  * @param {string} removeClass name of class to be removed, passed to visNetwork
  * @param {number} removeClassCounter increment triggers removal of removeClass in visNetwork 
+ * @param {string} filterToToggle id of filter to toggle
+ * @param {number} filterCounter increment triggers filter to toggle
  * @param {number} canvasToBeReset increment triggers canvas reset
  * @param {number} saveCanvasCounter increment triggers canvas to save data to database
  * @param {number} loadCollectionCounter increment triggers canvas to load new collection
@@ -44,6 +46,8 @@ class Canvas extends Component {
                         exportNetwork={this.props.exportNetwork}
                         newClass = {this.props.newClass}
                         newClassCounter = {this.props.newClassCounter}
+                        filterToToggle = {this.props.filterToToggle}
+                        filterCounter = {this.props.filterCounter}
                         removeClass = {this.props.removeClass}
                         removeClassCounter = {this.props.removeClassCounter}
                         importNetwork= {this.props.importNetwork}
