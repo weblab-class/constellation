@@ -204,10 +204,8 @@ router.get("/loadCollection", auth.ensureLoggedIn, (req, res) => {
   }).then(
     (thisGraph) => {
 
-      res.send({
-        nodeArray: thisGraph.nodeArray,
-        edgeArray: thisGraph.edgeArray,
-      });
+      res.send(thisGraph);
+
     }
   ).catch(
     (err) => {
@@ -256,8 +254,6 @@ renameSingleCollection = (req, res) => {
   }).then(
     (thisGraph) => {
       thisGraph.collectionName = req.body.newCollectionName;
-      console.log(thisGraph.nodeArray);
-      console.log(thisGraph)
       thisGraph.save();
     }
   ).catch(
@@ -454,6 +450,7 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
           collectionName : req.body.collectionName,
           nodeArray : req.body.nodeArray,
           edgeArray : req.body.edgeArray,
+          filterObject : req.body.filterObject,
         });
 
         graph.save();
@@ -462,6 +459,7 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
         //update the collection
         thisGraph.nodeArray = req.body.nodeArray;
         thisGraph.edgeArray = req.body.edgeArray;
+        thisGraph.filterObject = req.body.filterObject;
 
         thisGraph.save();
       }
