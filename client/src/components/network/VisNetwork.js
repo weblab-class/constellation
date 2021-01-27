@@ -114,6 +114,7 @@ class VisNetwork extends Component {
     this.appRef = createRef();
     this.filterValues = {
       suggestion: true, //whether or not to view suggestions
+      '&T': true, //tutorial
       "1":true,
       "2":true,
       "3":true, 
@@ -131,7 +132,7 @@ class VisNetwork extends Component {
       "15":true,
       "16":true,
       "17":true,
-      "18":false,
+      "18":true,
       "20":true,
       "21":true,
       "22":true,
