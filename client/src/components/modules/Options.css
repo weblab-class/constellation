@@ -9,9 +9,17 @@
     overflow-y: auto;
 }
 
-.Options-line {
+.Options-dashedLine {
     border: 0;
     border-bottom: 1px dashed #ccc;
+}
+
+.Options-solidLine {
+    border-bottom: 1px #ccc;
+}
+
+.Options-reallySolidLine {
+    border-style: solid;
 }
 
 .Options-label {
@@ -20,6 +28,5 @@
     overflow-wrap: break-word;
     cursor: pointer;
     margin: 10px;
-    display: flex;
-    align-items: center;
+
 }

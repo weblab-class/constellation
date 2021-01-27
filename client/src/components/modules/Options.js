@@ -9,6 +9,13 @@ import "./Options.css";
  *
  */
 
+function isNumeric(str) { //taken from https://stackoverflow.com/questions/175739/built-in-way-in-javascript-to-check-if-a-string-is-a-valid-number
+    if (typeof str != "string") return false // we only process strings!  
+    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+           !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+  }
+
+  
 const FILTER_LIST = ['suggestion','&T','1','2','3','4','5','6','7','8','9','10','11','12','14','15','16','17','18','20','21','21A','21H','21G','21L','21M','21W','22','24','AS','CC','CMS','CSB','EC','EM','ES','HST','IDS','MAS','MS','NS','SCM','SP','STS','WGS'];
 const COURSE_NAMES = [
     'Civil and Environmental Engineering',
@@ -61,7 +68,8 @@ const MESSAGES = [];
 MESSAGES.push("Show suggested nodes");
 MESSAGES.push("Show tutorial");
 for(let i=2; i<FILTER_LIST.length; i++) {
-    MESSAGES.push(`Show nodes from Course ${FILTER_LIST[i]} (${COURSE_NAMES[i-2]})`);
+    const addon = isNumeric(FILTER_LIST[i]) ? 'Course' : '';
+    MESSAGES.push(`Show ${addon} ${FILTER_LIST[i]} (${COURSE_NAMES[i-2]})`);
 }
 
 class Options extends Component {
@@ -73,8 +81,9 @@ class Options extends Component {
     }
 
     onChange = (event) => {
-        inputId = event.target.id.split('-')[0];
-        console.log('inputId', inputId);
+        //console.log(event.target.id);
+        const inputId = event.target.id.split('-')[0];
+        //console.log('inputId', inputId);
         this.props.toggleFilterValue(inputId.toString());
     }
     //componentDidMount(){}
@@ -107,14 +116,14 @@ class Options extends Component {
                         {checkbox} 
                         &nbsp; {MESSAGES[i]}
                     </label>
-                    {(i < Object.keys(inputObject).length-1) && <hr className="Options-line"/>}
+                    {(i < Object.keys(inputObject).length-1) && <hr className={i >= 2 ? "Options-dashedLine" : "Options-solidLine"}/>}
                     </div>
             );
         }
         return (
             <>
                 <h3 className="Options-title"> Current Network Options </h3>
-                <hr />
+                <hr className="Options-reallySolidLine"/>
                 <div className="Options-container">
                     {optionsToCheckArray}
                 </div>
