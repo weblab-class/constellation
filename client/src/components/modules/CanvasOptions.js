@@ -105,7 +105,7 @@ class CanvasOptions extends Component {
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-load"
-                        onClick={_.debounce(this.props.handleUserCollections, 1000)}
+                        onClick={this.props.handleUserCollections}
                         disabled={this.props.optionsAreDisplayed}
                     >
                         load
@@ -114,7 +114,7 @@ class CanvasOptions extends Component {
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-new"
-                        onClick={_.debounce(this.props.handleNewCollection, 1000)}
+                        onClick={this.props.handleNewCollection}
                         disabled={this.props.isDisplayCollections||this.props.optionsAreDisplayed}
                     >
                         new
@@ -123,7 +123,7 @@ class CanvasOptions extends Component {
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-save"
-                        onClick={_.debounce(this.props.handleSaveCollection, 1000)}
+                        onClick={this.props.handleSaveCollection}
                         disabled={this.props.isDisplayCollections}
                     >
                         save
@@ -132,7 +132,7 @@ class CanvasOptions extends Component {
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-reset"
-                        onClick={_.debounce(this.props.resetCanvas, 1000)}
+                        onClick={this.props.resetCanvas}
                         disabled={this.props.isDisplayCollections||this.props.optionsAreDisplayed}
                     >
                         reset
