@@ -38,11 +38,11 @@
     border-radius: var(--s);
     background: var(--canvas-backgroundColor);
     transition: color 0.1s, background 0.1s;
-
+    cursor: pointer;
     position: absolute;
     top: 0px;
     left: 110px;
-    width: 90px;
+    width: 150px;
     margin: 5px;
     font-family: "Comfortaa";
     text-align: center;
@@ -50,10 +50,17 @@
     font-size: 16px;
     padding: var(--s) var(--s);
     outline: none;
-
-    
 }
 
 .Login-toExplorerButton:hover {
-    background-color: #a8dadc;
+    background-color: #ccebec;
+}
+
+.Login-signIn {
+    position: absolute;
+    margin: 5px 5px 5px 5px;
+}
+
+.Login-signIn:hover {
+    background-color: rgba(0, 0, 0, 0.4);
 }

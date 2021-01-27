@@ -65,6 +65,7 @@ class TutorialInfo extends Component {
                 toDisplay = (
                     <div>
                         <p>
+
                         Constellation visualizes relationships in a directed network. Each node represents a single added class — in our example below, 6.009. They are colored by course. 
                         </p>
                         <img src={addImg} className = "TutorialInfo-img"/>
