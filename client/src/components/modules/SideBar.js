@@ -54,6 +54,8 @@ class SideBar extends Component {
                     loaded={this.props.loaded}
                     optionsAreDisplayed={this.props.optionsAreDisplayed}
                     toggleFilterValue = {this.props.toggleFilterValue}
+                    filterObject = {this.props.filterObject}
+
                 />
             </>
         )

@@ -9,10 +9,7 @@ import "./Options.css";
  *
  */
 
-let inputArray = [];
-for (let i = 0; i < 25; i++) {
-    inputArray.push(Math.random() < 0.5);
-}
+const FILTER_LIST = ['suggestion','&T','1','2','3','4','5','6','7','8','9','10','11','12','14','15','16','17','18','20','21','21A','21H','21G','21L','21M','21W','22','24','AS','CC','CMS','CSB','EC','EM','ES','HST','IDS','MAS','MS','NS','SCM','SP','STS','WGS']
 
 class Options extends Component {
     constructor(props) {
@@ -24,34 +21,37 @@ class Options extends Component {
 
     onChange = (event) => {
         inputId = event.target.id.split('-')[0];
+        console.log('inputId', inputId);
         this.props.toggleFilterValue(inputId.toString());
     }
     //componentDidMount(){}
 
     render() {
+        const inputObject = this.props.filterObject;
+        console.log(this.props.filterObject);
         let optionsToCheckArray = [];
-        for (let i = 0; i < inputArray.length; i++) {
-            const checkbox = inputArray[i] ? (
+        for (const [index, [key, value]] of Object.entries((Object.entries(inputObject)))) {
+            const checkbox = value ? (
                 <input
-                    id={i + "-option"}
+                    id={key + "-option"}
                     defaultChecked
                     type="checkbox"
                     onChange={this.onChange}
                 />
             ) : (
                 <input
-                    id={i + "-option"}
+                    id={key + "-option"}
                     type="checkbox"
                     onChange={this.onChange}
                 />
             );
             optionsToCheckArray.push(
-                    <div key={i}>
+                    <div key={key}>
                     <label className="Options-label">
                         {checkbox} 
-                        &nbsp; asdfasdf
+                        &nbsp; {key}
                     </label>
-                    {(i < inputArray.length-1) && <hr className="Options-line"/>}
+                    {(index < Object.keys(inputObject).length-1) && <hr className="Options-line"/>}
                     </div>
             );
         }

@@ -547,7 +547,7 @@ class Explorer extends Component {
                             loaded={this.state.loaded}
                             optionsAreDisplayed={this.state.optionsAreDisplayed}
                             toggleFilterValue = {this.toggleFilterValue}
-
+                            filterObject = {this.state.filterObject}
                         />
                     </div>
                 </div>

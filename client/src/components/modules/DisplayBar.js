@@ -73,6 +73,7 @@ class DisplayBar extends Component {
             toDisplay = 
                 <Options 
                     toggleFilterValue = {this.props.toggleFilterValue}
+                    filterObject = {this.props.filterObject}
                 />
         }
         else if (this.props.isDisplayCollections) {
