@@ -19,7 +19,7 @@ class CollectionsList extends Component {
     //componentDidMount(){}
     handleButtonClick = (clicked) => {
         this.props.setToLoaded();
-        console.log(clicked.target.id);
+        //console.log(clicked.target.id);
         const buttonName = clicked.target.id;
         this.props.updateCollectionName(buttonName);
     }

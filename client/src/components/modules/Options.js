@@ -85,12 +85,12 @@ class Options extends Component {
         const inputId = event.target.id.split('-')[0];
         //console.log('inputId', inputId);
         this.props.toggleFilterValue(inputId.toString());
-    }
+    };
     //componentDidMount(){}
 
     render() {
         const inputObject = this.props.filterObject;
-        console.log(this.props.filterObject);
+        //console.log(this.props.filterObject);
         let optionsToCheckArray = [];
         for (let i=0; i<FILTER_LIST.length; i++) {
             const key = FILTER_LIST[i];
@@ -122,7 +122,7 @@ class Options extends Component {
         }
         return (
             <>
-                <h3 className="Options-title"> Current Network Options </h3>
+                <h3 className="Options-title"> Current Constellation Filters </h3>
                 <hr className="Options-reallySolidLine"/>
                 <div className="Options-container">
                     {optionsToCheckArray}
