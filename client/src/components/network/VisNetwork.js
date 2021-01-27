@@ -8,8 +8,8 @@ import "./VisNetwork.css";
  * Graph logic goes here!!
  *
  * Proptypes
- * @param {} getNeighbors returns neighbors to a particular node (prereqs/coreqs/afterreqs) to a clas
- * @param {} setCourseObject used to process node click, sets course object to clicked node
+ * @param {function} getNeighbors returns neighbors to a particular node (prereqs/coreqs/afterreqs) to a clas
+ * @param {function} setCourseObject used to process node click, sets course object to clicked node
  * @param {number} canvasToBeReset counter; incrementing triggers canvas reset
  * @param {number} saveCanvasCounter increment triggers saving current network contents
  * @param {number} loadCollectionCounter increment triggers loading
@@ -18,6 +18,8 @@ import "./VisNetwork.css";
  * @param {number} newClassCounter increment triggers current newClass to be added
  * @param {string} removeClass class to be removed
  * @param {number} removeClassCounter increment triggers current removeClass to be removed
+ * @param {string} filterToToggle id of filter to toggle
+ * @param {number} filterCounter increment triggers filter to toggle
  * @param {function} importNetwork used for visNetwork to retrieve network data from database during load
  */
 
@@ -727,6 +729,10 @@ class VisNetwork extends Component {
     return this.getEdgeRelevance(endpoints);
   };
 
+  togglelFilter = (filterId) => {
+    //updated status of filterId filter
+  }
+
   deployFilter = () => {
     this.filter = true;
     this.nodeView.refresh();
@@ -770,6 +776,7 @@ class VisNetwork extends Component {
     if(this.props.canvasToBeReset !== prevProps.canvasToBeReset) this.resetNetwork();
     if(this.props.saveCanvasCounter !== prevProps.saveCanvasCounter) this.saveNetwork();
     if(this.props.loadCollectionCounter !== prevProps.loadCollectionCounter) this.loadNetwork();
+    if(this.props.filterCounter !== prevProps.filterCounter) this.toggleFilter(this.props.filterToToggle);
   }
 
   render() {
@@ -782,3 +789,5 @@ class VisNetwork extends Component {
 }
 
 export default VisNetwork;
+
+//24, STS, WGS, SP
