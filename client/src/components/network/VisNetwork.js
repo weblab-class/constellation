@@ -176,10 +176,13 @@ class VisNetwork extends Component {
              shape: 'dot',
              size: 8,
              borderWidth: 3,
-             opacity: 0.3,
+             opacity: 0.38,
              font: {
                face: 'comfortaa',
              }
+          },
+          physics: {
+            timestep: 0.3,
           },
           groups: {
             one:{
@@ -728,12 +731,12 @@ class VisNetwork extends Component {
     const nodeId = node.id;
     //if suggestion is turned off
     if(!this.filter) return true;
-    if(!this.filterValues['suggestion']){
-      return !this.isSuggestionDict[nodeId];
-    }else{
-      const courseId = this.getCourseId(nodeId);
-      return this.filterValues[courseId];
+    if(!this.filterValues['suggestion']&& this.isSuggestionDict[nodeId]){
+      return false;
     }
+    const courseId = this.getCourseId(nodeId);
+    if(!this.filterValues[courseId]) return false;
+    return true;
   };
 
   getEdgeRelevance = (endpoints) => {
