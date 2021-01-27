@@ -750,8 +750,6 @@ class VisNetwork extends Component {
     return (
         <>
             <div ref={this.appRef} className = "VisNetwork-container" id = "myNetwork" />
-            <button onClick = {this.deployFilter}> click to trigger filter </button>
-            <button onClick = {this.turnOffFilter}> click to turn of ffilter</button>
         </>
     );
   }
