@@ -132,52 +132,52 @@ class Explorer extends Component {
             filterToToggle: '',
             filterCounter: 0,
             filterObject: {
-                'suggestion': 1, //whether or not to view suggestions
-                '&T':1, //tutorial
-                "1":1,
-                "2":1,
-                "3":1, 
-                "4":1,
-                "5":1,
-                "6":1,
-                "7":1,
-                "8":1,
-                "9":1,
-                "10":1,
-                "11":1,
-                "12":1,
-                "14":1,
-                "15":1,
-                "15":1,
-                "16":1,
-                "17":1,
-                "18":1,
-                "20":1,
-                "21":1,
-                "21A":1,
-                "21H":1,
-                "21G":1,
-                "21L":1,
-                "21M":1,
-                "21W":1,
-                "22":1,
-                "24":1,
-                "AS":1,
-                "CC":1,
-                "CMS":1,
-                "CSB":1,
-                "EC":1,
-                "EM":1,
-                "ES":1,
-                "HST":1,
-                "IDS":1,
-                "MAS":1,
-                "MS":1,
-                "NS":1,
-                "SCM":1,
-                "SP":1,
-                "STS":1,
-                "WGS":1,
+                'suggestion': true, //whether or not to view suggestions
+                '&T':true, //tutorial
+                "1":true,
+                "2":true,
+                "3":true, 
+                "4":true,
+                "5":true,
+                "6":true,
+                "7":true,
+                "8":true,
+                "9":true,
+                "10":true,
+                "11":true,
+                "12":true,
+                "14":true,
+                "15":true,
+                "15":true,
+                "16":true,
+                "17":true,
+                "18":true,
+                "20":true,
+                "21":true,
+                "21A":true,
+                "21H":true,
+                "21G":true,
+                "21L":true,
+                "21M":true,
+                "21W":true,
+                "22":true,
+                "24":true,
+                "AS":true,
+                "CC":true,
+                "CMS":true,
+                "CSB":true,
+                "EC":true,
+                "EM":true,
+                "ES":true,
+                "HST":true,
+                "IDS":true,
+                "MAS":true,
+                "MS":true,
+                "NS":true,
+                "SCM":true,
+                "SP":true,
+                "STS":true,
+                "WGS":true,
               }
         }
     }
@@ -505,6 +505,9 @@ class Explorer extends Component {
             }
             const filterArray = networkObject.filterObject;
             const filterObject = this.arrayToObject(filterArray);
+            this.setState({
+                filterObject: filterObject,
+            });
             const refinedNetworkObject = {
                 nodeArray: networkObject.nodeArray,
                 edgeArray: networkObject.edgeArray,
@@ -537,11 +540,16 @@ class Explorer extends Component {
     }
 
     toggleFilterValue = (filterId) => {
-        this.setState({
+        let newFilterObject = {};
+        Object.keys(this.state.filterObject).forEach((key) => {
+            newFilterObject[key] = (key === filterId) ? (!this.state.filterObject[key]) : this.state.filterObject[key];
+        });
+        this.setState({  
             isSaved: false,
             isSavedCounter: this.state.isSavedCounter + 1,
             filterToToggle: filterId,
             filterCounter: this.state.filterCounter+1,
+            filterObject: newFilterObject,
         });
     }
     // componentDidMount() {}

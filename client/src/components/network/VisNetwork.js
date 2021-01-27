@@ -148,6 +148,7 @@ class VisNetwork extends Component {
       "21M":true,
       "21W":true,
       "22":true,
+      "24": true,
       "AS":true,
       "CC":true,
       "CMS":true,
@@ -162,6 +163,8 @@ class VisNetwork extends Component {
       "NS":true,
       "SCM":true,
       "SP":true,
+      "STS":true,
+      "WGS":true,
     }
     this.state={
         prevProcessedClass:'',
@@ -184,7 +187,6 @@ class VisNetwork extends Component {
             },
           },
         },
-        // groups: MANUAL_COLORS ? GROUP_COLOR_OPTIONS : null,
     };
   }
 
@@ -705,10 +707,9 @@ class VisNetwork extends Component {
 
    //node filter
   nodesFilter = (node) => {
-    //BELOW LINE FOR TESTING PURPOSES
-    if(!this.filter) return true;
     const nodeId = node.id;
     //if suggestion is turned off
+    if(!this.filter) return true;
     if(!this.filterValues['suggestion']){
       return !this.isSuggestionDict[nodeId];
     }else{
@@ -718,8 +719,6 @@ class VisNetwork extends Component {
   };
 
   getEdgeRelevance = (endpoints) => {
-      //BELOW LINE FOR TESTING PURPOSES
-      if(!this.filter) return true;
       //check if suggestion is off and either is suggestion
       const [classFrom, classTo] = [endpoints[0], endpoints[1]];
       if(!this.filterValues['suggestion'] && (this.isSuggestionDict[classFrom] || this.isSuggestionDict[classTo])){
@@ -731,16 +730,18 @@ class VisNetwork extends Component {
   }
   //return value = nodeFilter(endpoint #1) AND nodeFilter(endpoint #2)
   edgesFilter = (edge) => {
+    if(!this.filter) return true;
     const endpoints = edge.id.split(/[<,>,=]/);
     return this.getEdgeRelevance(endpoints);
   };
 
   toggleFilter = (filterId) => {
     //updated status of filterId filter
-    console.log("toggled: " + filterId);
-    // this.filterValues[filterId]=!this.filterValues[filterId];
-    // this.nodeView.refresh();
-    // this.edgeView.refresh();
+    this.filter=true;
+    console.log("updating filter  value: " + filterId);
+    this.filterValues[filterId]=!this.filterValues[filterId];
+    this.nodeView.refresh();
+    this.edgeView.refresh();
   }
 
   deployFilter = () => {
