@@ -39,8 +39,7 @@ const SUGGESTED_NODE_OPACITY = 0.2;
 const CLUTTER_COURSES = ['ES', 'CC', "HST"];
 
 const COURSE_LIST = ["1","2","3","4","5","6","7","8","9","10","11","12","14","15",,"16","17","18","20","21","22"];
-const FILTER_LIST = ['suggestion','&T','1','2','3','4','5','6','7','8','9','10','11','12','14','15','16','17','18','20','21','22','24']; //filter keys
-const INVERSE_FILTER_LIST = []; //inverse filter keys
+const FILTER_LIST = ['suggestion','&T','1','2','3','4','5','6','7','8','9','10','11','12','14','15','16','17','18','20','21','21A','21H','21G','21L','21M','21W','22','24','AS','CC','CMS','CSB','EC','EM','ES','HST','IDS','MAS','MS','NS','SCM','SP','STS','WGS']; //filter keys
 
 const SUMMER_COLORS = {
   "1" :"#53CFDA",
@@ -101,7 +100,6 @@ class VisNetwork extends Component {
     this.edges = new DataSet(edgesArray);
     this.nodeView = new DataView(this.nodes, { filter: this.nodesFilter});
     this.edgeView = new DataView(this.edges, { filter: this.edgesFilter});
-
     //1 for added node, 0 for suggestion
     this.isSuggestionDict = {
       "&T.START": true,
@@ -141,8 +139,27 @@ class VisNetwork extends Component {
       "18":true,
       "20":true,
       "21":true,
+      "21A":true,
+      "21H":true,
+      "21G":true,
+      "21L":true,
+      "21M":true,
+      "21W":true,
       "22":true,
-      "24":true,
+      "AS":true,
+      "CC":true,
+      "CMS":true,
+      "CSB":true,
+      "EC":true,
+      "EM":true,
+      "ES":true,
+      "HST":true,
+      "IDS":true,
+      "MAS":true,
+      "MS":true,
+      "NS":true,
+      "SCM":true,
+      "SP":true,
     }
     this.state={
         prevProcessedClass:'',
