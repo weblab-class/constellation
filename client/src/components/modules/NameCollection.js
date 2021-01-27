@@ -113,6 +113,7 @@ class NameCollection extends Component {
         }
 
         if (prevProps.isSavedCounter !== this.props.isSavedCounter) {
+            console.log("componentDidUpdate in NameCollection, isSavedCounter incremented");
             this.setState({
                 savedText: (this.props.isSaved ? "(saved)" : "(unsaved)")
             });

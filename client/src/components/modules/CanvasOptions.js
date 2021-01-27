@@ -3,7 +3,7 @@ import { navigate } from "@reach/router";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import NameCollection from "./NameCollection.js";
-
+import _ from "lodash"; //debounce function
 import "./CanvasOptions.css";
 
 /**
@@ -105,7 +105,7 @@ class CanvasOptions extends Component {
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-load"
-                        onClick={this.props.handleUserCollections}
+                        onClick={_.debounce(this.props.handleUserCollections, 1000)}
                         disabled={this.props.optionsAreDisplayed}
                     >
                         load
@@ -114,7 +114,7 @@ class CanvasOptions extends Component {
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-new"
-                        onClick={this.props.handleNewCollection}
+                        onClick={_.debounce(this.props.handleNewCollection, 1000)}
                         disabled={this.props.isDisplayCollections||this.props.optionsAreDisplayed}
                     >
                         new
@@ -123,7 +123,7 @@ class CanvasOptions extends Component {
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-save"
-                        onClick={this.props.handleSaveCollection}
+                        onClick={_.debounce(this.props.handleSaveCollection, 1000)}
                         disabled={this.props.isDisplayCollections}
                     >
                         save
@@ -132,7 +132,7 @@ class CanvasOptions extends Component {
                     <button
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-reset"
-                        onClick={this.props.resetCanvas}
+                        onClick={_.debounce(this.props.resetCanvas, 1000)}
                         disabled={this.props.isDisplayCollections||this.props.optionsAreDisplayed}
                     >
                         reset

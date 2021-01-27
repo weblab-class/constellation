@@ -349,21 +349,21 @@ class VisNetwork extends Component {
   //parameters classId: class which was recently added to network, suggestionId: the current suggestion related to classId, 
   //val: 0 for prereq, 1 for coreq, 2 for after_subject
   processSuggestionAddition = (classId, suggestionId, val) => {
-    console.log("processing: " + classId + " to " + suggestionId);
+    //console.log("processing: " + classId + " to " + suggestionId);
     if(!this.alreadyAddedNode(suggestionId)){
       this.addNode(suggestionId,true,this.relevanceToCurrentNetwork(suggestionId));
       this.addEdge(classId, suggestionId, val);
-      console.log("moo");
+      //console.log("moo");
     } else if(this.isSuggestionDict[suggestionId]){
       this.updateNodeOpacity(suggestionId,this.relevanceToCurrentNetwork(suggestionId));
       this.addEdge(classId, suggestionId, val);
-      console.log("maa");
+      //console.log("maa");
       ///below case correspods to a prereq/afterreq assymetry
     } else if(!this.isSuggestionDict[suggestionId]){
       if(!this.edgeIds.includes(this.getEdgeId(classId,suggestionId,val))) this.adjacencyCount[classId]++;
       this.addEdge(classId, suggestionId, val);
       this.updateEdgeOpacity(classId, suggestionId, val);
-      console.log("miii");
+      //console.log("miii");
     } else{
       console.log("none were true!");
     }
@@ -689,7 +689,9 @@ class VisNetwork extends Component {
 
    saveNetwork = () => {
     //handle saveNetwork stuff
+    console.log("vis is aware that it needs to save network");
     const currentNetworkData = this.getCurrentNetworkData();
+    console.log("this is the data vis found", currentNetworkData);
     //bundle network into object, and send to explorer via export network
     this.props.exportNetwork(currentNetworkData);
    }
