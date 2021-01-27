@@ -35,7 +35,7 @@
 
 .Login-toExplorerButton {
     color: var(--black);
-    border-radius: var(--s);
+    border-radius: 5px;
     background: var(--canvas-backgroundColor);
     transition: color 0.1s, background 0.1s;
     cursor: pointer;
@@ -53,7 +53,7 @@
 }
 
 .Login-toExplorerButton:hover {
-    background-color: #ccebec;
+    background-color: var(--sidebar-backgroundColor);
 }
 
 .Login-signIn {

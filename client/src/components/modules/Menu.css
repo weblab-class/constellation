@@ -2,12 +2,13 @@
     position: fixed;
     right: 0px;
     width: 300px;
-    height: calc(100vh - 50px);
+    height: calc(65vh - 50px);
     border: var(--medgrey) 1px solid;
     border-radius: var(--m);
     transition: all 0.5s;
     background-color: #fefdf0; /*aliceblue*/
     z-index: 1;
+    font-size: 2vh;
 
 }
 
