@@ -183,7 +183,7 @@ class TutorialInfo extends Component {
             case '&T.ABOUT': {
                 toDisplay = (
                     <div>
-                        <p> Constellation was created by Nicole Wong, Ben Wu, and Ezra Erives in January 2021 as part of the <b>web.lab</b> (web development) competition. This website is made possible by data from the FireRoad API, the <b>vis.js</b> and <b>React.js</b> libraries, and, of course, the wonderful teaching staff at <b>web.lab 2021</b>! </p>
+                        <p> Constellation was created by Nicole Wong, Ben Wu, and Ezra Erives as part of the 2021 <b>web.lab</b> (web development) competition. This website is made possible by data from the FireRoad API, the <b>vis.js</b> and <b>ReactJS</b> libraries, and, of course, the wonderful teaching staff at <b>web.lab 2021</b>. </p>
                     </div>
                 )
                 break;
