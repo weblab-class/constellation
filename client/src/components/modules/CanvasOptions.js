@@ -76,6 +76,13 @@ class CanvasOptions extends Component {
                         >
                             logout
                         </button>
+                        <button
+                            type="submit"
+                            className="CanvasOptions-menuButton"
+                            onClick={this.props.displayOptions}
+                        >
+                            options
+                        </button>
                     </div>
                     <div className={this.state.showDropdown ? "CanvasOptions-menuOpen" : "CanvasOptions-menuClosed"}>
                         <button
@@ -91,6 +98,7 @@ class CanvasOptions extends Component {
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-load"
                         onClick={this.props.handleUserCollections}
+                        disabled={this.props.optionsAreDisplayed}
                     >
                         load
                     </button>
@@ -99,7 +107,7 @@ class CanvasOptions extends Component {
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-new"
                         onClick={this.props.handleNewCollection}
-                        disabled={this.props.isDisplayCollections}
+                        disabled={this.props.isDisplayCollections||this.props.optionsAreDisplayed}
                     >
                         new
                     </button>
@@ -108,7 +116,7 @@ class CanvasOptions extends Component {
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-save"
                         onClick={this.props.handleSaveCollection}
-                        disabled={this.props.isDisplayCollections}
+                        disabled={this.props.isDisplayCollections||this.props.optionsAreDisplayed}
                     >
                         save
                     </button>
@@ -117,7 +125,7 @@ class CanvasOptions extends Component {
                         type="submit"
                         className="CanvasOptions-button CanvasOptions-reset"
                         onClick={this.props.resetCanvas}
-                        disabled={this.props.isDisplayCollections}
+                        disabled={this.props.isDisplayCollections||this.props.optionsAreDisplayed}
                     >
                         reset
                     </button>

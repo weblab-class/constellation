@@ -65,13 +65,13 @@ class TutorialInfo extends Component {
                 toDisplay = (
                     <div>
                         <p>
-                            Constellation displays course information in a directed network. Below, our network consists of a sigle added class - '6.009', Fundamentals of Programming. Branching off of '6.009' are many <b>suggested classes</b>. <b>Suggested classes</b> are those which have not yet been added, but which are either prerequisites to an added class, or themselves have an added class as a prerequisite. 
+                            Constellation displays course information in a directed network. Below, our network consists of a single added class - '6.009', Fundamentals of Programming. Branching off of '6.009' are many <b>suggested classes</b>. <b>Suggested classes</b> are those which have not yet been added, but which are either prerequisites to an added class, or themselves have an added class as a prerequisite. 
                         </p>
                         <img src={addImg} className = "TutorialInfo-img"/>
                         <p>
                             You'll notice that there are several additional important visual features at play - we'll address each of them below. 
                             <ol>
-                                <li><b>Color: </b> Nodes are colored in accordance to which course their classes belong to. In the picture, '6.009', belongign to course six, is colored red.</li>
+                                <li><b>Color: </b> Nodes are colored in accordance to which course their classes belong to. In the picture, '6.009', belonging to course six, is colored red.</li>
                                 <li><b>Opacity: </b>'6.009' is opaque while the nodes emanating from it are translucent. This is because '6.009' has been added while the remaining translucent nodes are merely suggestions.</li>
                                 <li><b>Edge labels:</b> These arrows convey prerequisite information, while less commonly appearing diamonds convey corequisite information.</li>
                             </ol>

@@ -7,7 +7,7 @@ body {
 .SearchBar-container{
     margin: 0 auto;
     width: 80%;
-    flex-basis: 12%;
+    flex-basis: 8%;
     display: flex;
     max-height: 12vh;
     justify-content: center;
