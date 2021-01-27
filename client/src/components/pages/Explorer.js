@@ -349,12 +349,12 @@ class Explorer extends Component {
             isSaved: true,
         }, () => {
             this.setState({ isSavedCounter: this.state.isSavedCounter + 1 });
-            //console.log("Told saved counter to increment in explorer");
+            console.log("Told saved counter to increment in explorer");
         });
 
     }
 
-    handleSaveCollection = _.debounce(() => {
+    handleSaveCollection = () => {
         // Activates NameCollection to save collection, activates network save
         if (!this.state.currentCollectionName) { //This activates the conditional rendering for name collection.
             //console.log("Collection name is undefined.")
@@ -364,9 +364,10 @@ class Explorer extends Component {
                 // to ensure that the name is set properly.
             });
         } else {
+            console.log("has name already, telling visnetwork to export");
             this.tellVisNetworkToExport();
         }
-    }, 1000);
+    };
 
     handleUserCollections = () => {
 
@@ -393,7 +394,7 @@ class Explorer extends Component {
         }, this.setToInactivePopup);
 
 
-    }
+    };
 
 
     handleResetCanvas = () => {
@@ -404,8 +405,8 @@ class Explorer extends Component {
             isSaved: false,
             isSavedCounter: this.state.isSavedCounter + 1,
             popupMessage: 'current canvas cleared!'
-        }, this.setToInactivePopup);
-    }
+        }, this.setToInactivePopup)
+    };
 
     exportNetwork = (graphObject) => {
 
@@ -417,6 +418,7 @@ class Explorer extends Component {
         //console.log("UPLOADING NETWORK TO MONGO");
         //console.log("NETWORK BEING SAVED: ");
         //console.log(graphObject);
+        console.log("we've reached exportNetwork");
         post("/api/saveCollection", {
 
             collectionName: this.state.currentCollectionName,
@@ -424,6 +426,8 @@ class Explorer extends Component {
             edgeArray: graphObject.edges,
             filterObject: graphObject.filterObject,
 
+        }).then(() => {
+            console.log("post request completed to save");
         }).catch((err) => {
             console.log("There was an error loading a collection for the user. Specific error message:", err.message);
         });
@@ -533,12 +537,12 @@ class Explorer extends Component {
             switchedCollectionCounter : this.state.switchedCollectionCounter + 1,
             popupMessage: "New collection created!"
         }, this.setToInactivePopup);
-    }
+    };
 
     displayOptions = () => {
         this.setState({
             optionsAreDisplayed: true,
-            popupMessage: "filter loaded..."
+            popupMessage: "filters loaded..."
         },this.setToInactivePopup);
     }
 

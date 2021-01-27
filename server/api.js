@@ -367,7 +367,6 @@ router.post("/deleteCollection", auth.ensureLoggedIn, (req, res) => {
       userCollectionNames.save();
 
       deleteCollectionItself(req, res);
-
     }
   ).catch(
     (err) => {
@@ -398,13 +397,13 @@ saveCollection (POST)
 router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
   
   // this will save the name of the collection
-  
+  console.log("we're in /saveCollection");
   collectionName.findOne({"userId": req.user._id}).then(
     (userCollectionNames) => {
-
+      console.log("userCollectionNames:", userCollectionNames);
       //If user does not yet have saved collections
       if(!userCollectionNames){
-
+        console.log("user does not yet have saved collections");
         const newCollection = new collectionName({
           userId : req.user._id,
           names : [req.body.collectionName]
@@ -414,17 +413,17 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
       }
 
       else {
-
+        console.log("user does have saved collections");
         // Need to update the collection names if this canvas is not already present.
         //If the canvas is already present, it's updating an old collection by definition
         //  (front end will eventually reject duplicate names for different canvas)
 
         if (!(userCollectionNames.names.includes(req.body.collectionName))){
-
-          userCollectionNames.names = [... userCollectionNames.names].concat([req.body.collectionName]);
+          console.log("new collection for the user");
+          userCollectionNames.names = [...userCollectionNames.names].concat([req.body.collectionName]);
+          console.log("updated collection names for the user:", userCollectionNames);
           userCollectionNames.save();
         }
-  
       }
 
     }).catch(
@@ -432,19 +431,20 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
         res.status(500).send({info : err.message});
       }
     );
-
+    
+    console.log("list of collection names is updated, time to save");
   //This will save the collection itself.
 
   //Either update the contents of the graph
   //  or save a new Graph.
-
+    console.log("req.body:", req.body);
   Collection.findOne({
     "userId": req.user._id, "collectionName": req.body.collectionName
   }).then(
     (thisGraph) => {
       if(thisGraph === null){
         //if the collection doesn't already exist
-        
+        console.log("shouldn't log, graph is not null");
         const graph = new Collection({
           userId : req.user._id,
           collectionName : req.body.collectionName,
@@ -457,16 +457,21 @@ router.post("/saveCollection", auth.ensureLoggedIn, (req, res) => {
       }
       else{
         //update the collection
+        console.log("thisGraph:", thisGraph);
         thisGraph.nodeArray = req.body.nodeArray;
         thisGraph.edgeArray = req.body.edgeArray;
         thisGraph.filterObject = req.body.filterObject;
-
-        thisGraph.save();
+        console.log("new thisGraph:", thisGraph);
+        thisGraph.save().then(() => {
+            console.log("thisgraph was saved");
+        });
       }
+      res.send({});
     }
+    
   ).catch(
     (err) => {res.status(500).send({info : err.message});}
-  );;
+  );
  });
 
 
