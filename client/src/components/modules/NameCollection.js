@@ -138,7 +138,7 @@ class NameCollection extends Component {
                 onChange={this.handleChange}
                 onKeyDown={this.handleKeyDown}
                 placeholder={this.state.placeholderText}
-                maxLength="30"
+                maxLength="20"
                 className={this.state.placeholderType}
             />);
         }
