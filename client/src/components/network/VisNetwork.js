@@ -40,31 +40,56 @@ const SUGGESTED_EDGE_OPACITY = 0.2;
 const SUGGESTED_NODE_OPACITY = 0.2;
 const CLUTTER_COURSES = ['ES', 'CC', "HST"];
 
-const COURSE_LIST = ["1","2","3","4","5","6","7","8","9","10","11","12","14","15",,"16","17","18","20","21","22"];
+const COURSE_LIST = ['&T','1','2','3','4','5','6','7','8','9','10','11','12','14','15','16','17','18','20','21','21A','21H','21G','21L','21M','21W','22','24','AS','CC','CMS','CSB','EC','EM','ES','HST','IDS','MAS','MS','NS','SCM','SP','STS','WGS'];
 const FILTER_LIST = ['suggestion','&T','1','2','3','4','5','6','7','8','9','10','11','12','14','15','16','17','18','20','21','21A','21H','21G','21L','21M','21W','22','24','AS','CC','CMS','CSB','EC','EM','ES','HST','IDS','MAS','MS','NS','SCM','SP','STS','WGS']; //filter keys
 
+//  "15":"#ffc900",
+
 const SUMMER_COLORS = {
-  "1" :"#53CFDA",
-  "2":"#FF8860",
-  "3":"#FF3747", 
-  "4":"#FF458F",
-  "5":"#ECF7DD",
-  "6":"#F7D635",
-  "7":"#FF8BOF",
-  "8":"#FF8352",
-  "9":"#4FCBBB",
-  "10":"#FF7994",
-  "11":"#D6E8D9",
-  "12":"#FFD600",
-  "14":"#DEE500",
-  "15":"#2494CC",
-  "15":"#FFC900",
-  "16":"#FlC9C2",
-  "17":"#EAE45F",
-  "18":"#OOEIDF",
-  "20":"#FFEDOO",
-  "21":"#DDF5C2",
-  "22":"#00C3AF",
+  '&T': "#53cfda",
+  "1" :"#53cfda",
+  "2":"#ff8860",
+  "3":"#ff3747", 
+  "4":"#ff458f",
+  "5":"#ecf7dd",
+  "6":"#f7d635",
+  "7":"#ff8b0f",
+  "8":"#ff8352",
+  "9":"#4fcbbb",
+  "10":"#ff7994",
+  "11":"#d6e8d9",
+  "12":"#ffd600",
+  "14":"#dee500",
+  "15":"#2494cc",
+  "16":"#flc9c2",
+  "17":"#eae45f",
+  "18":"#00B0BA",
+  "20":"#ffed00",
+  "21":"#ddf5c2",
+  '21A':"#ddf5c2",
+  '21H':"#ddf5c2",
+  '21G':"#ddf5c2",
+  '21L':"#ddf5c2",
+  '21M':"#ddf5c2",
+  '21W':"#ddf5c2",
+  '22':"#ddf5c2",
+  '24':"#ddf5c2",
+  'AS':"#ddf5c2",
+  'CC':"#ddf5c2",
+  'CMS':"#ddf5c2",
+  'CSB':"#ddf5c2",
+  'EC':"#ddf5c2",
+  'EM':"#ddf5c2",
+  'ES':"#ddf5c2",
+  'HST':"#ddf5c2",
+  'IDS':"#ddf5c2",
+  'MAS':"#ddf5c2",
+  'MS':"#ddf5c2",
+  'NS':"#ddf5c2",
+  'SCM':"#ddf5c2",
+  'SP':"#ddf5c2",
+  'STS':"#ddf5c2",
+  'WGS':"#ddf5c2",
 }
 
 const TUTORIAL_LABELS = {
@@ -185,8 +210,8 @@ class VisNetwork extends Component {
             timestep: 0.3,
           },
           groups: {
-            one:{
-              color: "#00C3AF",
+            18:{
+              color: '#bb83cc',
               borderWidth: 3,
             },
           },
@@ -780,7 +805,9 @@ class VisNetwork extends Component {
   }
    //data view stuff above
 
-   focusOnStart = () => {
+   //initializes view to start on tutorial
+   //initializes course colors
+   mountNetwork = () => {
      this.network.focus('&T.START',{  
       scale: 0.65,
       offset: {x:0, y:0},
@@ -791,13 +818,31 @@ class VisNetwork extends Component {
      }});
    }
 
+   //color stuff
+
+  //sets course colors to summer colors
+  //todo - add in more color schemes and refine current one (SUMMER_COLORS)
+  setCourseColors = () => {
+    COURSE_LIST.forEach((courseId) => {
+      this.network.setOptions({
+        groups: {
+          [courseId]:{
+            color: SUMMER_COLORS[courseId],
+            borderWidth: 3,
+          },
+        }
+      });
+    });
+  }
+
   componentDidMount() {
     this.network = new Network(this.appRef.current, this.data, this.state.options);
     this.network.on("selectNode", (params) => {
       const nodeId = params.nodes[0];
       this.processNodeClick(nodeId);
     });
-    setTimeout(this.focusOnStart, 500);
+    this.setCourseColors();
+    setTimeout(this.mountNetwork(), 500);
   }
 
   componentDidUpdate(prevProps) {
