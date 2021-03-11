@@ -41,7 +41,7 @@ Constellation uses or requires the following:
 
 Constellation also uses:
 - *Frontend*: Javascript, React, CSS
-- *Backend*: Javascript, Mongoose, MongoDB, Python notebook (for data processing)
+- *Backend*: Javascript, Mongoose, MongoDB, Python notebook (data processing)
 
 
 
